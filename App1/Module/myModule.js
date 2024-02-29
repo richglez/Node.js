@@ -16,5 +16,5 @@ const group = { //objeto
     lastname : user.lastname
 }
 
-module.exports = group
+module.exports = group  //aqui se exporta para usos de otros programas
 
