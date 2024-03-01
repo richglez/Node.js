@@ -26,4 +26,4 @@ const funOperacionaes = {
 }
 
 
-module.exports = funOperacionaes
+export default funOperacionaes
