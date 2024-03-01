@@ -1,0 +1,16 @@
+{
+  "name": "app2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ../App2/src/index.js",
+    "dev": "node ../App2/src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colores": "^1.0.1",
+    "colors": "^1.4.0"
+  }
+}
