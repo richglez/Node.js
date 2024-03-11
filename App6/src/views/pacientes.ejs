@@ -21,11 +21,36 @@
                 <tbody>
                     <% if(data){ %>
                         <% for(let i = 0; i < data.length; i++){ %>
-                            <tr>
-                                <td>
+                            <tr> <!--Fila de solo un paciente-->
+                                <td> <!--columna id-->
                                     <%= (i + 1) %>
                                 </td>
-                            </tr>
+
+                                <td> <!--columna nombre-->
+                                    <%= data[i].nombre %>
+                                </td>
+
+                                <td> <!--columna nombre-->
+                                    <%= data[i].apellido_paterno %>
+                                </td>
+
+                                <td> <!--columna nombre-->
+                                    <%= data[i].apellido_materno %>
+                                </td>
+
+                                <td> <!--columna nombre-->
+                                    <%= data[i].edad %>
+                                </td>
+
+                                <td> <!--columna nombre-->
+                                    <%= data[i].telefono %>
+                                </td>
+
+                                <td> <!--columna acciones-->
+                                    <a href="/delete/<%= data[i].id %>" class="btn btn-danger">Eliminar</a> <!--Boton del-->
+                                    <a href="/update/<%= data[i].id %>" class="btn btn-info">Editar</a> <!--Boton del-->
+                                </td>
+                            </tr> <!--Fila de solo un paciente-->
                             
                             <% } %>
                         <% } %>
