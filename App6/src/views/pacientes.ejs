@@ -1,5 +1,104 @@
 <%- include('partials/header'); %>
 
-<h1>hola</h1>
+<h1>Pacientes</h1>
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-7">
+            <table class="table table-bordered table-hover">
+                <thead> <!--Cabecera-->
+                    <tr> <!--Fila-->
+                        <th>n*</th> <!--Columnas-->
+                        <th>Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Edad</th>
+                        <th>Telefono</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% if(data){ %>
+                        <% for(let i = 0; i < data.length; i++){ %>
+                            <tr>
+                                <td>
+                                    <%= (i + 1) %>
+                                </td>
+                            </tr>
+                            
+                            <% } %>
+                        <% } %>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/add" method="post">
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input
+                                type="text"
+                                name="nombre"
+                                placeholder="Inserte el nombre del paciente"
+                                class="form-control"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="apellido_paterno">Apellido paterno:</label>
+                            <input
+                                type="text"
+                                name="apellido_paterno"
+                                placeholder="Inserte el apellido paterno del paciente"
+                                class="form-control"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="apellido_materno">Apellido materno:</label>
+                            <input
+                                type="text"
+                                name="apellido_materno"
+                                placeholder="Inserte el apellido materno del paciente"
+                                class="form-control"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edad">Edad:</label>
+                            <input
+                                type="text"
+                                name="edad"
+                                placeholder="Inserte la edad del paciente"
+                                class="form-control"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefono">Telefono:</label>
+                            <input
+                                type="text"
+                                name="telefono"
+                                placeholder="Inserte el telefono del paciente"
+                                class="form-control"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Registrar Paciente
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%- include('partials/footer'); %>

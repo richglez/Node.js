@@ -1,3 +1,5 @@
+-- mysql -u root -p
+
 -- * creating database
 CREATE DATABASE db1;
 
