@@ -2,4 +2,13 @@
 
 <h1>Pacientes</h1>
 
+<ul>
+    <% for(let i = 0; i < pacientesDB.length; i++){ %>
+        <li>
+            <%= pacientesDB[i].id %> <%= pacientesDB[i].name %> <%= pacientesDB[i].lastName %>
+        </li>
+    <% } %>
+</ul>
+
+
 <%- include('partials/footer'); %>
