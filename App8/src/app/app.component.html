@@ -1,13 +1,46 @@
-<body>
-  <div class="container">
-    <ul>
-      <li *ngFor="let user of users">
-        {{user}}
-      </li>
-    </ul>
-  </div>
 
-  <button (click)="sayHello()">
-    Click me
-  </button>
-</body>
+<ul>
+  <li>
+    <a routerLink="/">Home</a>
+  </li>
+  <li>
+    <a routerLink="/about">About</a>
+  </li>
+</ul>
+<router-outlet></router-outlet>
+
+
+ 
+
+<div class="container">
+  <form (submit)="addUser(txtUser)" method="get">
+    <input type="text"  placeholder="Usuario" name="txtUser" #txtUser>
+    <input type="submit" id="btnAdd" value="Agregar">
+  </form>
+
+  <ul>
+    <li *ngFor="let user of users">
+      {{user}}   <button id="btnDelete" (click)="deleteUser(user)">X</button>
+    </li>
+  </ul>
+</div>
+
+
+
+<div class="container2">
+
+  <form method="get">
+    <input type="text" name="txtName" #txtName [(ngModel)]="name">
+    <input type="text" name="txtEdad" #txtEdad [(ngModel)]="age">
+  </form>
+  name: {{name}}
+  age: {{age}}
+</div>
+<hr>
+
+<div class="posts" *ngFor="let post of posts">
+<h3> {{ post.title }} </h3>
+<p> {{ post.body }} </p>
+<p> {{ post.id }} </p>
+<p> {{ post.userid }} </p>
+</div>
