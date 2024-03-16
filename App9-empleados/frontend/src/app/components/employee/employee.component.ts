@@ -1,23 +1,20 @@
-import { Component } from '@angular/core';
-import { EmployeeService } from '../../services/employee.service' //Importar la clase del servicio emp
-import { log } from 'console';
+import { Component, OnInit } from '@angular/core';
+import { EmployeeService } from '../../services/employee.service'
 
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
-  styleUrl: './employee.component.css'
+  styleUrls: ['./employee.component.css']
 })
-export class EmployeeComponent {
-  constructor(private employeeService: EmployeeService){ //con esto ya se pueden recibir los metodos de la clase
+
+
+export class EmployeeComponent implements OnInit {
+  constructor(private employeeService: EmployeeService){
 
   }
 
-  ngOnInit(): void{
-    this.employeeService.getEmployees().subscribe(
-      res => console.log(res),
-      err => console.log(err);
+  ngOnInit(): void {
+      console.log(this.employeeService.getEmployees());
       
-      
-    )    
   }
 }

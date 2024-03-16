@@ -12,6 +12,8 @@ const app = express()
 
 //jsons
 app.use(express.json()); 
+
+
 //rutas
 app.use('/api',employeesRouter); 
 
