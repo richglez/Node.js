@@ -1,3 +1,5 @@
+-- mysql -u root -p
+
 CREATE DATABASE IF NOT EXISTS dbcompany1;
 
 USE dbcompany1;
@@ -9,6 +11,9 @@ CREATE TABLE Empleado(
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ultima_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+
+SELECT * FROM Empleado;
 
 
 
