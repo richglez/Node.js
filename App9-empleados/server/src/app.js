@@ -3,12 +3,16 @@
 // importaciones
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 // importando rutas...
 const employeesRouter = require('./routes/employees.routes');
 
 // enviroment variables
 const app = express()
+
+// cors - aceptar otras peticiones
+app.use(cors())
 
 //jsons
 app.use(express.json()); 

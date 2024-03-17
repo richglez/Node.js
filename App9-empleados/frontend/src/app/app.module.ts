@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
-
+import { BrowserModule, provideClientHydration,  } from '@angular/platform-browser';
+import { HttpClientModule} from '@angular/common/http'
+import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EmployeeComponent } from './components/employee/employee.component';
@@ -14,10 +14,12 @@ import { EmployeeComponent } from './components/employee/employee.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule, // Importar HttpClientModule aquí
+    FormsModule
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+
   ],
   bootstrap: [AppComponent]
 })
