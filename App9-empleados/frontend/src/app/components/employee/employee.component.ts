@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms'
 export class EmployeeComponent implements OnInit {
 
   // constructor
-  constructor(public employeeService: EmployeeService){
+  constructor(public employeeService: EmployeeService){ //instancia, poder tener todos los metodos
   }
 
   // main
@@ -21,31 +21,44 @@ export class EmployeeComponent implements OnInit {
   }
 
 
-  // metodos
-  getEmployees(){  // *metodo de obtener empleados
+  getEmployees(){
     this.employeeService.getEmployees().subscribe(
-      (res) => {
-        this.employeeService.employees = res  // obtener un arreglo de empleados de services
+      res => {
+        this.employeeService.employees = res
       },
-      (err) => {
-        console.error(err)
-      }
+      err => console.log(err)
+      
+      
+    )
+  }
+
+
+  addEmployee(form: NgForm){
+    this.employeeService.addEmployer(form.value).subscribe(
+      res => {
+        this.getEmployees();
+      },
+      err => console.log(err)
+    
     )
     
   }
 
-  addEmployer(form: NgForm){
-    this.employeeService.addEmployer(form.value).subscribe(
-      (res) => {
-        // Actualizar la lista de empleados después de agregar uno nuevo
-        this.getEmployees();
-        // Reiniciar el formulario después de agregar un nuevo empleado
-        form.reset();
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+
+  deleteEmployee(id_employee: string){
+    if (confirm('Are you sure to delete this employee?')) {
+      this.employeeService.deleteEmployee(id_employee).subscribe(
+        res => {
+          console.log(res , id_employee);
+          this.getEmployees(); // Actualizar la lista de empleados después de eliminar uno
+        },
+        err => console.log(err)
+      );
+    }
   }
+
+  
+  
+
   
 }

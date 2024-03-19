@@ -2,7 +2,7 @@
   <div class="col-md-4">
     <div class="card">
       <div class="card-body">
-        <form #employeeForm="ngForm" (ngSubmit)="addEmployer(employeeForm)">
+        <form #employeeForm="ngForm" (ngSubmit)="addEmployee(employeeForm)">
           <div class="form-group">
             <input
               type="text"
@@ -11,7 +11,7 @@
               name="name_employee"
               id="txtName"
               required
-              
+              [(ngModel)]="employeeService.selectedEmployee.name_employee"
             />
           </div>
           <div class="form-group">
@@ -22,6 +22,7 @@
               name="salary_employee"
               id="txtSalary"
               required
+              [(ngModel)]="employeeService.selectedEmployee.salary_employee"
             />
           </div>
 
@@ -58,9 +59,9 @@
             <button class="btn btn-secondary btn-sm">
               <i class="material-icons">edit</i>
             </button>
-            <button class="btn btn-danger btn-sm">
+            <button class="btn btn-danger btn-sm" (click)="deleteEmployee(employee.id_employee)">
               <i class="material-icons">delete</i>
-            </button>
+            </button>            
           </td>
         </tr>
       </tbody>

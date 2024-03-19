@@ -13,8 +13,8 @@ const router = Router()
 router.get('/employees', employeesCtrls.getEmployees)  // reporte
 router.get('/employees/:id', employeesCtrls.searchEmployer) // buscar
 router.post('/employees/', employeesCtrls.addEmployer) // alta
-router.put('/employees/:id', employeesCtrls.updateEmployer) // actulizar
-router.delete('/employees/:id', employeesCtrls.delEmployer) // bajas
+router.put('/employees/:id', employeesCtrls.updateEmployee) // actulizar
+router.delete('/employees/:id', employeesCtrls.deleteEmployee) // bajas
 
 
 
