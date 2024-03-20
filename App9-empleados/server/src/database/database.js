@@ -5,7 +5,7 @@ const pool = createPool({
     user: 'root',
     password: 'thisismy%4646%',
     port: 3306,
-    database: 'dbcompany1'
+    database: 'terapia_respiro_emocional'
 });
 
 module.exports = pool;

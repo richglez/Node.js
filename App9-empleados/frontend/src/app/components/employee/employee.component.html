@@ -3,6 +3,8 @@
     <div class="card">
       <div class="card-body">
         <form #employeeForm="ngForm" (ngSubmit)="addEmployee(employeeForm)">
+
+          <input type="hidden" name="id_employee" [(ngModel)]="employeeService.selectedEmployee.id_employee"> <!--cuando se rellene los datos tambien se rellene el id o se seleccione a escondidas-->
           <div class="form-group">
             <input
               type="text"
@@ -26,7 +28,7 @@
             />
           </div>
 
-          <button class="btn btn-primary mr-2">
+          <button class="btn btn-primary mr-2" (click)="resetForm(employeeForm)">  <!--Reset a los inputs del formulario-->
             Clear
           </button>
           <button class="btn btn-secondary">
@@ -56,7 +58,7 @@
           <td>{{ employee.fecha_registro }}</td>
           <td>{{ employee.ultima_modificacion }}</td>
           <td>
-            <button class="btn btn-secondary btn-sm">
+            <button class="btn btn-secondary btn-sm" (click)="updateEmployee(employee)">
               <i class="material-icons">edit</i>
             </button>
             <button class="btn btn-danger btn-sm" (click)="deleteEmployee(employee.id_employee)">
@@ -67,4 +69,9 @@
       </tbody>
     </table>
   </div>
+  <div *ngIf="mostrarElemento">
+    <p>Este elemento se mostrará si mostrarElemento es true.</p>
+  </div>
+  <button (click)="mostrarElemento = !mostrarElemento">Mostrar/Ocultar</button>
+  
 </div>

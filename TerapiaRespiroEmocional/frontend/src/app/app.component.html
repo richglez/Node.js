@@ -1,0 +1,17 @@
+<div class="container">
+  <nav class="navbar-top"> <!--header-->
+    <button
+      class="navbar-toggler"
+      type="button"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      (click)="showDropdown = !showDropdown" > <!--Sera true si se le da click?-->
+
+      <i class="fas fa-bars"></i>
+    </button>
+    <a class="navbar-brand" href="#">C CUIDARTE</a>  <!--Header - Title-->
+  </nav>
+  <!--Si es true, muestra el menu-->
+  <app-menu-desplegable *ngIf="showDropdown"></app-menu-desplegable>  <!--Menu de opciones, desplegable-->
+</div>
