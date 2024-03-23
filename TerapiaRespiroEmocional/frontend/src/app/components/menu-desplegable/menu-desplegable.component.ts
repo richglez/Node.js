@@ -3,12 +3,20 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-menu-desplegable',
   templateUrl: './menu-desplegable.component.html',
-  styleUrl: './menu-desplegable.component.css'
+  styleUrls: ['./menu-desplegable.component.css']
 })
 export class MenuDesplegableComponent {
-  isDropdownOpen = false;
+  // Propiedad para controlar el estado del menú desplegable
+  showDropdown: boolean = false;
+  isPacientesOperaciones: boolean = false;
 
+  // Método para cambiar el estado del menú desplegable
   toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
+    this.showDropdown = !this.showDropdown;
+  }
+
+  // Método para cambiar el estado del submenú de pacientes
+  togglePacientesOperaciones() {
+    this.isPacientesOperaciones = !this.isPacientesOperaciones;
   }
 }

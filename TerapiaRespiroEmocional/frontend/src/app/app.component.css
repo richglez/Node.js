@@ -8,6 +8,8 @@
     text-align: left;
     padding: 15px;
   }
+
+
   
   .navbar-brand {
     font-size: 24px;
@@ -17,6 +19,7 @@
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #1C4692, 0 0 40px #1C4692, 0 0 50px #1C4692, 0 0 60px #1C4692, 0 0 70px #1C4692;
   }
   
+
   
   .navbar-toggler {
     border: none;
@@ -30,3 +33,5 @@
   .navbar-toggler:hover {
     color: #ccc;
   }
+
+
