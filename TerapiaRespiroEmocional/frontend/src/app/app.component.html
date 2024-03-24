@@ -1,17 +1,18 @@
 <div class="container">
-  <nav class="navbar-top"> <!--header-->
-    <button
-      class="navbar-toggler"
-      type="button"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-      (click)="showDropdown = !showDropdown" > <!--Sera true si se le da click?-->
-
-      <i class="fas fa-bars"></i>
-    </button>
-    <a class="navbar-brand" href="#">C CUIDARTE</a>  <!--Header - Title-->
-  </nav>
-  <!--Si es true, muestra el menu-->
-  <app-menu-desplegable *ngIf="showDropdown"></app-menu-desplegable>  <!--Menu de opciones, desplegable-->
+  <div class="header">
+    <nav class="nav-header">
+      <ul>
+        <li>
+          <button class="btnMenu" (click)="toggleCollapsed()">
+            <i class="material-icons">menu</i>
+          </button>
+        </li>
+        <li>
+          <a href="#" class="app-tile">C CUIDARTE</a>
+          <!--Header - Title-->
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <app-sidenav *ngIf="collapsed"></app-sidenav>
 </div>

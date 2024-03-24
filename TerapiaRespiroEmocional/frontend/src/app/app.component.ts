@@ -3,13 +3,14 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'C CUIDARTE - Respiro Emocional';
-  showDropdown = false;
+  title = 'frontend';
+  collapsed = false;
 
-  toggleDropdown() {
-    this.showDropdown = !this.showDropdown;
+  toggleCollapsed(){
+    this.collapsed = !this.collapsed;
   }
+
 }
