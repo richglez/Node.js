@@ -3,7 +3,7 @@
 // importaciones
 const express = require('express');
 const morgan = require('morgan');
-// const cors = require('cors');
+const cors = require('cors');
 
 // importando rutas...
 const pacientesRouter = require('./routes/pacientes.routes');
@@ -11,15 +11,15 @@ const pacientesRouter = require('./routes/pacientes.routes');
 // enviroment variables
 const app = express()
 
-// cors - aceptar otras peticiones
-// app.use(cors())
+// cors - aceptar otras peticiones HTTP
+app.use(cors())
 
 //jsons
 app.use(express.json()); 
 
 
 //rutas
-app.use('/api',pacientesRouter); 
+app.use('/api/ccuidarte-app',pacientesRouter); 
 
 
 app.set('port', process.env.PORT || 4000) // si existe un puerto disponible usalo, si no usa el 4000

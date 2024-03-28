@@ -3,16 +3,14 @@
     <nav class="nav-header">
       <ul>
         <li>
-          <button class="btnMenu" (click)="toggleCollapsed()">
-            <i class="material-icons">menu</i>
-          </button>
-        </li>
-        <li>
           <a href="#" class="app-tile">C CUIDARTE</a>
-          <!--Header - Title-->
         </li>
       </ul>
     </nav>
   </div>
-  <app-sidenav *ngIf="collapsed"></app-sidenav>
+  <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
+  <app-body
+    [collapsed]="isSideNavCollapsed"
+    [screenWidth]="screenWidth"
+  ></app-body>
 </div>

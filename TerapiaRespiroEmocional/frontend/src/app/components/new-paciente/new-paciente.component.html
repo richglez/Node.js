@@ -1,1 +1,61 @@
-<h1>new-paciente works! new-paciente works! new-paciente works! new-paciente works!</h1>
+<h1>Registrar a un nuevo paciente</h1>
+<div class="form-container">
+    <form #form="ngForm" (ngSubmit)="addPaciente(form)">
+        <div class="form-section">
+            <h2>Informacion personal del paciente</h2>
+            <label for="txtNombre">Nombre:</label>
+            <input type="text" name="txtNombre" id="txtNombre" placeholder="Ingrese el Nombre" required>
+    
+            <label for="txtApellidoPaterno">Apellido Paterno:</label>
+            <input type="text" name="txtApellidoPaterno" id="txtApellidoPaterno" placeholder="Ingrese el Apellido paterno" required>
+    
+            <label for="txtApellidoMaterno">Apellido Materno:</label>
+            <input type="text" name="txtApellidoMaterno" id="txtApellidoMaterno" placeholder="Ingrese el Apellido materno" required>
+    
+            <label for="txtEdad">Edad:</label>
+            <input type="text" name="txtEdad" id="txtEdad" placeholder="Ingrese la edad" required>
+    
+            <label for="txtSexo">Sexo:</label>
+            <input type="text" name="txtSexo" id="txtSexo" placeholder="Ingrese el sexo" required>
+    
+            <label for="txtFechaNacimiento">Fecha de nacimiento:</label>
+            <input type="date" name="txtFechaNacimiento" id="txtFechaNacimiento" placeholder="Ingrese la fecha de nacimiento" required>
+        </div>
+
+        <div class="form-section">
+            <h2>Contacto</h2>
+            <label for="txtTelefono">Telefono:</label>
+            <input type="text" name="txtTelefono" id="txtTelefono" placeholder="Ingrese el telefono" required>
+        </div>
+    
+        <div class="form-section">
+            <h2>Acerca de</h2>
+            <label for="txtEntidadFederativa">Entidad Federativa:</label>
+            <input type="text" name="txtEntidadFederativa" id="txtEntidadFederativa" placeholder="Ingrese la entidad federativa" required>
+            <label for="txtPrograma">Tipo de programa:</label>
+            <input type="text" name="txtPrograma" id="txtPrograma" placeholder="Ingrese el tipo de programa que lo aplica" required>
+        </div>
+    
+        <div class="form-section">
+            <h2>Direccion</h2>
+            <label for="txtColonia">Colonia:</label>
+            <input type="text" name="txtColonia" id="txtColonia" placeholder="Ingrese la colonia" required>
+    
+            <label for="txtDomicilio">Domicilio:</label>
+            <input type="text" name="txtDomicilio" id="txtDomicilio" placeholder="Ingrese el domicilio" required>
+        </div>
+
+        <div class="form-section">
+            <h2>Detalles del registro</h2>
+            <label for="txtFechaIngreso">Fecha de ingreso:</label>
+            <input type="date" name="txtFechaIngreso" id="txtFechaIngreso" [(ngModel)]="fechaActual" readonly>        
+    
+            <label for="txtExpediente">Expediente:</label> 
+            <input type="text" name="txtExpediente" id="txtExpediente" required>
+        </div>
+    
+        <input type="submit" value="Registrar" id="btnRegistrar">
+
+        
+    </form>
+</div>

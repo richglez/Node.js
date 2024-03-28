@@ -8,6 +8,9 @@
     display: flex; /* Añadir esta línea */
     justify-content: space-between; /* Añadir esta línea para separar los elementos */
 
+
+    
+
     .nav-header {
         ul {
             list-style-type: none; /* Quita las viñetas */
@@ -42,8 +45,15 @@
             font-size: 24px;
             text-decoration: none;
             color: #fff;
-            margin-left: 10px; /* Ajusta el margen izquierdo según sea necesario */
+            margin-left: 100px; /* Ajusta el margen izquierdo según sea necesario */
             text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #1C4692, 0 0 40px #1C4692, 0 0 50px #1C4692, 0 0 60px #1C4692, 0 0 70px #1C4692;
         }
     }
+
+    
 }
+
+
+
+
+

@@ -11,10 +11,10 @@ const router = Router()
 
 // routes CRUD
 router.get('/pacientes', pacientesCtrls.getPacientes)  // reporte
-router.get('/paciente/:id', pacientesCtrls.searchPaciente) // buscar
-router.post('/paciente/', pacientesCtrls.addPaciente) // alta
-router.put('/paciente/:id', pacientesCtrls.updatePaciente) // actulizar
-router.delete('/paciente/:id', pacientesCtrls.deletePaciente) // bajas
+router.get('/pacientes/:id', pacientesCtrls.searchPaciente) // buscar
+router.post('/pacientes', pacientesCtrls.addPaciente) // alta
+router.put('/pacientes/:id', pacientesCtrls.updatePaciente) // actulizar
+router.delete('/pacientes/:id', pacientesCtrls.deletePaciente) // bajas
 
 
 

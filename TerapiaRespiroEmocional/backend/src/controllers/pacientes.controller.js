@@ -4,23 +4,35 @@ const { pool } = require("../database/database");
 const pacientesCtrls = {}; // obj
 
 pacientesCtrls.getPacientes = async (req, res) => {
-    res.send('Hola')
+    const [rows] = await pool.promise().query("SELECT * FROM pacientes");
+    res.json(rows);
+
 };
 
 pacientesCtrls.searchPaciente = async (req, res) => {
-    res.send('Hola')
+    res.send('buscando paciente')
 };
 
 pacientesCtrls.addPaciente = async (req, res) => {
-    res.send('Hola')
+    const { expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma } = req.body;
+    const [rows] = await pool
+        .promise()
+        .query(
+            "INSERT INTO pacientes (expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma]
+        );
+    res.send({
+        id_paciente: rows.insertId,
+        expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma
+    });
 };
 
 pacientesCtrls.updatePaciente = async (req, res) => {
-    res.send('Hola')
+    res.send('actualizando paciente')
 }
 
 pacientesCtrls.deletePaciente = async (req, res) => {
-    res.send('Hola')
+    res.send('borrando paciente')
 };
 
 

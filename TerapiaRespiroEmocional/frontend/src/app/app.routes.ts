@@ -9,6 +9,7 @@ import { EvaluacionCuidadorComponent } from "./components/evaluacion-cuidador/ev
 import { ExitComponent } from "./components/exit/exit.component";
 
 export const routes: Routes = [
+    {path: '', redirectTo: 'inicio', pathMatch: 'full'},
     {path: 'inicio', component: DashboardComponent},
     {path: 'new-paciente', component: NewPacienteComponent},
     {path: 'search-paciente', component: SearchPacienteComponent},
@@ -16,6 +17,5 @@ export const routes: Routes = [
     {path: 'expediente-electronico', component: ExpedienteElectronicoComponent},
     {path: 'base-datos', component: BaseDatosComponent},
     {path: 'evaluacion-cuidador', component: EvaluacionCuidadorComponent},
-    {path: 'exit', component: ExitComponent},
-
+    {path: 'exit', component: ExitComponent}
 ];

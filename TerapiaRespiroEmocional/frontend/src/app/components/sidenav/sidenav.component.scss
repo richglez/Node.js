@@ -1,54 +1,178 @@
 @import 'boxicons/css/boxicons.min.css';
 
-
-.sidenav {
+.sidenav{
+    background: #1C4692;
+    transition: all .5s ease;
     position: fixed;
-    display: inline-block;
-    background-color: #F8F8F8;
-    transition: all 0.5 ease;
-    border: 1px solid #CDD2D4; /* Añade un borde de 1px sólido con color #CDD2D4 */
-    height: 100%;
-    min-height: 240px;
-    font-family: "Poppins", sans-serif;
-    font-weight: 800;
-    padding: 6px 14px;
-    box-shadow: 0.033rem 0 1.25rem 0 #8690A3;
+    z-index: 1;
+    top: 0;
+    width: 5rem;
+    height: 100vh;
+    box-shadow: 0.063rem 0 1.25rem 0 #112231;
 
-    .sidenav-nav{
-      margin-top: 40px;
+
+    .logo-container{
+        display: flex;
+        align-items: center;
+        padding: 0.938rem 0.938rem 0 0.938rem;
+        width: 100%;
+
+        .logo{
+            background: none;
+            color: #fff;
+            text-align: center;
+            width: 3rem;
+            min-width: 3rem;
+            padding: 0.313rem;
+            font-size: 24px;
+            font-weight: 900;
+            cursor: pointer;
+            border: none;
+        }
+
+
+        .logo:hover{
+            background-color: #fff;
+            color: #000;
+            border-radius: 0.313rem;
+            transition: all .6s e;
+        }
+
+
+
+        .logo-text{
+            margin-left: 1.5rem;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #1C4692, 0 0 40px #1C4692, 0 0 50px #1C4692, 0 0 60px #1C4692, 0 0 70px #1C4692;
+        }
+
     }
+
+
+    .btn-close {
+        margin-left: auto;
+        cursor: pointer;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background-color: transparent;
+        border: none;
+    }
+    
+    .btn-close i {
+        color: #fff;
+        font-size: 24px;
+    }
+    
+}
+
+
+
+
+.sidenav-collapsed{
+    width: 16.5625rem;
+}
+
+
+
+.sidenav-nav{
+    list-style: none;
+    padding: 0.938rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100% - 3.65rem);
+    cursor: pointer;
 
     .sidenav-nav-item{
-      position: relative;
-      height: 70px;
-      width: 100%;
-      margin: 0 5px;
-      list-style: none;
-      font-size: 20px;
-      transition: all 0.3s ease; /* Añade transición para suavizar el efecto */
+        width: 100%;
+        margin-bottom: 0.625rem;
+
+        .sidenav-nav-link{
+            display: flex;
+            align-items: center;
+            height: 3rem;
+            color: #f3f3f3;
+            background-color: #3d65af;
+            text-decoration: none;
+            border-radius: 0.625rem;
+            transition: all .3s ease;
+        }
+
+        .material-icons{
+            font-size: 22px;
+            width: 2rem;
+            min-width: 2rem;
+            margin: 0 0.5rem;
+            text-align: center;
+        }
+
+
+        .sidenav-link-text{
+            margin-left: 1.5rem;
+        }
     }
 
-    .sidenav-nav-item i{
-      position: absolute;
-      top: 50%;
-      left: 10px; /* ajusta la posición del icono a la izquierda del enlace */
-      transform: translateY(-50%);
+
+    .sidenav-nav-item:hover{
+        .sidenav-nav-link{
+            background-color: #fff;
+            color: #000;
+
+        }
     }
 
-    .sidenav-nav-item a{
-      color: #707070;
-      display: flex;
-      align-items: center;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      transition: all 0.3s ease;
-    }
 
-    .sidenav-nav-item a:hover{
-      background-color: #2481FF;
-      color: #fff;
-      border-radius: 11px;
+    .sidenav-nav-item.active {
+        .sidenav-nav-link {
+          background-color: #fff;
+          color: #000;
+        }
+      }
+
+
+      
+      .submenu-paciente {
+        display: block;
+        margin-bottom: 20px;
+        transition: max-height 0.3s ease-out; /* Agrega una transición suave a la propiedad max-height */
+        max-height: 0; /* Oculta inicialmente el submenú */
+        overflow: hidden; /* Oculta el contenido que excede el max-height */
     }
+    
+    .submenu-paciente.open {
+        max-height: 500px; /* Establece una altura máxima para mostrar el submenú */
+    }
+    
+  
+  
+  
+  
+  .submenu-ul {
+    list-style-type: none; /* Quitar los puntos de la lista */
   }
   
+  
+  #arrow {
+    position: relative;
+    top: 25%;
+    transform: translateY(-50%) rotate(0); /* Agrega la rotación aquí */
+    left: 50px;
+    font-size: 22px;
+    opacity: 1; /* Oculta el icono inicialmente */
+    transition: opacity 0.3s ease; /* Agrega una transición suave */
+}
+
+#arrow.rotate-up {
+    transform: translateY(-50%) rotate(180deg); /* Aplica la rotación cuando tiene la clase .rotate-up */
+}
+
+
+
+}
+
+
+

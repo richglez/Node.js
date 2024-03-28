@@ -12,6 +12,10 @@ import { ExpedienteElectronicoComponent } from './components/expediente-electron
 import { BaseDatosComponent } from './components/base-datos/base-datos.component';
 import { EvaluacionCuidadorComponent } from './components/evaluacion-cuidador/evaluacion-cuidador.component';
 import { ExitComponent } from './components/exit/exit.component';
+import { BodyComponent } from './components/body/body.component';
+import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
+import { PacientesService } from './services/pacientes.service';
+import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
 
 @NgModule({
   declarations: [
@@ -24,15 +28,16 @@ import { ExitComponent } from './components/exit/exit.component';
     ExpedienteElectronicoComponent,
     BaseDatosComponent,
     EvaluacionCuidadorComponent,
-    ExitComponent
+    ExitComponent,
+    BodyComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule, // Agrega HttpClientModule a la lista de imports
+    FormsModule // Añade FormsModule a la lista de imports
   ],
-  providers: [
-    provideClientHydration()
-  ],
+  providers: [PacientesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
