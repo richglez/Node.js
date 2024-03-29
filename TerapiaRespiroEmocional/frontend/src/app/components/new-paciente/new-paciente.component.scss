@@ -47,6 +47,22 @@ h1 {
             transform: translateY(1px);
         }
     }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #4D98FF;
+        background-color: #E6F1FF;
+        color: #333;
+        font-size: 16px;
+    
+        &:focus {
+            outline: 2px solid #4D98FF;
+        }
+    }
+    
 }
 
 .form-section {
@@ -77,6 +93,7 @@ h1 {
         border-radius: 5px;
         border: 1px solid #4D98FF;
         background-color: #E6F1FF;
+        font-size: 16px;
 
         &:focus {
             outline: 2px solid #4D98FF;

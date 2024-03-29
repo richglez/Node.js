@@ -1,61 +1,167 @@
 <h1>Registrar a un nuevo paciente</h1>
 <div class="form-container">
-    <form #form="ngForm" (ngSubmit)="addPaciente(form)">
-        <div class="form-section">
-            <h2>Informacion personal del paciente</h2>
-            <label for="txtNombre">Nombre:</label>
-            <input type="text" name="txtNombre" id="txtNombre" placeholder="Ingrese el Nombre" required>
-    
-            <label for="txtApellidoPaterno">Apellido Paterno:</label>
-            <input type="text" name="txtApellidoPaterno" id="txtApellidoPaterno" placeholder="Ingrese el Apellido paterno" required>
-    
-            <label for="txtApellidoMaterno">Apellido Materno:</label>
-            <input type="text" name="txtApellidoMaterno" id="txtApellidoMaterno" placeholder="Ingrese el Apellido materno" required>
-    
-            <label for="txtEdad">Edad:</label>
-            <input type="text" name="txtEdad" id="txtEdad" placeholder="Ingrese la edad" required>
-    
-            <label for="txtSexo">Sexo:</label>
-            <input type="text" name="txtSexo" id="txtSexo" placeholder="Ingrese el sexo" required>
-    
-            <label for="txtFechaNacimiento">Fecha de nacimiento:</label>
-            <input type="date" name="txtFechaNacimiento" id="txtFechaNacimiento" placeholder="Ingrese la fecha de nacimiento" required>
-        </div>
+  <form #pacientesForm="ngForm" (ngSubmit)="addPaciente(pacientesForm)">
+    <div class="form-section">
+      <h2>Informacion personal del paciente</h2>
+      <label for="txtNombre">Nombre:</label>
+      <input
+        type="text"
+        name="nombre_paciente"
+        id="txtNombre"
+        placeholder="Ingrese el Nombre"
+        [(ngModel)]="pacientesService.selectedPaciente.nombre_paciente"
+        required
+      />
 
-        <div class="form-section">
-            <h2>Contacto</h2>
-            <label for="txtTelefono">Telefono:</label>
-            <input type="text" name="txtTelefono" id="txtTelefono" placeholder="Ingrese el telefono" required>
-        </div>
-    
-        <div class="form-section">
-            <h2>Acerca de</h2>
-            <label for="txtEntidadFederativa">Entidad Federativa:</label>
-            <input type="text" name="txtEntidadFederativa" id="txtEntidadFederativa" placeholder="Ingrese la entidad federativa" required>
-            <label for="txtPrograma">Tipo de programa:</label>
-            <input type="text" name="txtPrograma" id="txtPrograma" placeholder="Ingrese el tipo de programa que lo aplica" required>
-        </div>
-    
-        <div class="form-section">
-            <h2>Direccion</h2>
-            <label for="txtColonia">Colonia:</label>
-            <input type="text" name="txtColonia" id="txtColonia" placeholder="Ingrese la colonia" required>
-    
-            <label for="txtDomicilio">Domicilio:</label>
-            <input type="text" name="txtDomicilio" id="txtDomicilio" placeholder="Ingrese el domicilio" required>
-        </div>
+      <label for="txtApellidoPaterno">Apellido Paterno:</label>
+      <input
+        type="text"
+        name="apellido_paterno"
+        id="txtApellidoPaterno"
+        placeholder="Ingrese el Apellido paterno"
+        [(ngModel)]="pacientesService.selectedPaciente.apellido_paterno"
+        required
+      />
 
-        <div class="form-section">
-            <h2>Detalles del registro</h2>
-            <label for="txtFechaIngreso">Fecha de ingreso:</label>
-            <input type="date" name="txtFechaIngreso" id="txtFechaIngreso" [(ngModel)]="fechaActual" readonly>        
-    
-            <label for="txtExpediente">Expediente:</label> 
-            <input type="text" name="txtExpediente" id="txtExpediente" required>
-        </div>
-    
-        <input type="submit" value="Registrar" id="btnRegistrar">
+      <label for="txtApellidoMaterno">Apellido Materno:</label>
+      <input
+        type="text"
+        name="apellido_materno"
+        id="txtApellidoMaterno"
+        placeholder="Ingrese el Apellido materno"
+        [(ngModel)]="pacientesService.selectedPaciente.apellido_materno"
+        required
+      />
 
-        
-    </form>
+      <label for="txtEdad">Edad:</label>
+      <input
+        type="text"
+        name="edad_paciente"
+        id="txtEdad"
+        placeholder="Ingrese la edad"
+        [(ngModel)]="pacientesService.selectedPaciente.edad_paciente"
+        required
+      />
+
+      <label for="txtSexo">Sexo:</label>
+      <input
+        type="text"
+        name="sexo_paciente"
+        id="txtSexo"
+        placeholder="Ingrese el sexo"
+        [(ngModel)]="pacientesService.selectedPaciente.sexo_paciente"
+        required
+      />
+    </div>
+
+    <div class="form-section">
+      <h2>Acerca de</h2>
+      <label for="txtEntidadFederativa">Entidad Federativa:</label>
+      <input
+        type="text"
+        name="entidadFederativa"
+        id="txtEntidadFederativa"
+        placeholder="Ingrese la entidad federativa"
+        [(ngModel)]="pacientesService.selectedPaciente.entidadFederativa"
+        required
+      />
+
+      <label for="txtPrograma">Nacionalidad:</label>
+      <input
+        type="text"
+        name="nacionalidad"
+        id="txtNacionalidad"
+        placeholder="Ingrese la nacionalidad del pacietne"
+        [(ngModel)]="pacientesService.selectedPaciente.nacionalidad"
+        required
+      />
+    </div>
+
+    <div class="form-section">
+      <h2>Direccion</h2>
+      <label for="txtColonia">Colonia:</label>
+      <input
+        type="text"
+        name="colonia"
+        id="txtColonia"
+        placeholder="Ingrese la colonia"
+        [(ngModel)]="pacientesService.selectedPaciente.colonia"
+        required
+      />
+
+      <label for="txtDomicilio">Domicilio:</label>
+      <input
+        type="text"
+        name="domicilio"
+        id="txtDomicilio"
+        placeholder="Ingrese el domicilio"
+        [(ngModel)]="pacientesService.selectedPaciente.domicilio"
+        required
+      />
+
+      <label for="txtDomicilio">Alcaldia / Municipio</label>
+      <input
+        type="text"
+        name="alcaldia_municipio"
+        id="txtAlcalMun"
+        placeholder="Ingrese el la alcaldia/municipio"
+        [(ngModel)]="pacientesService.selectedPaciente.alcaldia_municipio"
+        required
+      />
+    </div>
+
+    <div class="form-section">
+      <h2>Diagnostico Medico</h2>
+      <label for="txtDiagnostico">Diagnostico:</label>
+      <input
+        type="text"
+        name="diagnostico"
+        id="txtDiagnostico"
+        placeholder="Cual es el diagnostico del paciente?"
+        [(ngModel)]="pacientesService.selectedPaciente.diagnostico"
+        required
+      />
+
+      <label for="txtCuidadorPrimario">Cuidador Primario:</label>
+      <input
+        type="text"
+        name="cuidadorPrimario"
+        id="txtCuidadorPrimario"
+        placeholder="Quien es su cuidador primario?"
+        [(ngModel)]="pacientesService.selectedPaciente.cuidadorPrimario"
+        required
+      />
+    </div>
+
+    <div class="form-section">
+      <h2>Detalles del registro</h2>
+      <label for="txtFechaIngreso">Fecha de ingreso:</label>
+      <input
+        type="date"
+        name="txtFechaIngreso"
+        id="txtFechaIngreso"
+        [(ngModel)]="fechaActual"
+        readonly
+      />
+
+      <label for="txtTipoPrograma">Tipo de programa:</label>
+      <select name="tipoPrograma" id="txtTipoPrograma" [(ngModel)]="pacientesService.selectedPaciente.tipoPrograma" required>
+        <option value="CECPAM">CECPAM</option>
+        <option value="NMP">NMP</option>
+        <option value="NO">NO</option>
+      </select>
+      
+
+      <label for="txtExpediente">Expediente:</label>
+      <input
+        type="text"
+        name="expediente_paciente"
+        id="txtExpediente"
+        [(ngModel)]="pacientesService.selectedPaciente.expediente_paciente"
+        required
+      />
+    </div>
+
+    <input type="submit" value="Registrar" id="btnRegistrar" />
+  </form>
 </div>

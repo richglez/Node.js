@@ -19,7 +19,6 @@ CREATE TABLE pacientes(
     colonia varchar(255) not null,
     alcaldia_municipo varchar(255) not null,
     entidadFederativa varchar(255) not null,
-	numSuplenciasMensuales_paciente int not null,
     diagnostico varchar(255) not null,
 	cuidadorPrimario varchar(255) not null,
     tipoPrograma varchar(255) not null

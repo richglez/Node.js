@@ -1,92 +1,103 @@
 <div class="container">
-    <div class="search-paciente">
-
-
-        <div class="title1-container">
-            <h1>Buscar Paciente</h1>
-        </div>
-
-
-        <i class='bx bx-search'></i>
-        <input type="search" name="txtSearchPaciente" id="txtSearchPaciente" placeholder="Buscar paciente">
-        <i class='bx bx-x'></i>
-        <div class="coincidencias-container">
-            <label for=""></label>
-        </div>
-
-        <div class="paciente-seatch-card">
-            <i class='bx bxs-user-pin' ></i>
-            <h3>Jose Maria Martinez</h3>
-            <p>Ultima modificacion fue el: 27/02/2024</p>
-        </div>
+  <div class="search-paciente-container">
+    <div class="container1-title1">
+      <h1>Buscar Paciente</h1>
     </div>
 
-    <div class="ficha-paciente">
+    <i class="bx bx-search"></i>
+    
+    <input
+      type="search"
+      name="txtSearchPaciente"
+      id="txtSearchPaciente"
+      placeholder="Buscar paciente"
+    />
+    <i class="bx bx-x"></i>
+    <div class="coincidencias-container">
+      <label for=""></label>
+    </div>
 
-        <div class="tile2-container">
-            <h1>Ficha del paciente</h1>
-        </div>
+    <div class="paciente-find-card">
+      <i class="bx bxs-user-pin"></i>
+      <h3 class="paciente-name"></h3>
+      <!--Nombre del paciente-->
+      <p class="lastUpdate"></p>
+      <!--Ultima modificacion fue el: 27/02/2024-->
+    </div>
+  </div>
 
-        <i class='bx bxs-user-pin' ></i>
-        <div class="expediente-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="fecha-ingreso">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="nombre-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="apellidoPat-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="apellidoMat-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="domicilio-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="colonia-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="alcaldia-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="entidadFederativa-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="sexo-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="edad-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="nacionalidad-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="telefono-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="tipo-programa-container">
-            <label for="">Expediente</label>
-            <input type="text" name="" id="">
-        </div>
+  <!--------------------------------------------------------------------------------->
 
+  <div class="ficha-paciente">
+    <div class="container2-title1">
+      <h1>Ficha del paciente</h1>
+    </div>
 
-    </div>  
+    <i class="bx bxs-user-pin"></i>
+
+    <div class="container-data-paciente">
+      <label for="">Expediente:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.expediente_paciente" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Fecha de ingreso:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.ingreso_programa" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Nombre:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.nombre_paciente" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Apellido Paterno:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.apellido_paterno" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Apellido Materno:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.apellido_materno"/>
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Edad:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.edad_paciente"/>
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Sexo:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.sexo_paciente" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Alcaldia / Municipio:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.alcaldia_municipio" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Entidad Federativa</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.entidadFederativa" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Nacionalidad:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.nacionalidad" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Tipo de Programa:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.tipoPrograma" />
+    </div>
+
+    <div class="container2-title2">
+      <h2>Diagnostico del paciente</h2>
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Recomendaciones:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.recomendaciones" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Observaciones:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.observaciones" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Diagnostico:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.diagnostico" />
+    </div>
+    <div class="container-data-paciente">
+      <label for="">Cuidador Primario:</label>
+      <input type="text" name="" id="" [(ngModel)]="pacientesService.selectedPaciente.cuidadorPrimario" />
+    </div>
+  </div>
 </div>
-
-
