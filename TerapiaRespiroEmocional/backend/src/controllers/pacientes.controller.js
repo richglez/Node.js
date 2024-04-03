@@ -10,8 +10,11 @@ pacientesCtrls.getPacientes = async (req, res) => {
 };
 
 pacientesCtrls.searchPaciente = async (req, res) => {
-    res.send('buscando paciente')
-};
+    const textoBusqueda = req.query.texto;
+    const [rows] = await pool.promise().query("SELECT * FROM pacientes WHERE nombre_paciente LIKE ? OR apellido_paterno LIKE ? OR apellido_materno LIKE ?", [`%${textoBusqueda}%`, `%${textoBusqueda}%`, `%${textoBusqueda}%`]);
+    res.json(rows);
+  };
+  
 
 pacientesCtrls.addPaciente = async (req, res) => {
     const { expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma } = req.body;

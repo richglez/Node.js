@@ -12,6 +12,9 @@ export class SearchPacienteComponent {
 
   pacientes: Paciente[] = [];
   searchText: string = '';
+  selectedPaciente: Paciente | null = null; // Variable para almacenar el paciente seleccionado
+
+
 
   constructor(public pacientesService: PacientesService) {
     //instancia, poder tener todos los metodos
@@ -22,4 +25,10 @@ export class SearchPacienteComponent {
       this.pacientes = pacientes;
     });
   }
+
+  seleccionarPaciente(paciente: Paciente) {
+    this.searchText = paciente.nombre_paciente;
+    this.selectedPaciente = paciente; // Asigna el paciente seleccionado a selectedPaciente
+  }
+
 }
