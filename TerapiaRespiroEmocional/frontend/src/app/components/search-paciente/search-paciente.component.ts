@@ -18,6 +18,7 @@ export class SearchPacienteComponent {
 
   constructor(public pacientesService: PacientesService) {
     //instancia, poder tener todos los metodos
+    
   }
 
   buscarPacienteDB(): void {  // buscar a todos los registros de pacientes en la base de datos, para poder seleccionarlo
@@ -28,8 +29,8 @@ export class SearchPacienteComponent {
 
   seleccionarPaciente(paciente: Paciente) {
     // Asigna el nombre del paciente al campo de búsqueda
-    this.searchText = paciente.nombre_paciente;  // el texto de la barra de busqueda se convertira a el nombre del paciente seleccionado
-    
+    this.searchText = paciente.nombre_paciente;
+  
     // Verifica si id_paciente tiene un valor antes de usarlo
     if (paciente.id_paciente !== undefined) {
       // Busca los detalles del paciente por su ID y asigna los detalles al paciente seleccionado
@@ -41,6 +42,8 @@ export class SearchPacienteComponent {
       console.error('El paciente seleccionado no tiene un ID válido.');
     }
   }
+  
+
   
   
   

@@ -11,7 +11,8 @@ const router = Router()
 
 // routes CRUD
 router.get('/pacientes', pacientesCtrls.getPacientes)  // reporte
-router.get('/pacientes/search', pacientesCtrls.searchPaciente);
+router.get('/pacientes/search', pacientesCtrls.searchPacienteAutoComplete);
+router.get('/pacientes/:id', pacientesCtrls.getPacienteById);
 router.post('/pacientes', pacientesCtrls.addPaciente) // alta
 router.put('/pacientes/:id', pacientesCtrls.updatePaciente) // actulizar
 router.delete('/pacientes/:id', pacientesCtrls.deletePaciente) // bajas
