@@ -1,3 +1,9 @@
+<!-- 
+<div class="mainTitle">
+  <h1>Buscar Ficha del Paciente</h1>
+</div> -->
+
+
 <div class="container">
 
   <div class="search-paciente-container">
@@ -10,18 +16,21 @@
         id="txtSearchPaciente"
         placeholder="Buscar paciente"
         [(ngModel)]="searchText"
-        (input)="buscarPaciente()"
+        (input)="buscarPacienteDB()"
       />
     </div>
-    <div class="paciente-find-card" *ngFor="let paciente of pacientes">
+
+    <div class="paciente-find-card" *ngFor="let paciente of pacientes" (click)="seleccionarPaciente(paciente)">
       <i class="bx bxs-user-pin"></i>
-      <h3>{{ paciente.nombre_paciente }} {{ paciente.apellido_paterno }}</h3>
+      <h3 class="paciente-find-name">{{ paciente.nombre_paciente }} {{ paciente.apellido_paterno }}</h3>
       <!--Nombre del paciente-->
-      <p class="lastUpdate">{{ selectedPaciente?.ultima_modificacion | date:'dd/MM/yyyy' }}</p>
+      <p class="lastUpdate">{{ paciente?.ultima_modificacion | date:'dd/MM/yyyy' }}</p>
       <!--Ultima modificacion fue el: 27/02/2024-->
     </div>
   </div>
 
+
+  
   <!--------------------------------------------------------------------------------->
 
   <div class="ficha-paciente">

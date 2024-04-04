@@ -43,9 +43,20 @@ export class PacientesService {
 
   }
 
-  searchPaciente(textoBusqueda: string): Observable<Paciente[]> {
+
+
+
+  searchAllPacientes(textoBusqueda: string): Observable<Paciente[]> {
     return this.http.get<Paciente[]>(`${this.URL_API}/search?texto=${textoBusqueda}`);
   }
+
+  
+
+
+  getPacienteById(id: number): Observable<Paciente> {
+    return this.http.get<Paciente>(`${this.URL_API}/${id}`);
+  }
+  
   
 
 

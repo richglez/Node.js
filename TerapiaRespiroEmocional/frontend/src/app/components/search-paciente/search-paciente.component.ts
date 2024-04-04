@@ -20,15 +20,32 @@ export class SearchPacienteComponent {
     //instancia, poder tener todos los metodos
   }
 
-  buscarPaciente(): void {
-    this.pacientesService.searchPaciente(this.searchText).subscribe((pacientes: Paciente[]) => {
+  buscarPacienteDB(): void {  // buscar a todos los registros de pacientes en la base de datos, para poder seleccionarlo
+    this.pacientesService.searchAllPacientes(this.searchText).subscribe((pacientes: Paciente[]) => { // auto completado en el input?
       this.pacientes = pacientes;
     });
   }
 
   seleccionarPaciente(paciente: Paciente) {
-    this.searchText = paciente.nombre_paciente;
-    this.selectedPaciente = paciente; // Asigna el paciente seleccionado a selectedPaciente
+    // Asigna el nombre del paciente al campo de búsqueda
+    this.searchText = paciente.nombre_paciente;  // el texto de la barra de busqueda se convertira a el nombre del paciente seleccionado
+    
+    // Verifica si id_paciente tiene un valor antes de usarlo
+    if (paciente.id_paciente !== undefined) {
+      // Busca los detalles del paciente por su ID y asigna los detalles al paciente seleccionado
+      this.pacientesService.getPacienteById(paciente.id_paciente).subscribe((pacienteDetalle: Paciente) => {
+        this.selectedPaciente = pacienteDetalle;
+        // Aquí puedes hacer lo que necesites con el paciente seleccionado, por ejemplo, mostrar los detalles en la ficha del paciente.
+      });
+    } else {
+      console.error('El paciente seleccionado no tiene un ID válido.');
+    }
   }
+  
+  
+  
+
+  
+  
 
 }
