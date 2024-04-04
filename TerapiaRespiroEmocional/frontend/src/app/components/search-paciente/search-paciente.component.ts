@@ -33,8 +33,8 @@ export class SearchPacienteComponent {
     // Verifica si id_paciente tiene un valor antes de usarlo
     if (paciente.id_paciente !== undefined) {
       // Busca los detalles del paciente por su ID y asigna los detalles al paciente seleccionado
-      this.pacientesService.getPacienteById(paciente.id_paciente).subscribe((pacienteDetalle: Paciente) => {
-        this.selectedPaciente = pacienteDetalle;
+      this.pacientesService.getPacienteById(paciente.id_paciente).subscribe((pacienteData: Paciente) => {
+        this.selectedPaciente = pacienteData;
         // Aquí puedes hacer lo que necesites con el paciente seleccionado, por ejemplo, mostrar los detalles en la ficha del paciente.
       });
     } else {
