@@ -58,6 +58,9 @@ export class PacientesService {
   }
   
   
+  getExpedientes(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.URL_API}/expedientes`);
+  }
   
 
 

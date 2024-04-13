@@ -16,6 +16,11 @@ import { BodyComponent } from './components/body/body.component';
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
 import { PacientesService } from './services/pacientes.service';
 import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // Importa el plugin dayGrid
+import timeGridPlugin from '@fullcalendar/timegrid'; // Importa el plugin timeGrid
+import interactionPlugin from '@fullcalendar/interaction'; // Importa el plugin interaction
+
 
 @NgModule({
   declarations: [
@@ -35,7 +40,9 @@ import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientMo
     BrowserModule,
     AppRoutingModule,
     HttpClientModule, // Agrega HttpClientModule a la lista de imports
-    FormsModule // Añade FormsModule a la lista de imports
+    FormsModule, // Añade FormsModule a la lista de imports
+    FullCalendarModule // register FullCalendar with your app
+
   ],
   providers: [PacientesService],
   bootstrap: [AppComponent]

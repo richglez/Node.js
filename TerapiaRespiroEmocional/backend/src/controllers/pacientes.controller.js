@@ -57,6 +57,14 @@ pacientesCtrls.getPacienteById = async (req, res) => {
 };
 
 
+pacientesCtrls.getExpedientes = async (req, res) => {
+    const [rows] = await pool.promise().query("SELECT DISTINCT expediente_paciente FROM pacientes");
+    const expedientes = rows.map(row => row.expediente_paciente);
+    res.json(expedientes);
+};
+
+
+
 
 
 pacientesCtrls.updatePaciente = async (req, res) => {

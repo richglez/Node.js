@@ -1,1 +1,44 @@
 <h1>Calendario de Servicios</h1>
+<div class="search-paciente-container">
+  <div class="search-paciente-container2">
+    <i class="bx bx-search"></i>
+
+    <input
+      type="search"
+      name="txtSearchPaciente"
+      id="txtSearchPaciente"
+      placeholder="Buscar paciente"
+      [(ngModel)]="searchText"
+      (input)="buscarPacienteDB()"
+    />
+  </div>
+
+  <div
+    class="paciente-find-card"
+    *ngFor="let paciente of pacientes"
+    (click)="seleccionarPaciente(paciente)"
+  >
+    <i class="bx bxs-user-pin"></i>
+
+    <h3 class="paciente-find-name">
+      {{ paciente.nombre_paciente }} {{ paciente.apellido_paterno }}
+      <!--como poner este dato?-->
+    </h3>
+    <!--quiero estos datos del paciente-->
+
+    <!--Nombre del paciente-->
+    <p class="lastUpdate">
+      {{ paciente?.ultima_modificacion | date : "dd/MM/yyyy" }}
+    </p>
+    <!--Ultima modificacion fue el: 27/02/2024-->
+  </div>
+</div>
+
+<div class="info-calendar-paciente" *ngIf="mostrarInfoPaciente">
+  <h3>{{ selectedPaciente?.nombre_paciente }} {{ selectedPaciente?.apellido_paterno }}</h3>
+  <!-- Otros detalles del paciente -->
+</div>
+
+
+<full-calendar [options]="options" [events]="events" class="custom-calendar">
+</full-calendar>

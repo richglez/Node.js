@@ -12,7 +12,7 @@ import { Paciente } from '../../models/pacientes';
 
 
 export class NewPacienteComponent implements OnInit {
-  expediente: string = '';
+  expediente_paciente: string = '';
   fechaActual: string = '';
   textoConAcentos: string = '';
   
@@ -25,7 +25,7 @@ export class NewPacienteComponent implements OnInit {
     const nroRegistro = '1'; // Aquí debes obtener el número de registro de tu base de datos
     const nroRegistroPadded = (padding + nroRegistro).slice(-padding.length);
 
-    this.expediente = `${year}/${nroRegistroPadded}`;
+    this.expediente_paciente = `${year}/${nroRegistroPadded}`;
     this.fechaActual = new Date().toISOString().split('T')[0]; // Obtiene la fecha actual en formato YYYY-MM-DD
   }
   
@@ -34,18 +34,18 @@ export class NewPacienteComponent implements OnInit {
 
 
   addPaciente(form: NgForm) {
-    if (!form.valid) {
+    if (!form.valid) { //si no hay nada en el form
       alert('Por favor, completa todos los campos antes de continuar.');
       return;
     }
 
-    if (form.value.id_employee) {
+    if (form.value.id_employee) { // si hay un registro por su id entonces actualiza
       this.pacientesService.updatePaciente(form.value).subscribe(
         (res) => console.log(res),
         (err) => console.log(err)
       );
     } else {
-      this.pacientesService.addPaciente(form.value).subscribe(
+      this.pacientesService.addPaciente(form.value).subscribe( // de cualquier manera agrega al paciente a la base de datos
         (res) => {
           // this.getEmployees();
           form.reset();

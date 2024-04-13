@@ -44,14 +44,15 @@
       />
 
       <label for="txtSexo">Sexo:</label>
-      <input
-        type="text"
+      <select
         name="sexo_paciente"
         id="txtSexo"
-        placeholder="Ingrese el sexo"
         [(ngModel)]="pacientesService.selectedPaciente.sexo_paciente"
         required
-      />
+      >
+        <option value="M">M</option>
+        <option value="F">F</option>
+      </select>
     </div>
 
     <div class="form-section">
@@ -145,19 +146,36 @@
       />
 
       <label for="txtTipoPrograma">Tipo de programa:</label>
-      <select name="tipoPrograma" id="txtTipoPrograma" [(ngModel)]="pacientesService.selectedPaciente.tipoPrograma" required>
+      <select
+        name="tipoPrograma"
+        id="txtTipoPrograma"
+        [(ngModel)]="pacientesService.selectedPaciente.tipoPrograma"
+        required
+        #tipoProgramaSelect="ngModel"
+      >
         <option value="CECPAM">CECPAM</option>
         <option value="NMP">NMP</option>
-        <option value="NO">NO</option>
+        <option value="">Otro</option>  
       </select>
-      
+      <div *ngIf="tipoProgramaSelect.value === ''">  <!--Cuando el value sea campo vacio quiere decir que es otro-->
+        <label for="txtOtroTipoPrograma">Especificar:</label>
+        <input
+          type="text"
+          id="txtOtroTipoPrograma"
+          name="otroTipoPrograma"
+          placeholder="Especificar otro tipo de programa"
+          [(ngModel)]="pacientesService.selectedPaciente.tipoPrograma"
+          required
+        />
+      </div>
 
       <label for="txtExpediente">Expediente:</label>
       <input
         type="text"
         name="expediente_paciente"
         id="txtExpediente"
-        [(ngModel)]="pacientesService.selectedPaciente.expediente_paciente"
+        placeholder="00/000"
+        [(ngModel)]="expediente_paciente"
         required
       />
     </div>
