@@ -5,6 +5,10 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { PacientesService } from '../../services/pacientes.service'
 import { Paciente } from '../../models/pacientes';
+import { MatDialog } from '@angular/material/dialog'; // Importa el servicio MatDialog si estás usando Angular Material
+import { DialogoAgendarServicioComponent } from '../dialogo-agendar-servicio-component/dialogo-agendar-servicio-component.component';
+
+
 
 @Component({
   selector: 'app-calendario-servicios',
@@ -24,7 +28,7 @@ export class CalendarioServiciosComponent {
 
   
 
-  constructor(public pacientesService: PacientesService) {
+  constructor(public pacientesService: PacientesService,  public dialog: MatDialog) {
     this.events = [
       { 
         title: 'Evento 1', 
@@ -82,6 +86,18 @@ export class CalendarioServiciosComponent {
     } else {
       console.error('El paciente seleccionado no tiene un ID válido.');
     }
+  }
+
+  agendarServicio(): void {
+    const dialogRef = this.dialog.open(DialogoAgendarServicioComponent, {
+      width: '250px',
+      data: { paciente: this.selectedPaciente }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('El diálogo se cerró y el resultado es:', result);
+      // Aquí puedes procesar la información del servicio agendado, por ejemplo, agregarlo al calendario.
+    });
   }
 
 

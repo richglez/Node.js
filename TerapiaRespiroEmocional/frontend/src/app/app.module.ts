@@ -1,8 +1,15 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Importa BrowserAnimationsModule
+
+// Importa los componentes
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { SearchPacienteComponent } from './components/search-paciente/search-paciente.component';
 import { NewPacienteComponent } from './components/new-paciente/new-paciente.component';
@@ -13,14 +20,9 @@ import { BaseDatosComponent } from './components/base-datos/base-datos.component
 import { EvaluacionCuidadorComponent } from './components/evaluacion-cuidador/evaluacion-cuidador.component';
 import { ExitComponent } from './components/exit/exit.component';
 import { BodyComponent } from './components/body/body.component';
-import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
-import { PacientesService } from './services/pacientes.service';
-import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
-import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid'; // Importa el plugin dayGrid
-import timeGridPlugin from '@fullcalendar/timegrid'; // Importa el plugin timeGrid
-import interactionPlugin from '@fullcalendar/interaction'; // Importa el plugin interaction
-
+import { DialogoAgendarServicioComponent } from './components/dialogo-agendar-servicio-component/dialogo-agendar-servicio-component.component';
+import { ConfirmarEliminarDialogComponent } from './components/confirmar-eliminar-dialog/confirmar-eliminar-dialog.component';
+import { ActualizarDialogComponent } from './components/actualizar-dialog/actualizar-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,17 +36,22 @@ import interactionPlugin from '@fullcalendar/interaction'; // Importa el plugin 
     BaseDatosComponent,
     EvaluacionCuidadorComponent,
     ExitComponent,
-    BodyComponent
+    BodyComponent,
+    DialogoAgendarServicioComponent,
+    ConfirmarEliminarDialogComponent,
+    ActualizarDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, // Agrega HttpClientModule a la lista de imports
-    FormsModule, // Añade FormsModule a la lista de imports
-    FullCalendarModule // register FullCalendar with your app
-
+    HttpClientModule,
+    FormsModule,
+    FullCalendarModule,
+    MatDialogModule,
+    BrowserAnimationsModule // Agrega BrowserAnimationsModule a la lista de imports
   ],
-  providers: [PacientesService],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

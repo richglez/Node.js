@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PacientesService } from '../../services/pacientes.service';
 import { Paciente } from '../../models/pacientes';
+import { MatDialog } from '@angular/material/dialog'; // Importa solo MatDialog
+import { ConfirmarEliminarDialogComponent } from '../confirmar-eliminar-dialog/confirmar-eliminar-dialog.component';
+import { ActualizarDialogComponent } from '../actualizar-dialog/actualizar-dialog.component';
 
 @Component({
   selector: 'app-search-paciente',
@@ -16,7 +19,7 @@ export class SearchPacienteComponent {
 
 
 
-  constructor(public pacientesService: PacientesService) {
+  constructor(public pacientesService: PacientesService, private dialog: MatDialog) {
     //instancia, poder tener todos los metodos
     
   }
@@ -41,6 +44,77 @@ export class SearchPacienteComponent {
     } else {
       console.error('El paciente seleccionado no tiene un ID válido.');
     }
+  }
+
+
+
+  // ELIMINAR PACIENTE
+
+  confirmarEliminar() { //?
+    const dialogRef = this.dialog.open(ConfirmarEliminarDialogComponent, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Aquí puedes llamar a tu método para eliminar al paciente
+        this.eliminarPaciente();
+      }
+    });
+  }
+
+  eliminarPaciente() {
+    // Aquí colocarías la lógica para eliminar al paciente de la base de datos
+  }
+
+
+
+
+
+
+
+    // ACTULIZAR DATOS DEL PACIENTE
+
+  editPaciente(){
+    //poder editar los datos, convertir readonly a escritura libre
+    const inputs = document.querySelectorAll('.container-data-paciente input');
+    inputs.forEach((input: Element) => {
+      if (input instanceof HTMLInputElement) {
+        input.readOnly = false;
+      }
+    });
+  }
+
+
+  updatePacienteDialog(){
+    //mostrar el mensaje de dialogo de si desea actualizar
+    const dialogRef = this.dialog.open(ActualizarDialogComponent, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Aquí puedes llamar a tu método para eliminar al paciente
+        this.updatePaciente();
+      }
+    });
+  }
+
+  updatePaciente(){ //proceder si el usuario dijo actulizar
+    //actualizar datos del paciente
+  }
+
+
+
+
+
+
+
+  // OTRAS FUNCIONES 
+
+
+  undoPaciente(){
+    //Deshacer cambios realizados
   }
   
 

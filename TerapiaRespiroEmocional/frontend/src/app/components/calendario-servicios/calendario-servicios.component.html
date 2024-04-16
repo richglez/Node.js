@@ -34,11 +34,23 @@
   </div>
 </div>
 
-<div class="info-calendar-paciente" *ngIf="mostrarInfoPaciente">
-  <h3>{{ selectedPaciente?.nombre_paciente }} {{ selectedPaciente?.apellido_paterno }}</h3>
-  <!-- Otros detalles del paciente -->
-</div>
+<div class="calendar-header">
+  <h1>Calendario de Servicios</h1>
+  <div class="paciente-info">
+    <h4>Paciente:</h4>
+    <div class="container">
+      <h3>
+        {{ selectedPaciente?.nombre_paciente }}
+        {{ selectedPaciente?.apellido_paterno }}
+      </h3>
+    </div>
 
+    <h4>Cuidador primario:</h4>
+    <div class="container">
+      <h3>{{ selectedPaciente?.cuidadorPrimario }}</h3>
+    </div>
+  </div>
+</div>
 
 <full-calendar [options]="options" [events]="events" class="custom-calendar">
 </full-calendar>

@@ -1,14 +1,9 @@
 @import 'boxicons/css/boxicons.min.css';
 
-
-// .mainTitle{
-// }
-
 .container {
   display: flex;
-  flex-direction: row; /* Cambiar a row para alinear horizontalmente */
-  justify-content: space-around; /* Opcional: ajustar el espacio entre los contenedores */
-
+  flex-direction: row;
+  justify-content: space-around;
 
   .search-paciente-container {
     background-color: #2481FF;
@@ -17,6 +12,24 @@
     width: 25%; /* Ancho de los contenedores */
     margin: 10px; /* Espacio entre los contenedores */
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    
+    .search-header{
+      display: inline-flex; 
+      align-items: center;
+
+      h1{
+        font-weight: 500;
+        color: #fff;
+        margin-left: 12px; /* Ajusta el espacio entre el ícono y el texto si es necesario */
+        margin-top: 19px;
+      }
+  
+      i{
+        color: #fff;
+        font-size: 60px;
+      }
+    }
+
 
     .search-paciente-container2 {
       display: flex;
@@ -92,6 +105,79 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 60%;
 
+    .container2-title1 {
+      display: flex;
+      align-items: center;
+      background-color: #2481FF;
+      color: #fff;
+      font-size: 20px;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 5px;
+
+      h1{
+        font-weight: 500;
+      }
+
+
+      .actions{
+        margin-left: auto;
+        .button-container {
+          display: inline-block;
+          position: relative;
+        
+          button {
+            background-color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 6px;
+            cursor: pointer;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+        
+            i {
+              color: #007bff;
+              font-size: 24px;
+            }
+        
+            &:hover { // selector padre
+              background-color: #f0f0f0;
+            }
+
+            &:active{
+              background-color: #f0f0f0dc;
+              box-shadow: 0px 2px 3px rgb(253, 252, 252);
+              transition: .1s ease all;
+            }
+
+
+          }
+        
+          span {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px); // Ajusta la distancia entre el botón y el span
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+            color: #2481FF;
+        
+            // Estilos adicionales...
+          }
+
+          button:hover + span {
+            display: block;
+          }
+        }
+        
+      }
+
+
+    }
 
     .bxs-user-pin {
       font-size: 104px;
@@ -123,7 +209,6 @@
       }
     }
 
-    .container2-title1,
     .container2-title2 {
       background-color: #2481FF;
       color: #fff;
@@ -132,5 +217,48 @@
       margin-top: 20px;
       border-radius: 5px;
     }
+
+    .actions2{
+      margin-top: 40px;
+      
+      button{
+        margin-right: 20px;
+      }
+      .btnUpdate{
+        background-color: #2196f3; /* Azul */
+        color: white; /* Texto blanco */
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: darken(#2196f3, 10%);
+        }
+
+        &:active{
+          background-color: darken(#157ed4, 10%);
+        }
+      }
+  
+      .btnUndo{
+        background-color: #f44336; /* Rojo */
+        color: white; /* Texto blanco */
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: darken(#f44336, 10%);
+        }
+
+        &:active {
+          background-color: darken(#c7261a, 10%);
+        }
+      }
+    }
+
+
   }
 }

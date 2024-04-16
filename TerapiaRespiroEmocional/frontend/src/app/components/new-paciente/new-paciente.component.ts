@@ -13,8 +13,9 @@ import { Paciente } from '../../models/pacientes';
 
 export class NewPacienteComponent implements OnInit {
   expediente_paciente: string = '';
-  fechaActual: string = '';
+  fechaActual: Date = new Date();
   textoConAcentos: string = '';
+  txtFechaIngreso: string = '';
   
 
   constructor(public pacientesService: PacientesService) { } // Constructor 
@@ -26,7 +27,9 @@ export class NewPacienteComponent implements OnInit {
     const nroRegistroPadded = (padding + nroRegistro).slice(-padding.length);
 
     this.expediente_paciente = `${year}/${nroRegistroPadded}`;
-    this.fechaActual = new Date().toISOString().split('T')[0]; // Obtiene la fecha actual en formato YYYY-MM-DD
+    this.txtFechaIngreso = this.fechaActual.toISOString().split('T')[0]; // No es necesario convertir a ISO
+
+
   }
   
   

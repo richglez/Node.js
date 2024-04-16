@@ -5,6 +5,11 @@
 
 <div class="container">
   <div class="search-paciente-container">
+    <div class="search-header">
+      <i class="material-icons">people</i>
+      <h1>Lista de Pacientes</h1>
+    </div>
+
     <div class="search-paciente-container2">
       <i class="bx bx-search"></i>
 
@@ -40,108 +45,129 @@
   <div class="ficha-paciente" *ngIf="selectedPaciente">
     <div class="container2-title1">
       <h1>Ficha del paciente</h1>
+      <div class="actions">
+        <div class="button-container">
+          <button (click)="confirmarEliminar()"><i class='bx bx-trash'></i></button>
+          <span>Eliminar</span>
+        </div>        
+        <div class="button-container">
+          <button (click)="editPaciente()"><i class='bx bx-edit-alt'></i></button>
+          <span>Editar</span>
+        </div>
+      </div>
     </div>
 
     <i class="bx bxs-user-pin"></i>
 
     <div class="container-data-paciente">
-      <label for="">Expediente:</label>
+      <label for="exp">Expediente:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="exp"
+        readonly
         [(ngModel)]="selectedPaciente.expediente_paciente"
       />
     </div>
 
     <div class="container-data-paciente">
-      <label for="">Fecha de ingreso:</label>
+      <label for="fechI">Fecha de ingreso:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="fechI"
+        readonly
         [(ngModel)]="selectedPaciente.ingreso_programa"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Nombre:</label>
+      <label for="name">Nombre:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="name"
+        readonly
         [(ngModel)]="selectedPaciente.nombre_paciente"
       />
     </div>
 
     <div class="container-data-paciente">
-      <label for="">Apellido Paterno:</label>
+      <label for="lastname1">Apellido Paterno:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="lastname1"
+        readonly
         [(ngModel)]="selectedPaciente.apellido_paterno"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Apellido Materno:</label>
+      <label for="lastname2">Apellido Materno:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="lastname2"
+        readonly
         [(ngModel)]="selectedPaciente.apellido_materno"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Edad:</label>
+      <label for="age">Edad:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="age"
+        readonly
         [(ngModel)]="selectedPaciente.edad_paciente"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Sexo:</label>
+      <label for="sex">Sexo:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="sex"
+        readonly
         [(ngModel)]="selectedPaciente.sexo_paciente"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Alcaldia / Municipio:</label>
+      <label for="municipality">Alcaldia / Municipio:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="municipality"
+        readonly
         [(ngModel)]="selectedPaciente.alcaldia_municipio"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Entidad Federativa</label>
+      <label for="state">Entidad Federativa</label>
       <input
         type="text"
         name=""
-        id=""
+        id="state"
+        readonly
         [(ngModel)]="selectedPaciente.entidadFederativa"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Nacionalidad:</label>
+      <label for="nacionality">Nacionalidad:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="nacionality"
+        readonly
         [(ngModel)]="selectedPaciente.nacionalidad"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Tipo de Programa:</label>
+      <label for="type">Tipo de Programa:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="type"
+        readonly
         [(ngModel)]="selectedPaciente.tipoPrograma"
       />
     </div>
@@ -150,40 +176,50 @@
       <h2>Diagnostico del paciente</h2>
     </div>
     <div class="container-data-paciente">
-      <label for="">Recomendaciones:</label>
+      <label for="recomedations">Recomendaciones:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="recomedations"
+        readonly
         [(ngModel)]="selectedPaciente.recomendaciones"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Observaciones:</label>
+      <label for="observations">Observaciones:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="observations"
+        readonly
         [(ngModel)]="selectedPaciente.observaciones"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Diagnostico:</label>
+      <label for="diagnostic">Diagnostico:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="diagnostic"
+        readonly
         [(ngModel)]="selectedPaciente.diagnostico"
       />
     </div>
     <div class="container-data-paciente">
-      <label for="">Cuidador Primario:</label>
+      <label for="primaryCaregiver">Cuidador Primario:</label>
       <input
         type="text"
         name=""
-        id=""
+        id="primaryCaregiver"
+        readonly
         [(ngModel)]="selectedPaciente.cuidadorPrimario"
       />
     </div>
+    <div class="actions2">
+      <button class="btnUpdate" (click)="updatePacienteDialog()">Actualizar cambios</button>
+      <button class="btnUndo" (click)="undoPaciente()">Deshacer cambios</button>
+    </div>
+
+
   </div>
 </div>

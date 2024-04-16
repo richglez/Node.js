@@ -1,99 +1,119 @@
-@import 'boxicons/css/boxicons.min.css';
-
+@import "boxicons/css/boxicons.min.css";
 
 h1 {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
+  font-weight: 900;
+  font-size: 30px;
 }
 
-
-
-
-
 .search-paciente-container {
-  background-color: #2481FF;
+  background-color: #2481ff;
   border-radius: 10px;
   padding: 20px;
   width: 25%; /* Ancho de los contenedores */
-  margin: 10px; /* Espacio entre los contenedores */
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
   margin: 0 auto; /* Centra horizontalmente */
 
-    .search-paciente-container2 {
-      display: flex;
-      align-items: center;
+  .search-paciente-container2 {
+    display: flex;
+    align-items: center;
 
-      .bx-search {
-        position: absolute;
-        font-size: 24px;
-        margin-left: 10px;
-        color: #2481FF;
-      }
-
-
-      #txtSearchPaciente {
-        flex: 1;
-        padding: 10px 40px;
-        border: 1px solid #2481FF;
-        border-radius: 5px;
-        background-color: #dfedff;
-  
-        &:focus {
-          outline: none;
-          border: 2px solid #2481FF;
-          box-shadow: 0 0 10px rgba(36, 129, 255, 0.5);
-        }
-      }
+    .bx-search {
+      position: absolute;
+      font-size: 24px;
+      margin-left: 10px;
+      color: #2481ff;
     }
 
-
-    .paciente-find-card {
-      background-color: #fff;
-      border: 1px solid #ccc;
+    #txtSearchPaciente {
+      flex: 1;
+      padding: 10px 40px;
+      border: 1px solid #2481ff;
       border-radius: 5px;
-      padding: 10px;
-      margin-top: 10px;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #dfedff;
 
-      &:hover {
-        background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-        box-shadow: 0 0 10px rgb(208, 232, 255);
-      }
-
-
-      .bxs-user-pin {
-        font-size: 60px;
-        margin-right: 10px;
-        color: #2481FF;
-      }
-
-      .paciente-find-name{
-        display: inline;
-        top: auto;
-      }
-  
-      .lastUpdate {
-        font-size: 12px;
-        color: #999;
-        margin-top: 5px;
+      &:focus {
+        outline: none;
+        border: 2px solid #2481ff;
+        box-shadow: 0 0 10px rgba(36, 129, 255, 0.5);
       }
     }
   }
 
-
-
-
-  .custom-calendar {
-    margin-top: 100px;
+  .paciente-find-card {
+    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    height: 100vh;
-    max-width: 96%; /* Limita el ancho al ancho de la pantalla */
-  
 
+    &:hover {
+      background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+      box-shadow: 0 0 10px rgb(208, 232, 255);
+    }
+
+    .bxs-user-pin {
+      font-size: 60px;
+      margin-right: 10px;
+      color: #2481ff;
+    }
+
+    .paciente-find-name {
+      display: inline;
+      top: auto;
+    }
+
+    .lastUpdate {
+      font-size: 12px;
+      color: #999;
+      margin-top: 5px;
+    }
   }
+}
+
+.calendar-header{
+  h1{
+    margin-top: 300px;
+    display: flex;
+    align-items: center;
+    background-color: #2481ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  }
+
+
+  .paciente-info {
+    border-radius: 5px;
+    border: 1px solid #2481FF;
+    padding: 10px; /* Ajusta el padding según sea necesario */
+    display: inline-block;
+    h4 {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.custom-calendar {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 100vh;
+  max-width: 96%; /* Limita el ancho al ancho de la pantalla */
+}
