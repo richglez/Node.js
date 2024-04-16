@@ -68,8 +68,19 @@ pacientesCtrls.getExpedientes = async (req, res) => {
 
 
 pacientesCtrls.updatePaciente = async (req, res) => {
-    res.send('actualizando paciente')
-}
+    const { expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma } = req.body;
+
+    const id_paciente = req.params.id; // Obtener el ID del paciente de los parámetros de la solicitud
+    const [rows] = await pool.promise().query("UPDATE pacientes SET expediente_paciente = ?, nombre_paciente = ?, apellido_paterno = ?, apellido_materno = ?, sexo_paciente = ?, edad_paciente = ?, nacionalidad = ?, domicilio = ?, colonia = ?, alcaldia_municipio = ?, entidadFederativa = ?, diagnostico = ?, cuidadorPrimario = ?, tipoPrograma = ? WHERE id_paciente = ?", [expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma, id_paciente]);
+
+    if (rows.affectedRows > 0) {
+        res.json({ message: 'Paciente actualizado correctamente' });
+    } else {
+        res.status(404).send('Paciente no encontrado');
+    }
+};
+
+
 
 pacientesCtrls.deletePaciente = async (req, res) => {
     res.send('borrando paciente')

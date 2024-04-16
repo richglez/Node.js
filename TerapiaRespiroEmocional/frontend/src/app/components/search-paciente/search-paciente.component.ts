@@ -94,15 +94,24 @@ export class SearchPacienteComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Aquí puedes llamar a tu método para eliminar al paciente
+        // Aquí puedes llamar a tu método para actualizar al paciente
         this.updatePaciente();
       }
     });
   }
 
-  updatePaciente(){ //proceder si el usuario dijo actulizar
-    //actualizar datos del paciente
+  updatePaciente(){ //proceder si el usuario dijo actualizar
+    const paciente = this.pacientesService.selectedPaciente;
+    if (paciente) {
+      //actualizar datos del paciente
+      this.pacientesService.selectedPaciente = paciente;
+    } else {
+      // Manejar el caso en el que no haya un paciente seleccionado
+      console.error('No hay paciente seleccionado para actualizar');
+    }
   }
+  
+
 
 
 
