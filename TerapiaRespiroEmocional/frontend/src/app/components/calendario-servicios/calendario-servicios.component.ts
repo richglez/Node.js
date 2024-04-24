@@ -7,6 +7,7 @@ import { PacientesService } from '../../services/pacientes.service'
 import { Paciente } from '../../models/pacientes';
 import { MatDialog } from '@angular/material/dialog'; // Importa el servicio MatDialog si estás usando Angular Material
 import { DialogoAgendarServicioComponent } from '../dialogo-agendar-servicio-component/dialogo-agendar-servicio-component.component';
+import { NuevaSuplenciaDialogComponent } from '../nueva-suplencia-dialog/nueva-suplencia-dialog.component';
 
 
 
@@ -31,20 +32,20 @@ export class CalendarioServiciosComponent {
   constructor(public pacientesService: PacientesService,  public dialog: MatDialog) {
     this.events = [
       { 
-        title: 'Evento 1', 
+        title: 'Suplencia 1', 
         start: new Date(),
-        description: "Evento 1"
+        description: "Suplencia 1"
       },
       { 
-        title: 'Evento 2', 
+        title: 'Suplencia 2', 
         start: new Date(new Date().getTime() + 86400000),
-        description: "Evento 2"
+        description: "Suplencia 2"
       },
       { 
-        title: 'Evento 3', 
+        title: 'Suplencia 3', 
         start: new Date(new Date().getTime() + (86400000 * 2) ),
         end: new Date(new Date().getTime() + (86400000 * 3) ),
-        description: "Evento 3"
+        description: "Suplencia 3"
       }
     ];
 
@@ -88,17 +89,30 @@ export class CalendarioServiciosComponent {
     }
   }
 
-  agendarServicio(): void {
-    const dialogRef = this.dialog.open(DialogoAgendarServicioComponent, {
-      width: '250px',
-      data: { paciente: this.selectedPaciente }
+
+
+  agregarSuplencia(): void {
+    // Aquí puedes agregar la lógica para crear una nueva suplencia
+    // Por ejemplo, podrías abrir un diálogo para que el usuario ingrese los detalles de la suplencia
+    // y luego agregarla a la lista de suplencias del paciente seleccionado.
+    const dialogRef = this.dialog.open(NuevaSuplenciaDialogComponent, {
+      width: '850px'
     });
   
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('El diálogo se cerró y el resultado es:', result);
-      // Aquí puedes procesar la información del servicio agendado, por ejemplo, agregarlo al calendario.
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result) {
+    //     if (this.selectedPaciente && this.selectedPaciente.id_paciente) {
+    //       this.pacientesService.deletePaciente(this.selectedPaciente.id_paciente).subscribe(() => {
+    //         // Eliminación exitosa
+    //         this.selectedPaciente = null; // Reiniciar selectedPaciente a null para restablecer los campos en el HTML
+    //       });
+    //     } else {
+    //       console.error('No se ha seleccionado un paciente válido para eliminar.');
+    //     }
+    //   }
+    // });
   }
+  
 
 
 }

@@ -29,7 +29,8 @@ export class PacientesService {
     tipoPrograma: '',
     ingreso_programa: '',
     recomendaciones: '',
-    observaciones: ''
+    observaciones: '',
+    suplencias: 0
   }
   // constructor
   constructor(private http: HttpClient) {}
@@ -69,14 +70,17 @@ export class PacientesService {
   };
 
 
-  deletePaciente(id: number){
-    return this.http.delete(`${this.URL_API}/${id}`); // concatenacion de URL
-  };
+  deletePaciente(id: number): Observable<any> {
+    return this.http.delete(`${this.URL_API}/${id}`);
+  }
+  
 
 
-  updatePaciente(id: number){
-    return this.http.put(`${this.URL_API}/${id}`, this.paciente);  // url + los datos del empleado
-  };
+  updatePaciente(paciente: Paciente): Observable<any> {
+    return this.http.put(`${this.URL_API}/${paciente.id_paciente}`, paciente);  // url + los datos del paciente
+};
+
+  
 
 
 };

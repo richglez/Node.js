@@ -19,6 +19,7 @@ export class SearchPacienteComponent {
 
 
 
+
   constructor(public pacientesService: PacientesService, private dialog: MatDialog) {
     //instancia, poder tener todos los metodos
     
@@ -50,22 +51,26 @@ export class SearchPacienteComponent {
 
   // ELIMINAR PACIENTE
 
-  confirmarEliminar() { //?
+  deletePacienteDialog() {
     const dialogRef = this.dialog.open(ConfirmarEliminarDialogComponent, {
       width: '250px'
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Aquí puedes llamar a tu método para eliminar al paciente
-        this.eliminarPaciente();
+        if (this.selectedPaciente && this.selectedPaciente.id_paciente) {
+          this.pacientesService.deletePaciente(this.selectedPaciente.id_paciente).subscribe(() => {
+            // Eliminación exitosa
+            this.selectedPaciente = null; // Reiniciar selectedPaciente a null para restablecer los campos en el HTML
+          });
+        } else {
+          console.error('No se ha seleccionado un paciente válido para eliminar.');
+        }
       }
     });
   }
-
-  eliminarPaciente() {
-    // Aquí colocarías la lógica para eliminar al paciente de la base de datos
-  }
+  
+  
 
 
 
@@ -86,30 +91,32 @@ export class SearchPacienteComponent {
   }
 
 
-  updatePacienteDialog(){
-    //mostrar el mensaje de dialogo de si desea actualizar
+  updatePacienteDialog() {
     const dialogRef = this.dialog.open(ActualizarDialogComponent, {
       width: '250px'
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Aquí puedes llamar a tu método para actualizar al paciente
-        this.updatePaciente();
+        // Verificar que los campos necesarios no sean nulos
+        if (
+          this.selectedPaciente &&
+          this.selectedPaciente.id_paciente !== undefined &&
+          this.selectedPaciente.expediente_paciente !== null &&  
+          this.selectedPaciente.nombre_paciente !== null 
+        ) {
+          this.pacientesService.updatePaciente(this.selectedPaciente) //PACIENTE SELECCIONADO
+            .subscribe(() => {
+              // Aquí puedes añadir lógica adicional después de la actualización
+            });
+        }
       }
     });
   }
 
-  updatePaciente(){ //proceder si el usuario dijo actualizar
-    const paciente = this.pacientesService.selectedPaciente;
-    if (paciente) {
-      //actualizar datos del paciente
-      this.pacientesService.selectedPaciente = paciente;
-    } else {
-      // Manejar el caso en el que no haya un paciente seleccionado
-      console.error('No hay paciente seleccionado para actualizar');
-    }
-  }
+  
+
+
   
 
 

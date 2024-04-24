@@ -47,7 +47,7 @@
       <h1>Ficha del paciente</h1>
       <div class="actions">
         <div class="button-container">
-          <button (click)="confirmarEliminar()"><i class='bx bx-trash'></i></button>
+          <button (click)="deletePacienteDialog()"><i class='bx bx-trash'></i></button>
           <span>Eliminar</span>
         </div>        
         <div class="button-container">
@@ -68,6 +68,10 @@
         readonly
         [(ngModel)]="selectedPaciente.expediente_paciente"
       />
+    </div>
+
+    <div *ngIf="!selectedPaciente" class="mensaje-eliminado">
+      <p>El paciente ha sido eliminado correctamente.</p>
     </div>
 
     <div class="container-data-paciente">

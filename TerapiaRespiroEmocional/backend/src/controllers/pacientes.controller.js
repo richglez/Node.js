@@ -16,7 +16,7 @@ pacientesCtrls.searchPacienteAutoComplete = async (req, res) => {
   
 
 pacientesCtrls.addPaciente = async (req, res) => {
-    const { expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma } = req.body;
+    const { expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma, observaciones, recomendaciones  } = req.body;
 
     console.log(req.body); // Mostrar el contenido de req.body en la consola
 
@@ -24,7 +24,7 @@ pacientesCtrls.addPaciente = async (req, res) => {
         .promise()
         .query(
             "INSERT INTO pacientes (expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma]
+            [expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma, observaciones, recomendaciones]
         );
 
     res.send({
@@ -67,24 +67,68 @@ pacientesCtrls.getExpedientes = async (req, res) => {
 
 
 
+
 pacientesCtrls.updatePaciente = async (req, res) => {
-    const { expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma } = req.body;
-
     const id_paciente = req.params.id; // Obtener el ID del paciente de los parámetros de la solicitud
-    const [rows] = await pool.promise().query("UPDATE pacientes SET expediente_paciente = ?, nombre_paciente = ?, apellido_paterno = ?, apellido_materno = ?, sexo_paciente = ?, edad_paciente = ?, nacionalidad = ?, domicilio = ?, colonia = ?, alcaldia_municipio = ?, entidadFederativa = ?, diagnostico = ?, cuidadorPrimario = ?, tipoPrograma = ? WHERE id_paciente = ?", [expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma, id_paciente]);
+    const { expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma, observaciones, recomendaciones } = req.body;
 
-    if (rows.affectedRows > 0) {
-        res.json({ message: 'Paciente actualizado correctamente' });
-    } else {
-        res.status(404).send('Paciente no encontrado');
+    // Validar que los campos requeridos no estén vacíos
+    if (!expediente_paciente || !nombre_paciente || !apellido_paterno || !apellido_materno || !sexo_paciente || !edad_paciente || !nacionalidad || !domicilio || !colonia || !entidadFederativa || !diagnostico || !cuidadorPrimario || !tipoPrograma) {
+        return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
+
+    // Validar tipos de datos (por ejemplo, asegurarse de que edad_paciente sea un número)
+    if (typeof edad_paciente !== 'number') {
+        return res.status(400).json({ error: 'La edad debe ser un número' });
+    }
+
+    // Continuar con la actualización en la base de datos
+    const [rows] = await pool
+        .promise()
+        .query(
+            "UPDATE pacientes SET expediente_paciente = ?, nombre_paciente = ?, apellido_paterno = ?, apellido_materno = ?, sexo_paciente = ?, edad_paciente = ?, nacionalidad = ?, domicilio = ?, colonia = ?, alcaldia_municipio = ?, entidadFederativa = ?, diagnostico = ?, cuidadorPrimario = ?, tipoPrograma = ?, observaciones = ?, recomendaciones = ?  WHERE id_paciente = ?",
+            [expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma, observaciones, recomendaciones, id_paciente]
+        );
+
+    res.send({
+        message: "Paciente updated successfully",
+        id_paciente,
+        expediente_paciente, 
+        nombre_paciente, 
+        apellido_paterno, 
+        apellido_materno, 
+        sexo_paciente, 
+        edad_paciente, 
+        nacionalidad, 
+        domicilio, 
+        colonia, 
+        alcaldia_municipio, 
+        entidadFederativa, 
+        diagnostico, 
+        cuidadorPrimario, 
+        tipoPrograma, 
+        observaciones, 
+        recomendaciones
+    });
 };
+
+
 
 
 
 pacientesCtrls.deletePaciente = async (req, res) => {
-    res.send('borrando paciente')
+    const id_paciente = req.params.id; // Obtener el ID del paciente de los parámetros de la solicitud
+
+    try {
+        // Realizar la eliminación en la base de datos
+        await pool.promise().query("DELETE FROM pacientes WHERE id_paciente = ?", [id_paciente]);
+        res.status(200).json({ message: 'Paciente eliminado correctamente' });
+    } catch (error) {
+        console.error('Error al eliminar el paciente:', error);
+        res.status(500).json({ error: 'Error al eliminar el paciente' });
+    }
 };
+
 
 
 module.exports = pacientesCtrls;

@@ -67,15 +67,30 @@
         required
       />
 
-      <label for="txtPrograma">Nacionalidad:</label>
-      <input
-        type="text"
+      <label for="txtNacionalidad">Nacionalidad:</label>
+      <select
         name="nacionalidad"
         id="txtNacionalidad"
-        placeholder="Ingrese la nacionalidad del pacietne"
         [(ngModel)]="pacientesService.selectedPaciente.nacionalidad"
         required
-      />
+        #tipoNacionalidadSelect="ngModel"
+      >
+        <option value="Mexicana">Mexicana</option>
+        <option value="Estadounidense ">Estadounidense</option>
+        <option value="">Otro</option>  
+      </select>
+
+      <div *ngIf="tipoNacionalidadSelect.value === ''">  <!--Cuando el value sea campo vacio quiere decir que es otro-->
+        <label for="txtOtroTipoNacionalidad">Especificar:</label>
+        <input
+          type="text"
+          id="txtOtroTipoNacionalidad"
+          name="otroTipoNacionalidad"
+          placeholder="Especificar otro tipo de nacionalidad"
+          [(ngModel)]="pacientesService.selectedPaciente.nacionalidad"
+          required
+        />
+      </div>
     </div>
 
     <div class="form-section">
@@ -157,6 +172,7 @@
         <option value="NMP">NMP</option>
         <option value="">Otro</option>  
       </select>
+
       <div *ngIf="tipoProgramaSelect.value === ''">  <!--Cuando el value sea campo vacio quiere decir que es otro-->
         <label for="txtOtroTipoPrograma">Especificar:</label>
         <input

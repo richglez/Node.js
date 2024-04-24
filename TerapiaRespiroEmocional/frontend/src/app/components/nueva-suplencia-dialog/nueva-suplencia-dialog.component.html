@@ -1,0 +1,32 @@
+<div class="wrapper">
+  <h1 mat-dialog-title class="custom-dialog-title">Añade una nueva suplencia</h1>
+  <div mat-dialog-content class="custom-dialog-content">
+    <div class="icon-text-container">
+      <i class='bx bxs-receipt'></i>
+      <p>Suplencia:</p>
+    </div>
+    
+    <form action="">
+      <input type="date" name="" id="">
+      <input type="time" name="" id="" >a
+      <input type="time" name="" id="">
+    </form>
+  </div>
+
+  <div mat-dialog-actions class="custom-dialog-actions">
+    <button
+      mat-button
+      (click)="cancelar()"
+      class="custom-dialog-button cancelar"
+    >
+      Cancelar Suplencia
+    </button>
+    <button
+      mat-button
+      (click)="confirmar()"
+      class="custom-dialog-button actualizar"
+    >
+      Agregar Suplencia
+    </button>
+  </div>
+</div>

@@ -25,6 +25,27 @@ CREATE TABLE pacientes(
 
 );
 
+CREATE TABLE cuidadoresPrimarios(
+    id_cuidadorPrimario int unsigned auto_increment primary key,
+    nombre_cuidadorPrimario varchar(255) not null,
+    apPat_cuidadorPrimario varchar(255) not null,
+    apMat_cuidadorPrimario varchar(255) not null,
+    sexo_cuidadorPrimario char not null,
+    edad_cuidadorPrimario int not null,
+    telefono varchar(30) not null,
+    num_suplencias int not null
+)
+
+
+CREATE TABLE suplencias(
+    id_suplencia int unsigned auto_increment primary key,
+    diasSuplencias int not null,
+    horarioSuplencia varchar(255) not null,
+    horasGuardia varchar(255) not null,
+    costoGuardia int not null,
+    particular int not null
+);
+
 
 drop table pacientes;
 

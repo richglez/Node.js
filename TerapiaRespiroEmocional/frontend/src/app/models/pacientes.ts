@@ -17,5 +17,6 @@ export interface Paciente{ // descripcion del objeto empleado, proveniente de lo
     cuidadorPrimario: string,
     tipoPrograma: string,
     recomendaciones?: string,
-    observaciones?: string
+    observaciones?: string,
+    suplencias?: number
 }

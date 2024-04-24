@@ -37,6 +37,7 @@
 <div class="calendar-header">
   <h1>Calendario de Servicios</h1>
   <div class="paciente-info">
+    <i class="bx bxs-user-pin"></i>
     <h4>Paciente:</h4>
     <div class="container">
       <h3>
@@ -49,7 +50,15 @@
     <div class="container">
       <h3>{{ selectedPaciente?.cuidadorPrimario }}</h3>
     </div>
+
+    <h4>Suplencias:</h4>
+    <div class="container">
+      <h3>
+        {{ selectedPaciente?.suplencias }}
+      </h3>
+    </div>
   </div>
+  <button class="btnSuplencia" (click)="agregarSuplencia()">Agregar Suplencias</button>
 </div>
 
 <full-calendar [options]="options" [events]="events" class="custom-calendar">

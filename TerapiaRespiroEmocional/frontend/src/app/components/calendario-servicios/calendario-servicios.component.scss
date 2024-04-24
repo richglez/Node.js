@@ -92,21 +92,37 @@ h1 {
 
 
   .paciente-info {
-    border-radius: 5px;
-    border: 1px solid #2481FF;
-    padding: 10px; /* Ajusta el padding según sea necesario */
-    display: inline-block;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco transparente */
+    backdrop-filter: blur(5px); /* Efecto de desenfoque */
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
     h4 {
-      font-size: 14px;
-      margin-bottom: 5px;
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333; /* Color de texto */
     }
-
+  
     h3 {
       font-size: 16px;
-      font-weight: bold;
+      margin-bottom: 15px;
+      color: #555; /* Color de texto */
+    }
+  
+    .container {
+      display: inline-block;
       margin-bottom: 10px;
     }
+  
+    .bxs-user-pin {
+      font-size: 60px;
+      margin-right: 10px;
+      color: #2481ff; /* Color del icono */
+    }
   }
+  
 }
 
 .custom-calendar {
@@ -116,4 +132,36 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 100vh;
   max-width: 96%; /* Limita el ancho al ancho de la pantalla */
+}
+
+
+
+
+
+
+
+
+.btnSuplencia {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  background-color: #2481FF;
+  border: 2px solid #2481FF;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.btnSuplencia:hover {
+  background-color: #0058e4;
+  border-color: #0058e4;
+}
+
+.btnSuplencia:active {
+  background-color: #003fad;
+  border-color: #003fad;
 }

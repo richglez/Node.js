@@ -15,5 +15,6 @@ export class ActualizarDialogComponent {
 
   confirmar(): void {
     this.dialogRef.close(true);
+    
   }
 }

@@ -23,6 +23,7 @@ import { BodyComponent } from './components/body/body.component';
 import { DialogoAgendarServicioComponent } from './components/dialogo-agendar-servicio-component/dialogo-agendar-servicio-component.component';
 import { ConfirmarEliminarDialogComponent } from './components/confirmar-eliminar-dialog/confirmar-eliminar-dialog.component';
 import { ActualizarDialogComponent } from './components/actualizar-dialog/actualizar-dialog.component';
+import { NuevaSuplenciaDialogComponent } from './components/nueva-suplencia-dialog/nueva-suplencia-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ActualizarDialogComponent } from './components/actualizar-dialog/actual
     BodyComponent,
     DialogoAgendarServicioComponent,
     ConfirmarEliminarDialogComponent,
-    ActualizarDialogComponent
+    ActualizarDialogComponent,
+    NuevaSuplenciaDialogComponent
   ],
   imports: [
     BrowserModule,
