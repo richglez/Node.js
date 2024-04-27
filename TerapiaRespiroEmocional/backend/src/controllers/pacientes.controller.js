@@ -131,5 +131,28 @@ pacientesCtrls.deletePaciente = async (req, res) => {
 
 
 
+pacientesCtrls.addSuplencia = async (req, res) => {
+    const { dia_suplencia, hora_inicial, hora_final, costoGuardia, particular} = req.body;
+
+    console.log(req.body); // Mostrar el contenido de req.body en la consola
+
+    const [rows] = await pool
+        .promise()
+        .query(
+            "INSERT INTO suplencias (dia_suplencia, hora_inicial, hora_final , costoGuardia , particular) VALUES (?, ?, ?, ?, ?)",
+            [dia_suplencia, hora_inicial, hora_final , costoGuardia , particular]
+        );
+
+    res.send({
+        dia_suplencia, hora_inicial, hora_final, costoGuardia , particular
+    });
+}
+
+
+
+
+
+
+
 module.exports = pacientesCtrls;
 

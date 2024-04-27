@@ -3,13 +3,21 @@
   <div mat-dialog-content class="custom-dialog-content">
     <div class="icon-text-container">
       <i class='bx bxs-receipt'></i>
-      <p>Suplencia:</p>
+      <p>Datos de la Suplencia:</p>
     </div>
     
     <form action="">
+      <p>Fecha y Hora:</p>
       <input type="date" name="" id="">
       <input type="time" name="" id="" >a
       <input type="time" name="" id="">
+      <p>Costo:</p>
+      <input type="text" name="" placeholder="Costo por guardia, ej $ 000" [(ngModel)]="costo" id="">
+      <p for="">Particular</p>
+      <select name="" id="">
+        <option value="">Si</option>
+        <option value="">No</option>
+      </select>
     </form>
   </div>
 

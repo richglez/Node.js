@@ -98,19 +98,7 @@ export class CalendarioServiciosComponent {
     const dialogRef = this.dialog.open(NuevaSuplenciaDialogComponent, {
       width: '850px'
     });
-  
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     if (this.selectedPaciente && this.selectedPaciente.id_paciente) {
-    //       this.pacientesService.deletePaciente(this.selectedPaciente.id_paciente).subscribe(() => {
-    //         // Eliminación exitosa
-    //         this.selectedPaciente = null; // Reiniciar selectedPaciente a null para restablecer los campos en el HTML
-    //       });
-    //     } else {
-    //       console.error('No se ha seleccionado un paciente válido para eliminar.');
-    //     }
-    //   }
-    // });
+    
   }
   
 

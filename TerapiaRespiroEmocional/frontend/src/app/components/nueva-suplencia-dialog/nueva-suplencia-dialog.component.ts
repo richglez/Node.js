@@ -7,6 +7,9 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrl: './nueva-suplencia-dialog.component.scss'
 })
 export class NuevaSuplenciaDialogComponent {
+  costo: string = '';
+
+  
   constructor(public dialogRef: MatDialogRef<NuevaSuplenciaDialogComponent>) { }
 
   cancelar(): void {

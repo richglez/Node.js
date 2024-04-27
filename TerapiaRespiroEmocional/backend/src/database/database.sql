@@ -39,11 +39,11 @@ CREATE TABLE cuidadoresPrimarios(
 
 CREATE TABLE suplencias(
     id_suplencia int unsigned auto_increment primary key,
-    diasSuplencias int not null,
-    horarioSuplencia varchar(255) not null,
-    horasGuardia varchar(255) not null,
+    dia_suplencia varchar(10) not null,
+    hora_inicial varchar(255) not null,
+    hora_final varchar(255) not null,
     costoGuardia int not null,
-    particular int not null
+    particular varchar(80) not null
 );
 
 

@@ -9,7 +9,7 @@ const router = Router()
 
 
 
-// routes CRUD
+// routes pacientes CRUD
 router.get('/pacientes', pacientesCtrls.getPacientes)  // reporte
 router.get('/pacientes/search', pacientesCtrls.searchPacienteAutoComplete);
 router.get('/pacientes/:id', pacientesCtrls.getPacienteById);
@@ -19,7 +19,8 @@ router.delete('/pacientes/:id', pacientesCtrls.deletePaciente) // bajas
 router.get('/pacientes/expedientes', pacientesCtrls.getExpedientes);
 
 
-
+//
+router.post('/pacientes/suplencias', pacientesCtrls.addSuplencia)
 
 // export
 module.exports = router
