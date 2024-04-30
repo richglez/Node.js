@@ -24,6 +24,7 @@ import { DialogoAgendarServicioComponent } from './components/dialogo-agendar-se
 import { ConfirmarEliminarDialogComponent } from './components/confirmar-eliminar-dialog/confirmar-eliminar-dialog.component';
 import { ActualizarDialogComponent } from './components/actualizar-dialog/actualizar-dialog.component';
 import { NuevaSuplenciaDialogComponent } from './components/nueva-suplencia-dialog/nueva-suplencia-dialog.component';
+import { NewCuidadorComponent } from './components/new-cuidador/new-cuidador.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { NuevaSuplenciaDialogComponent } from './components/nueva-suplencia-dial
     DialogoAgendarServicioComponent,
     ConfirmarEliminarDialogComponent,
     ActualizarDialogComponent,
-    NuevaSuplenciaDialogComponent
+    NuevaSuplenciaDialogComponent,
+    NewCuidadorComponent
   ],
   imports: [
     BrowserModule,

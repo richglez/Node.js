@@ -6,6 +6,7 @@ import { CalendarioServiciosComponent } from "./components/calendario-servicios/
 import { ExpedienteElectronicoComponent } from "./components/expediente-electronico/expediente-electronico.component";
 import { BaseDatosComponent } from "./components/base-datos/base-datos.component";
 import { EvaluacionCuidadorComponent } from "./components/evaluacion-cuidador/evaluacion-cuidador.component";
+import { NewCuidadorComponent } from "./components/new-cuidador/new-cuidador.component"
 import { ExitComponent } from "./components/exit/exit.component";
 
 export const routes: Routes = [
@@ -17,5 +18,6 @@ export const routes: Routes = [
     {path: 'expediente-electronico', component: ExpedienteElectronicoComponent},
     {path: 'base-datos', component: BaseDatosComponent},
     {path: 'evaluacion-cuidador', component: EvaluacionCuidadorComponent},
+    {path: 'new-cuidador', component: NewCuidadorComponent},
     {path: 'exit', component: ExitComponent}
 ];

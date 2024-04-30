@@ -31,9 +31,8 @@
 
 
 
-    <!--Submenu-->
+    <!--Submenu Pacientes-->
     <div class="submenu-paciente" [ngClass]="{'open': isSubMenuOpen}">
-      <ul class="submenu-ul"></ul>
       <div class="bloque-selectivo"></div>
       <li class="sidenav-nav-item">
         <a class="sidenav-nav-link" routerLink="/search-paciente">
@@ -94,6 +93,21 @@
         >
       </a>
     </li>
+
+
+
+    <!--Submenu Cuidadores-->
+    <div class="submenu-cuidadores" [ngClass]="{'open': isSubMenuOpen2}">
+      <div class="bloque-selectivo"></div>
+      <li class="sidenav-nav-item" routerLink="/new-cuidador">
+      </li>
+    </div>
+
+
+
+
+
+
 
     <li class="sidenav-nav-item" [class.active]="6 === activeItem" (click)="activeItem = 6">
       <a class="sidenav-nav-link" routerLink="exit">

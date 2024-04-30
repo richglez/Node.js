@@ -1,0 +1,16 @@
+export interface Cuidadores{
+    id_cuidador_paciente?: number,
+    nombre_cuidadorPrimario: string,
+    apPat_cuidadorPrimario: string,
+    apMat_cuidadorPrimario: string,
+    sexo_cuidadorPrimario: string,
+    edad_cuidadorPrimario: number,
+    telefono_cuidadorPrimario: string,
+    nombre_cuidadorSecundario: string,
+    apPat_cuidadorSecundario: string,
+    apMat_cuidadorSecundario: string,
+    sexo_cuidadorSecundario: string,
+    edad_cuidadorSecundario: number,
+    otros_cuidadores: string,
+    num_suplencias: number,
+};
