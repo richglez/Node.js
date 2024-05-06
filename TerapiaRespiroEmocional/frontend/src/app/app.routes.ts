@@ -5,8 +5,8 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { CalendarioServiciosComponent } from "./components/calendario-servicios/calendario-servicios.component";
 import { ExpedienteElectronicoComponent } from "./components/expediente-electronico/expediente-electronico.component";
 import { BaseDatosComponent } from "./components/base-datos/base-datos.component";
-import { EvaluacionCuidadorComponent } from "./components/evaluacion-cuidador/evaluacion-cuidador.component";
 import { NewCuidadorComponent } from "./components/new-cuidador/new-cuidador.component"
+import { SearchCuidadorComponent } from "./components/search-cuidador/search-cuidador.component"
 import { ExitComponent } from "./components/exit/exit.component";
 
 export const routes: Routes = [
@@ -17,7 +17,7 @@ export const routes: Routes = [
     {path: 'calendario-servicios', component: CalendarioServiciosComponent},
     {path: 'expediente-electronico', component: ExpedienteElectronicoComponent},
     {path: 'base-datos', component: BaseDatosComponent},
-    {path: 'evaluacion-cuidador', component: EvaluacionCuidadorComponent},
     {path: 'new-cuidador', component: NewCuidadorComponent},
+    {path: 'search-cuidador', component: SearchCuidadorComponent},
     {path: 'exit', component: ExitComponent}
 ];

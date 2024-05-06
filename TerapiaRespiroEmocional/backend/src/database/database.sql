@@ -33,24 +33,25 @@ CREATE TABLE cuidadores(
     sexo_cuidadorPrimario char not null,
     edad_cuidadorPrimario int not null,
     telefono_cuidadorPrimario varchar(30) not null,
-    nombre_cuidadorSecundario varchar(255) not null,
-    apPat_cuidadorSecundario varchar(255) not null,
-    apMat_cuidadorSecundario varchar(255) not null,
-    sexo_cuidadorSecundario char not null,
-    edad_cuidadorSecundario int not null,
-    otros_cuidadores int not null,
     num_suplencias int not null
 );
 
 
-CREATE TABLE suplencias(
-    id_suplencia int unsigned auto_increment primary key,
-    dia_suplencia varchar(10) not null,
-    hora_inicial varchar(255) not null,
-    hora_final varchar(255) not null,
-    costoGuardia int not null,
-    particular varchar(80) not null
+CREATE TABLE suplencias (
+    id_suplencia int unsigned NOT NULL AUTO_INCREMENT,
+    id_cuidador_paciente int unsigned NOT NULL,
+    dia_suplencia varchar(10) NOT NULL,
+    hora_inicial varchar(255) NOT NULL,
+    hora_final varchar(255) NOT NULL,
+    costoGuardia int NOT NULL,
+    particular varchar(80) NOT NULL,
+    PRIMARY KEY (id_suplencia),
+    FOREIGN KEY (id_cuidador_paciente) REFERENCES cuidadores (id_cuidador_paciente)
 );
+
+
+
+
 
 
 drop table pacientes;

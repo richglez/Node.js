@@ -17,7 +17,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CalendarioServiciosComponent } from './components/calendario-servicios/calendario-servicios.component';
 import { ExpedienteElectronicoComponent } from './components/expediente-electronico/expediente-electronico.component';
 import { BaseDatosComponent } from './components/base-datos/base-datos.component';
-import { EvaluacionCuidadorComponent } from './components/evaluacion-cuidador/evaluacion-cuidador.component';
 import { ExitComponent } from './components/exit/exit.component';
 import { BodyComponent } from './components/body/body.component';
 import { DialogoAgendarServicioComponent } from './components/dialogo-agendar-servicio-component/dialogo-agendar-servicio-component.component';
@@ -25,6 +24,7 @@ import { ConfirmarEliminarDialogComponent } from './components/confirmar-elimina
 import { ActualizarDialogComponent } from './components/actualizar-dialog/actualizar-dialog.component';
 import { NuevaSuplenciaDialogComponent } from './components/nueva-suplencia-dialog/nueva-suplencia-dialog.component';
 import { NewCuidadorComponent } from './components/new-cuidador/new-cuidador.component';
+import { SearchCuidadorComponent } from './components/search-cuidador/search-cuidador.component';
 
 @NgModule({
   declarations: [
@@ -36,14 +36,14 @@ import { NewCuidadorComponent } from './components/new-cuidador/new-cuidador.com
     CalendarioServiciosComponent,
     ExpedienteElectronicoComponent,
     BaseDatosComponent,
-    EvaluacionCuidadorComponent,
     ExitComponent,
     BodyComponent,
     DialogoAgendarServicioComponent,
     ConfirmarEliminarDialogComponent,
     ActualizarDialogComponent,
     NuevaSuplenciaDialogComponent,
-    NewCuidadorComponent
+    NewCuidadorComponent,
+    SearchCuidadorComponent
   ],
   imports: [
     BrowserModule,

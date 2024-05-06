@@ -5,6 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { PacientesService } from '../../services/pacientes.service'
 import { Paciente } from '../../models/pacientes';
+import { Suplencia } from '../../models/suplencias'
 import { MatDialog } from '@angular/material/dialog'; // Importa el servicio MatDialog si estás usando Angular Material
 import { DialogoAgendarServicioComponent } from '../dialogo-agendar-servicio-component/dialogo-agendar-servicio-component.component';
 import { NuevaSuplenciaDialogComponent } from '../nueva-suplencia-dialog/nueva-suplencia-dialog.component';
@@ -20,6 +21,7 @@ export class CalendarioServiciosComponent {
   public events: any[] = [];
   public options: any; // Usa any para opciones
   pacientes: Paciente[] = [];
+  suplencia: Suplencia[] = [];
   searchText: string = '';
   selectedPaciente: Paciente | null = null; // Variable para almacenar el paciente seleccionado
   mostrarInfoPaciente: boolean = false;
@@ -90,16 +92,18 @@ export class CalendarioServiciosComponent {
   }
 
 
-
   agregarSuplencia(): void {
-    // Aquí puedes agregar la lógica para crear una nueva suplencia
-    // Por ejemplo, podrías abrir un diálogo para que el usuario ingrese los detalles de la suplencia
-    // y luego agregarla a la lista de suplencias del paciente seleccionado.
     const dialogRef = this.dialog.open(NuevaSuplenciaDialogComponent, {
       width: '850px'
     });
-    
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        
+      }
+    });
   }
+  
   
 
 

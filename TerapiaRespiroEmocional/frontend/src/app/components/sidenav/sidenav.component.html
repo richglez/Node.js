@@ -10,29 +10,38 @@
   </div>
 
   <ul class="sidenav-nav">
-
-    <li class="sidenav-nav-item" [class.active]="0 === activeItem" (click)="activeItem = 0"> <!--seleccionar cada ekemento por numeros-->
+    <li
+      class="sidenav-nav-item"
+      [class.active]="0 === activeItem"
+      (click)="activeItem = 0"
+    >
+      <!--seleccionar cada elemento por numeros-->
       <a class="sidenav-nav-link" routerLink="inicio">
         <i class="material-icons">home</i>
         <span class="sidenav-link-text" *ngIf="collapsed">Inicio</span>
       </a>
     </li>
-    
 
-    <li class="sidenav-nav-item" [class.active]="1 === activeItem" (click)="activeItem = 1">
+    <!--Pacientes-->
+    <li
+      class="sidenav-nav-item"
+      [class.active]="1 === activeItem"
+      (click)="activeItem = 1"
+    >
       <a class="sidenav-nav-link" (click)="openSubMenuPacientes()">
         <i class="material-icons">people</i>
-        <span class="sidenav-link-text" *ngIf="collapsed"
-          >Pacientes</span
-        >
-        <i class="bx bx-chevron-down" id="arrow" [class.rotate-up]="isSubMenuOpen" *ngIf="collapsed"></i>
+        <span class="sidenav-link-text" *ngIf="collapsed">Pacientes</span>
+        <i
+          class="bx bx-chevron-down"
+          id="arrow"
+          [class.rotate-up]="isSubMenuOpen"
+          *ngIf="collapsed"
+        ></i>
       </a>
     </li>
 
-
-
     <!--Submenu Pacientes-->
-    <div class="submenu-paciente" [ngClass]="{'open': isSubMenuOpen}">
+    <div class="submenus" [ngClass]="{ open: isSubMenuOpen }">
       <div class="bloque-selectivo"></div>
       <li class="sidenav-nav-item">
         <a class="sidenav-nav-link" routerLink="/search-paciente">
@@ -54,9 +63,11 @@
       </li>
     </div>
 
-
-
-    <li class="sidenav-nav-item" [class.active]="2 === activeItem" (click)="activeItem = 2">
+    <li
+      class="sidenav-nav-item"
+      [class.active]="2 === activeItem"
+      (click)="activeItem = 2"
+    >
       <a class="sidenav-nav-link" routerLink="calendario-servicios">
         <i class="material-icons">event</i>
         <span class="sidenav-link-text" *ngIf="collapsed"
@@ -65,7 +76,11 @@
       </a>
     </li>
 
-    <li class="sidenav-nav-item" [class.active]="3 === activeItem" (click)="activeItem = 3">
+    <li
+      class="sidenav-nav-item"
+      [class.active]="3 === activeItem"
+      (click)="activeItem = 3"
+    >
       <a class="sidenav-nav-link" routerLink="expediente-electronico">
         <i class="material-icons">description</i>
         <span class="sidenav-link-text" *ngIf="collapsed"
@@ -74,51 +89,69 @@
       </a>
     </li>
 
-    <li class="sidenav-nav-item" [class.active]="4 === activeItem" (click)="activeItem = 4">
+    <li
+      class="sidenav-nav-item"
+      [class.active]="4 === activeItem"
+      (click)="activeItem = 4"
+    >
       <a class="sidenav-nav-link" routerLink="base-datos">
         <i class="material-icons">storage</i>
-        <span class="sidenav-link-text" *ngIf="collapsed"
-          >Base de datos</span
-        >
+        <span class="sidenav-link-text" *ngIf="collapsed">Base de datos</span>
       </a>
     </li>
 
-    <li class="sidenav-nav-item" [class.active]="5 === activeItem" (click)="activeItem = 5">
-      <a class="sidenav-nav-link" routerLink="evaluacion-cuidador">
-        <i class="material-icons">rate_review</i>
-        <span class="sidenav-link-text" *ngIf="collapsed"
-          >Evaluación del
-          cuidador
-          </span
-        >
+    <!-- Cuidadores -->
+    <li
+      class="sidenav-nav-item"
+      [class.active]="5 === activeItem"
+      (click)="activeItem = 5"
+    >
+      <a class="sidenav-nav-link" (click)="openSubMenuCuidadores()">
+        <i class="material-icons">people</i>
+        <span class="sidenav-link-text" *ngIf="collapsed2">Cuidadores</span>
+        <i
+          class="bx bx-chevron-down"
+          id="arrow"
+          [class.rotate-up]="isSubMenuOpen2 && !collapsed2"
+          *ngIf="collapsed2"
+        ></i>
       </a>
     </li>
 
-
-
-    <!--Submenu Cuidadores-->
-    <div class="submenu-cuidadores" [ngClass]="{'open': isSubMenuOpen2}">
+    <!-- Submenu Cuidadores -->
+    <div class="submenus" [ngClass]="{ open: isSubMenuOpen2 }">
       <div class="bloque-selectivo"></div>
-      <li class="sidenav-nav-item" routerLink="/new-cuidador">
+      <li class="sidenav-nav-item">
+        <a class="sidenav-nav-link" routerLink="/search-cuidador">
+          <i class="material-icons">search</i>
+          <span class="sidenav-link-text" *ngIf="collapsed2"
+            >Buscar Cuidador</span
+          >
+        </a>
+      </li>
+
+      <div class="bloque-selectivo"></div>
+      <li class="sidenav-nav-item">
+        <a class="sidenav-nav-link" routerLink="/new-cuidador">
+          <i class="material-icons">person_add</i>
+          <span class="sidenav-link-text" *ngIf="collapsed2"
+            >Registrar Cuidador</span
+          >
+        </a>
       </li>
     </div>
 
-
-
-
-
-
-
-    <li class="sidenav-nav-item" [class.active]="6 === activeItem" (click)="activeItem = 6">
+    <li
+      class="sidenav-nav-item"
+      [class.active]="6 === activeItem"
+      (click)="activeItem = 6"
+    >
       <a class="sidenav-nav-link" routerLink="exit">
         <i class="material-icons">exit_to_app</i>
-        <span class="sidenav-link-text" *ngIf="collapsed"
-          >Salir</span
-        >
+        <span class="sidenav-link-text" *ngIf="collapsed">Salir</span>
       </a>
     </li>
   </ul>
 </div>
-
 
 <router-outlet></router-outlet>

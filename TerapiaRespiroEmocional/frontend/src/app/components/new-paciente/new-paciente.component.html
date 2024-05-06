@@ -58,14 +58,37 @@
     <div class="form-section">
       <h2>Acerca de</h2>
       <label for="txtEntidadFederativa">Entidad Federativa:</label>
-      <input
-        type="text"
-        name="entidadFederativa"
-        id="txtEntidadFederativa"
-        placeholder="Ingrese la entidad federativa"
-        [(ngModel)]="pacientesService.selectedPaciente.entidadFederativa"
-        required
-      />
+      <select
+        name="alcaldia_municipio"
+        id="txtAlcalMun"
+        [(ngModel)]="pacientesService.selectedPaciente.alcaldia_municipio"
+        #entidadFederativaSelect="ngModel"
+      >
+        <option value="edoMex">EDO. DE MEX</option>
+        <option value="cdmx">CDMX</option>
+        <option value="guerrero">GUERRERO</option>
+        <option value="puebla">PUEBLA</option>
+        <option value="" id="btnOtro">Otro</option>
+      </select>
+
+
+
+      <div *ngIf="entidadFederativaSelect.value === ''" id="divOtros">
+        <!--Cuando el value sea campo vacio quiere decir que es otro-->
+        <label for="txtOtroTipoEntidad">Especificar la entidad federativa:</label>
+        <input
+          type="text"
+          id="txtOtroTipoEntidad"
+          name="otroTipoEntidad"
+          placeholder="Especificar otro tipo de entidad federativa"
+          [(ngModel)]="pacientesService.selectedPaciente.entidadFederativa"
+          required
+        />
+      </div>
+
+
+
+
 
       <label for="txtNacionalidad">Nacionalidad:</label>
       <select
@@ -77,11 +100,12 @@
       >
         <option value="Mexicana">Mexicana</option>
         <option value="Estadounidense ">Estadounidense</option>
-        <option value="">Otro</option>  
+        <option value="">Otro</option>
       </select>
 
-      <div *ngIf="tipoNacionalidadSelect.value === ''">  <!--Cuando el value sea campo vacio quiere decir que es otro-->
-        <label for="txtOtroTipoNacionalidad">Especificar:</label>
+      <div *ngIf="tipoNacionalidadSelect.value === ''">
+        <!--Cuando el value sea campo vacio quiere decir que es otro-->
+        <label for="txtOtroTipoNacionalidad">Especificar nacionalidad:</label>
         <input
           type="text"
           id="txtOtroTipoNacionalidad"
@@ -138,15 +162,33 @@
         required
       />
 
-      <label for="txtCuidadorPrimario">Cuidador Primario:</label>
-      <input
-        type="text"
-        name="cuidadorPrimario"
-        id="txtCuidadorPrimario"
-        placeholder="Quien es su cuidador primario?"
+      <label for="txtCuidador">Cuidador:</label>
+      <select
+        name="cuidador"
+        id="txtCuidador"
         [(ngModel)]="pacientesService.selectedPaciente.cuidadorPrimario"
-        required
-      />
+        #nombreCuidadorPrimarioSelect="ngModel"
+      >
+        <option
+          *ngFor="let cuidador of cuidadores"
+          [value]="cuidador.id_cuidador_paciente"
+        >
+          {{ cuidador.nombreCuidador }}
+        </option>
+        <option value="" id="btnOtro">Otro</option>
+      </select>
+
+      <div *ngIf="nombreCuidadorPrimarioSelect.value === ''">
+        <!--Cuando el value sea campo vacio quiere decir que es otro-->
+        <label for="txtOtroCuidador">Nombre del cuidador:</label>
+        <input
+          type="text"
+          id="txtOtroCuidador"
+          name="otroCuidador"
+          [(ngModel)]="otroCuidador"
+          required
+        />
+      </div>
     </div>
 
     <div class="form-section">
@@ -170,10 +212,11 @@
       >
         <option value="CECPAM">CECPAM</option>
         <option value="NMP">NMP</option>
-        <option value="">Otro</option>  
+        <option value="" id="btnOtro">Otro</option>
       </select>
 
-      <div *ngIf="tipoProgramaSelect.value === ''">  <!--Cuando el value sea campo vacio quiere decir que es otro-->
+      <div *ngIf="tipoProgramaSelect.value === ''">
+        <!--Cuando el value sea campo vacio quiere decir que es otro-->
         <label for="txtOtroTipoPrograma">Especificar:</label>
         <input
           type="text"

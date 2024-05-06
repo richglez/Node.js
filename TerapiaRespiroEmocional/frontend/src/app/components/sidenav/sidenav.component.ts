@@ -26,15 +26,22 @@ export class SidenavComponent {
     }
   }
 
-  openSubMenuCuidadores(){
-    this.isSubMenuOpen2 = !this.isSubMenuOpen2;
-    if(this.isSubMenuOpen2){
-      this.collapsed2 = true;  // Abre el menú si el submenú se abre
+  openSubMenuCuidadores() {
+    if (!this.isSubMenuOpen2) {
+      this.isSubMenuOpen2 = true;
+      this.collapsed2 = true;
+      this.collapsed = true; // Colapsar el menú principal
+    } else {
+      this.isSubMenuOpen2 = false;
+      this.collapsed2 = false;
+      this.collapsed = false; // Expandir el menú principal
     }
   }
+  
 
   toggleCollapse(): void {
     this.collapsed = !this.collapsed;
+    this.collapsed2 = !this.collapsed2;
     if (!this.collapsed && !this.isSubMenuOpen) {
       this.isSubMenuOpen = false; // Cierra el submenú si el menú se cierra
     }
@@ -43,6 +50,7 @@ export class SidenavComponent {
       screenWidth: this.screenWidth,
     });
   }
+  
 
   closeSidenav(): void {
     this.collapsed = false;

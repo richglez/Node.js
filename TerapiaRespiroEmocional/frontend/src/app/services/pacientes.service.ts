@@ -10,6 +10,8 @@ export class PacientesService {
   URL_API = 'http://localhost:4000/api/ccuidarte-app/pacientes';
   paciente: Paciente[] = [];
 
+
+  
   selectedPaciente: Paciente = {
     // todos los datos del paciente
     expediente_paciente: '',
@@ -31,6 +33,8 @@ export class PacientesService {
     observaciones: '',
     suplencias: 0,
   };
+
+  
   // constructor
   constructor(private http: HttpClient) {}
 
@@ -41,7 +45,7 @@ export class PacientesService {
 
   searchAllPacientes(textoBusqueda: string): Observable<Paciente[]> {
     return this.http.get<Paciente[]>(
-      `${this.URL_API}/search?texto=${textoBusqueda}`
+      `${this.URL_API}/search?buscarAlpaciente=${textoBusqueda}`
     );
   }
 
@@ -65,8 +69,6 @@ export class PacientesService {
     return this.http.put(`${this.URL_API}/${paciente.id_paciente}`, paciente); // url + los datos del paciente
   }
 
-  addSuplencia(suplencia: any) {
-    return this.http.post(`${this.URL_API}/suplencias`, suplencia);
-  }
+  
   
 }

@@ -1,54 +1,63 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms'; // Importante para trabajar con formularios en Angular
 import { PacientesService } from '../../services/pacientes.service';
-import { Paciente } from '../../models/pacientes';
-
+import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
 
 @Component({
   selector: 'app-new-paciente',
   templateUrl: './new-paciente.component.html',
-  styleUrls: ['./new-paciente.component.scss']
+  styleUrls: ['./new-paciente.component.scss'],
 })
-
-
 export class NewPacienteComponent implements OnInit {
   expediente_paciente: string = '';
   fechaActual: Date = new Date();
   textoConAcentos: string = '';
   txtFechaIngreso: string = '';
-  
+  cuidadores: any[] = [];
+  otroCuidador: string = '';
 
-  constructor(public pacientesService: PacientesService) { } // Constructor 
+  constructor(
+    public pacientesService: PacientesService,
+    public cuidadoresService: CuidadoresServiceService
+  ) {} // Constructor
 
   ngOnInit() {
-    const year = new Date().getFullYear().toString().slice(-2);  //2024 a 24 nadamas
+    const year = new Date().getFullYear().toString().slice(-2); //2024 a 24 nadamas
     const padding = '000';
     const nroRegistro = '1'; // Aquí debes obtener el número de registro de tu base de datos
     const nroRegistroPadded = (padding + nroRegistro).slice(-padding.length);
 
     this.expediente_paciente = `${year}/${nroRegistroPadded}`;
     this.txtFechaIngreso = this.fechaActual.toISOString().split('T')[0]; // No es necesario convertir a ISO
+
+    // Obtener la lista de cuidadores
+    this.cuidadoresService.getCuidadores().subscribe(
+      (cuidadores) => {
+        this.cuidadores = cuidadores;
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
   }
-  
-  
-
-
 
   addPaciente(form: NgForm) {
-    if (!form.valid) { //si no hay nada en el form
+    if (!form.valid) {
       alert('Por favor, completa todos los campos antes de continuar.');
       return;
     }
-
-    if (form.value.id_employee) { // si hay un registro por su id entonces actualiza
+  
+    if (form.value.id_employee) {
       this.pacientesService.updatePaciente(form.value).subscribe(
         (res) => console.log(res),
         (err) => console.log(err)
       );
     } else {
-      this.pacientesService.addPaciente(form.value).subscribe( // de cualquier manera agrega al paciente a la base de datos
+      // Agrega otroCuidador al objeto form.value
+      form.value.otroCuidador = this.otroCuidador;
+  
+      this.pacientesService.addPaciente(form.value).subscribe(
         (res) => {
-          // this.getEmployees();
           form.reset();
         },
         (err) => console.log(err)

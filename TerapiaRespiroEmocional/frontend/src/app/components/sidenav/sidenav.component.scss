@@ -1,8 +1,8 @@
-@import 'boxicons/css/boxicons.min.css';
+@import "boxicons/css/boxicons.min.css";
 
-.sidenav{
-    background: #1C4692;
-    transition: all .5s ease;
+.sidenav {
+    background: #1c4692;
+    transition: all 0.5s ease;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -10,14 +10,13 @@
     height: 100vh;
     box-shadow: 0.063rem 0 1.25rem 0 #112231;
 
-
-    .logo-container{
+    .logo-container {
         display: flex;
         align-items: center;
         padding: 0.938rem 0.938rem 0 0.938rem;
         width: 100%;
 
-        .logo{
+        .logo {
             background: none;
             color: #fff;
             text-align: center;
@@ -30,26 +29,28 @@
             border: none;
         }
 
-
-        .logo:hover{
+        .logo:hover {
             background-color: #fff;
             color: #000;
             border-radius: 0.313rem;
-            transition: all .6s e;
+            transition: all 0.6s e;
         }
 
-
-
-        .logo-text{
+        .logo-text {
             margin-left: 1.5rem;
             font-size: 24px;
             font-weight: 700;
             color: #fff;
-            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #1C4692, 0 0 40px #1C4692, 0 0 50px #1C4692, 0 0 60px #1C4692, 0 0 70px #1C4692;
+            text-shadow:
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 30px #1c4692,
+                0 0 40px #1c4692,
+                0 0 50px #1c4692,
+                0 0 60px #1c4692,
+                0 0 70px #1c4692;
         }
-
     }
-
 
     .btn-close {
         margin-left: auto;
@@ -60,24 +61,18 @@
         background-color: transparent;
         border: none;
     }
-    
+
     .btn-close i {
         color: #fff;
         font-size: 24px;
     }
-    
 }
 
-
-
-
-.sidenav-collapsed{
+.sidenav-collapsed {
     width: 16.5625rem;
 }
 
-
-
-.sidenav-nav{
+.sidenav-nav {
     list-style: none;
     padding: 0.938rem;
     margin: 0;
@@ -87,11 +82,11 @@
     height: calc(100% - 3.65rem);
     cursor: pointer;
 
-    .sidenav-nav-item{
+    .sidenav-nav-item {
         width: 100%;
         margin-bottom: 0.625rem;
 
-        .sidenav-nav-link{
+        .sidenav-nav-link {
             display: flex;
             align-items: center;
             height: 3rem;
@@ -99,10 +94,10 @@
             background-color: #3d65af;
             text-decoration: none;
             border-radius: 0.625rem;
-            transition: all .3s ease;
+            transition: all 0.3s ease;
         }
 
-        .material-icons{
+        .material-icons {
             font-size: 22px;
             width: 2rem;
             min-width: 2rem;
@@ -110,69 +105,52 @@
             text-align: center;
         }
 
-
-        .sidenav-link-text{
+        .sidenav-link-text {
             margin-left: 1.5rem;
         }
     }
 
-
-    .sidenav-nav-item:hover{
-        .sidenav-nav-link{
+    .sidenav-nav-item:hover {
+        .sidenav-nav-link {
             background-color: #fff;
             color: #000;
-
         }
     }
 
-
     .sidenav-nav-item.active {
         .sidenav-nav-link {
-          background-color: #fff;
-          color: #000;
+            background-color: #fff;
+            color: #000;
         }
-      }
+    }
 
-
-      
-      .submenu-paciente {
+    .submenus {
         display: block;
         margin-bottom: 20px;
         transition: max-height 0.3s ease-out; /* Agrega una transición suave a la propiedad max-height */
         max-height: 0; /* Oculta inicialmente el submenú */
         overflow: hidden; /* Oculta el contenido que excede el max-height */
     }
-    
-    .submenu-paciente.open {
+
+    .submenus.open {
         max-height: 500px; /* Establece una altura máxima para mostrar el submenú */
     }
-    
-  
-  
-  
-  
-  .submenu-ul {
-    list-style-type: none; /* Quitar los puntos de la lista */
-  }
-  
-  
-  #arrow {
-    position: relative;
-    top: 25%;
-    transform: translateY(-50%) rotate(0); /* Agrega la rotación aquí */
-    left: 50px;
-    font-size: 22px;
-    opacity: 1; /* Oculta el icono inicialmente */
-    transition: opacity 0.3s ease; /* Agrega una transición suave */
+
+    .submenus-ul {
+        list-style-type: none; /* Quitar los puntos de la lista */
+    }
+
+    #arrow {
+        position: relative;
+        top: 25%;
+        transform: translateY(-50%) rotate(0); /* Agrega la rotación aquí */
+        left: 50px;
+        font-size: 22px;
+        opacity: 1; /* Oculta el icono inicialmente */
+        transition: opacity 0.3s ease; /* Agrega una transición suave */
+    }
+
+    #arrow.rotate-up {
+        transform: translateY(-50%) rotate(180deg); /* Aplica la rotación cuando tiene la clase .rotate-up */
+    }
 }
-
-#arrow.rotate-up {
-    transform: translateY(-50%) rotate(180deg); /* Aplica la rotación cuando tiene la clase .rotate-up */
-}
-
-
-
-}
-
-
-

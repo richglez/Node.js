@@ -29,6 +29,7 @@ h1 {
         padding: 12px 25px;
         border-radius: 5px;
         font-size: 16px;
+        text-transform: uppercase;
         transition: background-color 0.3s;
         // otros estilos...
         margin: 20px auto; // Centrar el botón horizontalmente
@@ -47,6 +48,16 @@ h1 {
         &:active {
             transform: translateY(1px);
         }
+    }
+
+
+
+    #btnOtro{
+        background-color: #cfe2fc;
+    }
+
+    #divOtros{
+        margin-bottom: 40px;
     }
 
     select {

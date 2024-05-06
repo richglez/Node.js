@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog'; // Importa solo MatDialog
 import { ConfirmarEliminarDialogComponent } from '../confirmar-eliminar-dialog/confirmar-eliminar-dialog.component';
 import { ActualizarDialogComponent } from '../actualizar-dialog/actualizar-dialog.component';
 
+
 @Component({
   selector: 'app-search-paciente',
   templateUrl: './search-paciente.component.html',
@@ -14,7 +15,7 @@ import { ActualizarDialogComponent } from '../actualizar-dialog/actualizar-dialo
 export class SearchPacienteComponent {
 
   pacientes: Paciente[] = [];
-  searchText: string = '';
+  searchTextPacientes: string = '';
   selectedPaciente: Paciente | null = null; // Variable para almacenar el paciente seleccionado
 
 
@@ -26,14 +27,14 @@ export class SearchPacienteComponent {
   }
 
   buscarPacienteDB(): void {  // buscar a todos los registros de pacientes en la base de datos, para poder seleccionarlo
-    this.pacientesService.searchAllPacientes(this.searchText).subscribe((pacientes: Paciente[]) => { // auto completado en el input?
+    this.pacientesService.searchAllPacientes(this.searchTextPacientes).subscribe((pacientes: Paciente[]) => { // auto completado en el input?
       this.pacientes = pacientes;
     });
   }
 
   seleccionarPaciente(paciente: Paciente) {
     // Asigna el nombre del paciente al campo de búsqueda
-    this.searchText = paciente.nombre_paciente;
+    this.searchTextPacientes = paciente.nombre_paciente;
   
     // Verifica si id_paciente tiene un valor antes de usarlo
     if (paciente.id_paciente !== undefined) {
