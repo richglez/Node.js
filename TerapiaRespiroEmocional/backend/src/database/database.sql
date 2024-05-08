@@ -1,6 +1,7 @@
 -- mysql -u root -p
 
-CREATE database terapia_respiro_emocional if not EXISTS;
+CREATE DATABASE IF NOT EXISTS terapia_respiro_emocional;
+
 
 use terapia_respiro_emocional;
 
@@ -27,12 +28,12 @@ CREATE TABLE pacientes(
 
 CREATE TABLE cuidadores(
     id_cuidador_paciente int unsigned auto_increment primary key,
-    nombre_cuidadorPrimario varchar(255) not null,
-    apPat_cuidadorPrimario varchar(255) not null,
-    apMat_cuidadorPrimario varchar(255) not null,
-    sexo_cuidadorPrimario char not null,
-    edad_cuidadorPrimario int not null,
-    telefono_cuidadorPrimario varchar(30) not null,
+    nombreCuidador varchar(255) not null,
+    apPatCuidador varchar(255) not null,
+    apMatCuidador varchar(255) not null,
+    sexoCuidador char not null,
+    edadCuidador int not null,
+    telefonoCuidador varchar(30) not null,
     num_suplencias int not null
 );
 
