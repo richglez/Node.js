@@ -27,7 +27,7 @@ router.get('/cuidadores', pacientesCtrls.getCuidadores)  // reporte todos los cu
 router.get('/cuidadores/search', pacientesCtrls.searchCuidadorAutoComplete); // busqueda por nombre, apellidos
 router.get('/cuidadores/:id', pacientesCtrls.getCuidadorById); // busqueda por su id
 router.post('/cuidadores', pacientesCtrls.addCuidador) // alta cuidador
-// router.put('/cuidadores/:id', pacientesCtrls.updatePaciente) // actulizar paciente
+router.put('/cuidadores/:id', pacientesCtrls.updateCuidador) // actulizar cuidador
 // router.delete('/cuidadores/:id', pacientesCtrls.deletePaciente) // bajas paciente
 
 // export

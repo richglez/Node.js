@@ -52,7 +52,8 @@ export class CuidadoresServiceService {
     return this.http.put(`${this.URL_API}/${cuidador.id_cuidador_paciente}`, cuidador); // url + los datos del paciente
   }
 
-
-
+  deleteCuidador(id: number): Observable<any> {
+    return this.http.delete(`${this.URL_API}/${id}`);
+  }
 
 }

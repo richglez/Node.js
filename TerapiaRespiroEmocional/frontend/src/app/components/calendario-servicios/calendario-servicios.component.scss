@@ -2,7 +2,7 @@
 
 h1 {
   text-align: center;
-  color: #333;
+  color: #555555;
   margin-bottom: 20px;
   font-weight: 900;
   font-size: 30px;
@@ -17,6 +17,10 @@ h1 {
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
   margin: 0 auto; /* Centra horizontalmente */
+
+  h1{
+    color: #fff;
+  }
 
   .search-paciente-container2 {
     display: flex;

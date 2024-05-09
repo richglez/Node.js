@@ -37,16 +37,20 @@
 
   <!--------------------------------------------------------------------------------->
 
-  <div class="ficha-cuidador" *ngIf="selectedCuidador">
+  <div class="ficha-cuidador">
     <div class="container2-title1">
       <h1>Ficha del cuidador</h1>
       <div class="actions">
         <div class="button-container">
-          <button><i class="bx bx-trash"></i></button>
+          <button (click)="deleteCuidadorDialog()">
+            <i class="bx bx-trash"></i>
+          </button>
           <span>Eliminar</span>
         </div>
         <div class="button-container">
-          <button><i class="bx bx-edit-alt"></i></button>
+          <button (click)="editCuidador()">
+            <i class="bx bx-edit-alt"></i>
+          </button>
           <span>Editar</span>
         </div>
       </div>
@@ -54,11 +58,11 @@
 
     <i class="bx bxs-user-pin"></i>
 
-    <div *ngIf="!selectedCuidador" class="mensaje-eliminado">
-      <p>El paciente ha sido eliminado correctamente.</p>
-    </div>
+    <!-- <div *ngIf="!selectedCuidador" class="mensaje-eliminado">
+      <p>El cuidador ha sido eliminado correctamente.</p>
+    </div> -->
 
-    <div class="container-data-cuidador">
+    <div class="container-data-cuidador" *ngIf="selectedCuidador">
       <label for="fechI">Fecha de ingreso:</label>
       <input
         type="text"
@@ -69,7 +73,7 @@
       />
     </div>
 
-    <div class="container-data-cuidador">
+    <div class="container-data-cuidador" *ngIf="selectedCuidador">
       <label for="name">Nombre:</label>
       <input
         type="text"
@@ -80,7 +84,7 @@
       />
     </div>
 
-    <div class="container-data-cuidador">
+    <div class="container-data-cuidador" *ngIf="selectedCuidador">
       <label for="lastname1">Apellido Paterno:</label>
       <input
         type="text"
@@ -91,7 +95,7 @@
       />
     </div>
 
-    <div class="container-data-cuidador">
+    <div class="container-data-cuidador" *ngIf="selectedCuidador">
       <label for="lastname2">Apellido Materno:</label>
       <input
         type="text"
@@ -102,7 +106,7 @@
       />
     </div>
 
-    <div class="container-data-cuidador">
+    <div class="container-data-cuidador" *ngIf="selectedCuidador">
       <label for="sex">Sexo:</label>
       <input
         type="text"
@@ -113,7 +117,7 @@
       />
     </div>
 
-    <div class="container-data-cuidador">
+    <div class="container-data-cuidador" *ngIf="selectedCuidador">
       <label for="age">Edad:</label>
       <input
         type="text"
@@ -124,7 +128,7 @@
       />
     </div>
 
-    <div class="container-data-cuidador">
+    <div class="container-data-cuidador" *ngIf="selectedCuidador">
       <label for="telefono">Telefono:</label>
       <input
         type="text"
@@ -136,8 +140,12 @@
     </div>
 
     <div class="actions2">
-      <button class="btnUpdate">Actualizar cambios</button>
-      <button class="btnUndo">Deshacer cambios</button>
+      <button class="btnUpdate" (click)="updateCuidadorDialog()">
+        Actualizar cambios
+      </button>
+      <button class="btnUndo" (click)="undoChangesCuidador()">
+        Deshacer cambios
+      </button>
     </div>
   </div>
 </div>

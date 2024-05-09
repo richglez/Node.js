@@ -9,7 +9,11 @@ pacientesCtrls.searchPacienteAutoComplete = async (req, res) => {
         .promise()
         .query(
             "SELECT * FROM pacientes WHERE nombre_paciente LIKE ? OR apellido_paterno LIKE ? OR apellido_materno LIKE ?",
-            [`%${textoBusquedaPaciente}%`, `%${textoBusquedaPaciente}%`, `%${textoBusquedaPaciente}%`]
+            [
+                `%${textoBusquedaPaciente}%`,
+                `%${textoBusquedaPaciente}%`,
+                `%${textoBusquedaPaciente}%`,
+            ]
         );
     res.json(rows);
 };
@@ -126,57 +130,83 @@ pacientesCtrls.updatePaciente = async (req, res) => {
         recomendaciones,
     } = req.body;
 
-    // Validar que los campos requeridos no estén vacíos
-    if (
-        !expediente_paciente ||
-        !nombre_paciente ||
-        !apellido_paterno ||
-        !apellido_materno ||
-        !sexo_paciente ||
-        !edad_paciente ||
-        !nacionalidad ||
-        !domicilio ||
-        !colonia ||
-        !entidadFederativa ||
-        !diagnostico ||
-        !cuidadorPrimario ||
-        !tipoPrograma
-    ) {
-        return res
-            .status(400)
-            .json({ error: "Todos los campos son obligatorios" });
+    // Construir la consulta de actualización dinámicamente con los campos que se desean actualizar
+    let query = "UPDATE pacientes SET ";
+    let values = [];
+
+    if (expediente_paciente) {
+        query += "expediente_paciente = ?, ";
+        values.push(expediente_paciente);
+    }
+    if (nombre_paciente) {
+        query += "nombre_paciente = ?, ";
+        values.push(nombre_paciente);
+    }
+    if (apellido_paterno) {
+        query += "apellido_paterno = ?, ";
+        values.push(apellido_paterno);
+    }
+    if (apellido_materno) {
+        query += "apellido_materno = ?, ";
+        values.push(apellido_materno);
+    }
+    if (sexo_paciente) {
+        query += "sexo_paciente = ?, ";
+        values.push(sexo_paciente);
+    }
+    if (edad_paciente) {
+        query += "edad_paciente = ?, ";
+        values.push(edad_paciente);
+    }
+    if (nacionalidad) {
+        query += "nacionalidad = ?, ";
+        values.push(nacionalidad);
+    }
+    if (domicilio) {
+        query += "domicilio = ?, ";
+        values.push(domicilio);
+    }
+    if (colonia) {
+        query += "colonia = ?, ";
+        values.push(colonia);
+    }
+    if (alcaldia_municipio) {
+        query += "alcaldia_municipio = ?, ";
+        values.push(alcaldia_municipio);
+    }
+    if (entidadFederativa) {
+        query += "entidadFederativa = ?, ";
+        values.push(entidadFederativa);
+    }
+    if (diagnostico) {
+        query += "diagnostico = ?, ";
+        values.push(diagnostico);
+    }
+    if (cuidadorPrimario) {
+        query += "cuidadorPrimario = ?, ";
+        values.push(cuidadorPrimario);
+    }
+    if (tipoPrograma) {
+        query += "tipoPrograma = ?, ";
+        values.push(tipoPrograma);
+    }
+    if (observaciones) {
+        query += "observaciones = ?, ";
+        values.push(observaciones);
+    }
+    if (recomendaciones) {
+        query += "recomendaciones = ?, ";
+        values.push(recomendaciones);
     }
 
-    // Validar tipos de datos (por ejemplo, asegurarse de que edad_paciente sea un número)
-    if (typeof edad_paciente !== "number") {
-        return res.status(400).json({ error: "La edad debe ser un número" });
-    }
+    // Eliminar la coma extra al final de la cadena y agregar la condición WHERE
+    query = query.slice(0, -2) + " WHERE id_paciente = ?";
+
+    // Agregar el ID del paciente al array de valores
+    values.push(id_paciente);
 
     // Continuar con la actualización en la base de datos
-    const [rows] = await pool
-        .promise()
-        .query(
-            "UPDATE pacientes SET expediente_paciente = ?, nombre_paciente = ?, apellido_paterno = ?, apellido_materno = ?, sexo_paciente = ?, edad_paciente = ?, nacionalidad = ?, domicilio = ?, colonia = ?, alcaldia_municipio = ?, entidadFederativa = ?, diagnostico = ?, cuidadorPrimario = ?, tipoPrograma = ?, observaciones = ?, recomendaciones = ?  WHERE id_paciente = ?",
-            [
-                expediente_paciente,
-                nombre_paciente,
-                apellido_paterno,
-                apellido_materno,
-                sexo_paciente,
-                edad_paciente,
-                nacionalidad,
-                domicilio,
-                colonia,
-                alcaldia_municipio,
-                entidadFederativa,
-                diagnostico,
-                cuidadorPrimario,
-                tipoPrograma,
-                observaciones,
-                recomendaciones,
-                id_paciente,
-            ]
-        );
+    const [rows] = await pool.promise().query(query, values);
 
     res.send({
         message: "Paciente updated successfully",
@@ -217,11 +247,7 @@ pacientesCtrls.deletePaciente = async (req, res) => {
     }
 };
 
-
-
-
-
-// Suplencias 
+// Suplencias
 
 pacientesCtrls.addSuplencia = async (req, res) => {
     const {
@@ -261,9 +287,6 @@ pacientesCtrls.addSuplencia = async (req, res) => {
         particular,
     });
 };
-
-
-
 
 // Cuidadores
 
@@ -309,14 +332,10 @@ pacientesCtrls.addCuidador = async (req, res) => {
     });
 };
 
-
-
 pacientesCtrls.getCuidadores = async (req, res) => {
     const [rows] = await pool.promise().query("SELECT * FROM cuidadores");
     res.json(rows);
 };
-
-
 
 pacientesCtrls.searchCuidadorAutoComplete = async (req, res) => {
     const textoBusquedaCuidador = req.query.buscarAlcuidador;
@@ -324,19 +343,22 @@ pacientesCtrls.searchCuidadorAutoComplete = async (req, res) => {
         .promise()
         .query(
             "SELECT * FROM cuidadores WHERE nombreCuidador LIKE ? OR apPatCuidador LIKE ? OR apMatCuidador LIKE ?",
-            [`%${textoBusquedaCuidador}%`, `%${textoBusquedaCuidador}%`, `%${textoBusquedaCuidador}%`]
+            [
+                `%${textoBusquedaCuidador}%`,
+                `%${textoBusquedaCuidador}%`,
+                `%${textoBusquedaCuidador}%`,
+            ]
         );
     res.json(rows);
 };
-
-
-
 
 pacientesCtrls.getCuidadorById = async (req, res) => {
     const id_cuidador_paciente = req.params.id; // Obtener el ID del cuidador de los parámetros de la solicitud
     const [rows] = await pool
         .promise()
-        .query("SELECT * FROM cuidadores WHERE id_cuidador_paciente = ?", [id_cuidador_paciente]);
+        .query("SELECT * FROM cuidadores WHERE id_cuidador_paciente = ?", [
+            id_cuidador_paciente,
+        ]);
 
     if (rows.length > 0) {
         res.json(rows[0]); // Devolver el primer cuidador encontrado (solo debería haber uno)
@@ -345,6 +367,71 @@ pacientesCtrls.getCuidadorById = async (req, res) => {
     }
 };
 
+pacientesCtrls.updateCuidador = async (req, res) => {
+    const id_cuidador_paciente = req.params.id; // Obtener el ID del cuidador de los parámetros de la solicitud
+    const {
+        nombreCuidador,
+        apPatCuidador,
+        apMatCuidador,
+        sexoCuidador,
+        edadCuidador,
+        telefonoCuidador,
+        num_suplencias,
+    } = req.body;
 
+    // Construir la consulta de actualización dinámicamente con los campos que se desean actualizar
+    let query = "UPDATE cuidadores SET ";
+    let values = [];
+
+    if (nombreCuidador) {
+        query += "nombreCuidador = ?, ";
+        values.push(nombreCuidador);
+    }
+    if (apPatCuidador) {
+        query += "apPatCuidador = ?, ";
+        values.push(apPatCuidador);
+    }
+    if (apMatCuidador) {
+        query += "apMatCuidador = ?, ";
+        values.push(apMatCuidador);
+    }
+    if (sexoCuidador) {
+        query += "sexoCuidador = ?, ";
+        values.push(sexoCuidador);
+    }
+    if (edadCuidador) {
+        query += "edadCuidador = ?, ";
+        values.push(edadCuidador);
+    }
+    if (telefonoCuidador) {
+        query += "telefonoCuidador = ?, ";
+        values.push(telefonoCuidador);
+    }
+    if (num_suplencias) {
+        query += "num_suplencias = ?, ";
+        values.push(num_suplencias);
+    }
+
+    // Eliminar la coma extra al final de la cadena y agregar la condición WHERE
+    query = query.slice(0, -2) + " WHERE id_cuidador_paciente = ?";
+
+    // Agregar el ID del cuidador al array de valores
+    values.push(id_cuidador_paciente);
+
+    // Continuar con la actualización en la base de datos
+    const [rows] = await pool.promise().query(query, values);
+
+    res.send({
+        message: "Cuidador updated successfully",
+        id_cuidador_paciente,
+        nombreCuidador,
+        apPatCuidador,
+        apMatCuidador,
+        sexoCuidador,
+        edadCuidador,
+        telefonoCuidador,
+        num_suplencias,
+    });
+};
 
 module.exports = pacientesCtrls;

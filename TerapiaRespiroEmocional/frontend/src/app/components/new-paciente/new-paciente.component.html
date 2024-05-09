@@ -59,36 +59,31 @@
       <h2>Acerca de</h2>
       <label for="txtEntidadFederativa">Entidad Federativa:</label>
       <select
-        name="alcaldia_municipio"
-        id="txtAlcalMun"
-        [(ngModel)]="pacientesService.selectedPaciente.alcaldia_municipio"
+        name="entidadFederativa"
+        id="txtEntidadFederativa"
+        [(ngModel)]="pacientesService.selectedPaciente.entidadFederativa"
         #entidadFederativaSelect="ngModel"
       >
-        <option value="edoMex">EDO. DE MEX</option>
-        <option value="cdmx">CDMX</option>
-        <option value="guerrero">GUERRERO</option>
-        <option value="puebla">PUEBLA</option>
+        <option value="EDO. DE MEX">EDO. DE MEX</option>
+        <option value="CDMX">CDMX</option>
+        <option value="GUERRERO">GUERRERO</option>
+        <option value="PUEBLA">PUEBLA</option>
         <option value="" id="btnOtro">Otro</option>
       </select>
 
-
-
       <div *ngIf="entidadFederativaSelect.value === ''" id="divOtros">
-        <!--Cuando el value sea campo vacio quiere decir que es otro-->
-        <label for="txtOtroTipoEntidad">Especificar la entidad federativa:</label>
+        <label for="txtOtroTipoEntidad"
+          >Especificar la entidad federativa:</label
+        >
         <input
           type="text"
           id="txtOtroTipoEntidad"
           name="otroTipoEntidad"
           placeholder="Especificar otro tipo de entidad federativa"
-          [(ngModel)]="pacientesService.selectedPaciente.entidadFederativa"
+          [(ngModel)]="otraEntidadFederativa"
           required
         />
       </div>
-
-
-
-
 
       <label for="txtNacionalidad">Nacionalidad:</label>
       <select
@@ -104,14 +99,13 @@
       </select>
 
       <div *ngIf="tipoNacionalidadSelect.value === ''">
-        <!--Cuando el value sea campo vacio quiere decir que es otro-->
         <label for="txtOtroTipoNacionalidad">Especificar nacionalidad:</label>
         <input
           type="text"
           id="txtOtroTipoNacionalidad"
           name="otroTipoNacionalidad"
           placeholder="Especificar otro tipo de nacionalidad"
-          [(ngModel)]="pacientesService.selectedPaciente.nacionalidad"
+          [(ngModel)]="otraNacionalidad"
           required
         />
       </div>
@@ -173,7 +167,8 @@
           *ngFor="let cuidador of cuidadores"
           [value]="cuidador.id_cuidador_paciente"
         >
-          {{ cuidador.nombreCuidador }}
+          {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
+          {{ cuidador.apMatCuidador }}
         </option>
         <option value="" id="btnOtro">Otro</option>
       </select>
@@ -223,7 +218,7 @@
           id="txtOtroTipoPrograma"
           name="otroTipoPrograma"
           placeholder="Especificar otro tipo de programa"
-          [(ngModel)]="pacientesService.selectedPaciente.tipoPrograma"
+          [(ngModel)]="otroTipoPrograma"
           required
         />
       </div>

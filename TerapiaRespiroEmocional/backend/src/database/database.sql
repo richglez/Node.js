@@ -58,9 +58,14 @@ CREATE TABLE suplencias (
 drop table pacientes;
 
 
+DESCRIBE suplencias;
+DESCRIBE pacientes;
+DESCRIBE cuidadores;
+
 
 
 SELECT * FROM Empleado;
+SELECT * FROM Cuidadores;
 
 
 

@@ -15,6 +15,9 @@ export class NewPacienteComponent implements OnInit {
   txtFechaIngreso: string = '';
   cuidadores: any[] = [];
   otroCuidador: string = '';
+  otraEntidadFederativa: string = '';
+  otraNacionalidad: string = '';
+  otroTipoPrograma: string = '';
 
   constructor(
     public pacientesService: PacientesService,
@@ -46,16 +49,22 @@ export class NewPacienteComponent implements OnInit {
       alert('Por favor, completa todos los campos antes de continuar.');
       return;
     }
-  
+
+    // Agrega otrocuidador variableDB | variableComponente
+    form.value.cuidadorPrimario = this.otroCuidador;
+    // Agrega otraEntidadFederativa variableDB | variableComponente
+    form.value.otraEntidadFederativa = this.otraEntidadFederativa;
+    // Agrega otraNacionalidad variableDB | variableComponente
+    form.value.otraNacionalidad = this.otraNacionalidad;
+    // Agrega otraTipoPrograma variableDB | variableComponente
+    form.value.otraTipoPrograma = this.otroTipoPrograma;
+
     if (form.value.id_employee) {
       this.pacientesService.updatePaciente(form.value).subscribe(
         (res) => console.log(res),
         (err) => console.log(err)
       );
     } else {
-      // Agrega otroCuidador al objeto form.value
-      form.value.otroCuidador = this.otroCuidador;
-  
       this.pacientesService.addPaciente(form.value).subscribe(
         (res) => {
           form.reset();
@@ -64,5 +73,4 @@ export class NewPacienteComponent implements OnInit {
       );
     }
   }
-  
 }

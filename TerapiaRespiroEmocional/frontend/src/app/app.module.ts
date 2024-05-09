@@ -25,6 +25,8 @@ import { ActualizarDialogComponent } from './components/actualizar-dialog/actual
 import { NuevaSuplenciaDialogComponent } from './components/nueva-suplencia-dialog/nueva-suplencia-dialog.component';
 import { NewCuidadorComponent } from './components/new-cuidador/new-cuidador.component';
 import { SearchCuidadorComponent } from './components/search-cuidador/search-cuidador.component';
+import { Actulizar2DialogComponent } from './components/actulizar2-dialog/actulizar2-dialog.component';
+import { ConfirmarEliminar2DialogComponent } from './components/confirmar-eliminar2-dialog/confirmar-eliminar2-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { SearchCuidadorComponent } from './components/search-cuidador/search-cui
     ActualizarDialogComponent,
     NuevaSuplenciaDialogComponent,
     NewCuidadorComponent,
-    SearchCuidadorComponent
+    SearchCuidadorComponent,
+    Actulizar2DialogComponent,
+    ConfirmarEliminar2DialogComponent
   ],
   imports: [
     BrowserModule,

@@ -37,16 +37,20 @@
 
   <!--------------------------------------------------------------------------------->
 
-  <div class="ficha-paciente" *ngIf="selectedPaciente">
+  <div class="ficha-paciente">
     <div class="container2-title1">
       <h1>Ficha del paciente</h1>
       <div class="actions">
         <div class="button-container">
-          <button (click)="deletePacienteDialog()"><i class='bx bx-trash'></i></button>
+          <button (click)="deletePacienteDialog()">
+            <i class="bx bx-trash"></i>
+          </button>
           <span>Eliminar</span>
-        </div>        
+        </div>
         <div class="button-container">
-          <button (click)="editPaciente()"><i class='bx bx-edit-alt'></i></button>
+          <button (click)="editPaciente()">
+            <i class="bx bx-edit-alt"></i>
+          </button>
           <span>Editar</span>
         </div>
       </div>
@@ -54,7 +58,11 @@
 
     <i class="bx bxs-user-pin"></i>
 
-    <div class="container-data-paciente">
+    <!-- <div *ngIf="!selectedPaciente" class="mensaje-eliminado">
+      <p>El paciente ha sido eliminado correctamente.</p>
+    </div> -->
+
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="exp">Expediente:</label>
       <input
         type="text"
@@ -65,11 +73,7 @@
       />
     </div>
 
-    <div *ngIf="!selectedPaciente" class="mensaje-eliminado">
-      <p>El paciente ha sido eliminado correctamente.</p>
-    </div>
-
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="fechI">Fecha de ingreso:</label>
       <input
         type="text"
@@ -79,7 +83,7 @@
         [(ngModel)]="selectedPaciente.ingreso_programa"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="name">Nombre:</label>
       <input
         type="text"
@@ -90,7 +94,7 @@
       />
     </div>
 
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="lastname1">Apellido Paterno:</label>
       <input
         type="text"
@@ -100,7 +104,7 @@
         [(ngModel)]="selectedPaciente.apellido_paterno"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="lastname2">Apellido Materno:</label>
       <input
         type="text"
@@ -110,7 +114,7 @@
         [(ngModel)]="selectedPaciente.apellido_materno"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="age">Edad:</label>
       <input
         type="text"
@@ -120,7 +124,7 @@
         [(ngModel)]="selectedPaciente.edad_paciente"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="sex">Sexo:</label>
       <input
         type="text"
@@ -130,7 +134,7 @@
         [(ngModel)]="selectedPaciente.sexo_paciente"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="municipality">Alcaldia / Municipio:</label>
       <input
         type="text"
@@ -140,7 +144,7 @@
         [(ngModel)]="selectedPaciente.alcaldia_municipio"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="state">Entidad Federativa</label>
       <input
         type="text"
@@ -150,7 +154,7 @@
         [(ngModel)]="selectedPaciente.entidadFederativa"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="nacionality">Nacionalidad:</label>
       <input
         type="text"
@@ -160,7 +164,7 @@
         [(ngModel)]="selectedPaciente.nacionalidad"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="type">Tipo de Programa:</label>
       <input
         type="text"
@@ -174,7 +178,7 @@
     <div class="container2-title2">
       <h2>Diagnostico del paciente</h2>
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="recomedations">Recomendaciones:</label>
       <input
         type="text"
@@ -184,7 +188,7 @@
         [(ngModel)]="selectedPaciente.recomendaciones"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="observations">Observaciones:</label>
       <input
         type="text"
@@ -194,7 +198,7 @@
         [(ngModel)]="selectedPaciente.observaciones"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="diagnostic">Diagnostico:</label>
       <input
         type="text"
@@ -204,7 +208,7 @@
         [(ngModel)]="selectedPaciente.diagnostico"
       />
     </div>
-    <div class="container-data-paciente">
+    <div class="container-data-paciente" *ngIf="selectedPaciente">
       <label for="primaryCaregiver">Cuidador Primario:</label>
       <input
         type="text"
@@ -215,13 +219,12 @@
       />
     </div>
     <div class="actions2">
-      <button class="btnUpdate" (click)="updatePacienteDialog()">Actualizar cambios</button>
-      <button class="btnUndo" (click)="undoPaciente()">Deshacer cambios</button>
+      <button class="btnUpdate" (click)="updatePacienteDialog()">
+        Actualizar cambios
+      </button>
+      <button class="btnUndo" (click)="undoChangesPaciente()">
+        Deshacer cambios
+      </button>
     </div>
-
-
   </div>
 </div>
-
-
-
