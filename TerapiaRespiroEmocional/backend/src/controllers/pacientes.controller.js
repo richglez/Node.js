@@ -43,7 +43,7 @@ pacientesCtrls.addPaciente = async (req, res) => {
     const [rows] = await pool
         .promise()
         .query(
-            "INSERT INTO pacientes (expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO pacientes (expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma, observaciones, recomendaciones) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 expediente_paciente,
                 nombre_paciente,
@@ -80,6 +80,8 @@ pacientesCtrls.addPaciente = async (req, res) => {
         diagnostico,
         cuidadorPrimario,
         tipoPrograma,
+        observaciones,
+        recomendaciones,
     });
 };
 

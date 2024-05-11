@@ -57,7 +57,7 @@ CREATE TABLE suplencias (
 
 drop table pacientes;
 
-
+use terapia_respiro_emocional;
 DESCRIBE suplencias;
 DESCRIBE pacientes;
 DESCRIBE cuidadores;

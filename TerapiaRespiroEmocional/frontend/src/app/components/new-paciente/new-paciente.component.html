@@ -3,50 +3,50 @@
   <form #pacientesForm="ngForm" (ngSubmit)="addPaciente(pacientesForm)">
     <div class="form-section">
       <h2>Informacion personal del paciente</h2>
-      <label for="txtNombre">Nombre:</label>
+      <label for="name">Nombre:</label>
       <input
         type="text"
         name="nombre_paciente"
-        id="txtNombre"
+        id="name"
         placeholder="Ingrese el Nombre"
         [(ngModel)]="pacientesService.selectedPaciente.nombre_paciente"
         required
       />
 
-      <label for="txtApellidoPaterno">Apellido Paterno:</label>
+      <label for="lastname1">Apellido Paterno:</label>
       <input
         type="text"
         name="apellido_paterno"
-        id="txtApellidoPaterno"
+        id="lastname1"
         placeholder="Ingrese el Apellido paterno"
         [(ngModel)]="pacientesService.selectedPaciente.apellido_paterno"
         required
       />
 
-      <label for="txtApellidoMaterno">Apellido Materno:</label>
+      <label for="lastname2">Apellido Materno:</label>
       <input
         type="text"
         name="apellido_materno"
-        id="txtApellidoMaterno"
+        id="lastname2"
         placeholder="Ingrese el Apellido materno"
         [(ngModel)]="pacientesService.selectedPaciente.apellido_materno"
         required
       />
 
-      <label for="txtEdad">Edad:</label>
+      <label for="age">Edad:</label>
       <input
         type="text"
         name="edad_paciente"
-        id="txtEdad"
+        id="age"
         placeholder="Ingrese la edad"
         [(ngModel)]="pacientesService.selectedPaciente.edad_paciente"
         required
       />
 
-      <label for="txtSexo">Sexo:</label>
+      <label for="sex">Sexo:</label>
       <select
         name="sexo_paciente"
-        id="txtSexo"
+        id="sex"
         [(ngModel)]="pacientesService.selectedPaciente.sexo_paciente"
         required
       >
@@ -57,10 +57,10 @@
 
     <div class="form-section">
       <h2>Acerca de</h2>
-      <label for="txtEntidadFederativa">Entidad Federativa:</label>
+      <label for="state">Entidad Federativa:</label>
       <select
         name="entidadFederativa"
-        id="txtEntidadFederativa"
+        id="state"
         [(ngModel)]="pacientesService.selectedPaciente.entidadFederativa"
         #entidadFederativaSelect="ngModel"
       >
@@ -78,17 +78,17 @@
         <input
           type="text"
           id="txtOtroTipoEntidad"
-          name="otroTipoEntidad"
+          name="otraEntidadFederativa"
           placeholder="Especificar otro tipo de entidad federativa"
           [(ngModel)]="otraEntidadFederativa"
           required
         />
       </div>
 
-      <label for="txtNacionalidad">Nacionalidad:</label>
+      <label for="nacionality">Nacionalidad:</label>
       <select
         name="nacionalidad"
-        id="txtNacionalidad"
+        id="nacionalidad"
         [(ngModel)]="pacientesService.selectedPaciente.nacionalidad"
         required
         #tipoNacionalidadSelect="ngModel"
@@ -103,7 +103,7 @@
         <input
           type="text"
           id="txtOtroTipoNacionalidad"
-          name="otroTipoNacionalidad"
+          name="otraNacionalidad"
           placeholder="Especificar otro tipo de nacionalidad"
           [(ngModel)]="otraNacionalidad"
           required
@@ -158,32 +158,17 @@
 
       <label for="txtCuidador">Cuidador:</label>
       <select
-        name="cuidador"
+        name="cuidadorPrimario"
         id="txtCuidador"
         [(ngModel)]="pacientesService.selectedPaciente.cuidadorPrimario"
-        #nombreCuidadorPrimarioSelect="ngModel"
       >
         <option
           *ngFor="let cuidador of cuidadores"
-          [value]="cuidador.id_cuidador_paciente"
         >
-          {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
-          {{ cuidador.apMatCuidador }}
+          {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }} {{ cuidador.apMatCuidador }}
         </option>
-        <option value="" id="btnOtro">Otro</option>
       </select>
-
-      <div *ngIf="nombreCuidadorPrimarioSelect.value === ''">
-        <!--Cuando el value sea campo vacio quiere decir que es otro-->
-        <label for="txtOtroCuidador">Nombre del cuidador:</label>
-        <input
-          type="text"
-          id="txtOtroCuidador"
-          name="otroCuidador"
-          [(ngModel)]="otroCuidador"
-          required
-        />
-      </div>
+      
     </div>
 
     <div class="form-section">

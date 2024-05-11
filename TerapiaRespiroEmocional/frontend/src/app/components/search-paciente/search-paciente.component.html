@@ -66,7 +66,7 @@
       <label for="exp">Expediente:</label>
       <input
         type="text"
-        name=""
+        name="exp"
         id="exp"
         readonly
         [(ngModel)]="selectedPaciente.expediente_paciente"
@@ -74,11 +74,11 @@
     </div>
 
     <div class="container-data-paciente" *ngIf="selectedPaciente">
-      <label for="fechI">Fecha de ingreso:</label>
+      <label for="dateAdmission">Fecha de ingreso:</label>
       <input
         type="text"
-        name=""
-        id="fechI"
+        name="dateAdmission"
+        id="dateAdmission"
         readonly
         [(ngModel)]="selectedPaciente.ingreso_programa"
       />
@@ -87,7 +87,7 @@
       <label for="name">Nombre:</label>
       <input
         type="text"
-        name=""
+        name="name"
         id="name"
         readonly
         [(ngModel)]="selectedPaciente.nombre_paciente"
@@ -98,7 +98,7 @@
       <label for="lastname1">Apellido Paterno:</label>
       <input
         type="text"
-        name=""
+        name="lastName1"
         id="lastname1"
         readonly
         [(ngModel)]="selectedPaciente.apellido_paterno"
@@ -108,7 +108,7 @@
       <label for="lastname2">Apellido Materno:</label>
       <input
         type="text"
-        name=""
+        name="lastName2"
         id="lastname2"
         readonly
         [(ngModel)]="selectedPaciente.apellido_materno"
@@ -118,7 +118,7 @@
       <label for="age">Edad:</label>
       <input
         type="text"
-        name=""
+        name="age"
         id="age"
         readonly
         [(ngModel)]="selectedPaciente.edad_paciente"
@@ -128,7 +128,7 @@
       <label for="sex">Sexo:</label>
       <input
         type="text"
-        name=""
+        name="sex"
         id="sex"
         readonly
         [(ngModel)]="selectedPaciente.sexo_paciente"
@@ -138,7 +138,7 @@
       <label for="municipality">Alcaldia / Municipio:</label>
       <input
         type="text"
-        name=""
+        name="municipality"
         id="municipality"
         readonly
         [(ngModel)]="selectedPaciente.alcaldia_municipio"
@@ -148,7 +148,7 @@
       <label for="state">Entidad Federativa</label>
       <input
         type="text"
-        name=""
+        name="state"
         id="state"
         readonly
         [(ngModel)]="selectedPaciente.entidadFederativa"
@@ -158,7 +158,7 @@
       <label for="nacionality">Nacionalidad:</label>
       <input
         type="text"
-        name=""
+        name="nacionality"
         id="nacionality"
         readonly
         [(ngModel)]="selectedPaciente.nacionalidad"
@@ -168,7 +168,7 @@
       <label for="type">Tipo de Programa:</label>
       <input
         type="text"
-        name=""
+        name="type"
         id="type"
         readonly
         [(ngModel)]="selectedPaciente.tipoPrograma"
@@ -182,7 +182,7 @@
       <label for="recomedations">Recomendaciones:</label>
       <input
         type="text"
-        name=""
+        name="recomedations"
         id="recomedations"
         readonly
         [(ngModel)]="selectedPaciente.recomendaciones"
@@ -192,7 +192,7 @@
       <label for="observations">Observaciones:</label>
       <input
         type="text"
-        name=""
+        name="observations"
         id="observations"
         readonly
         [(ngModel)]="selectedPaciente.observaciones"
@@ -202,7 +202,7 @@
       <label for="diagnostic">Diagnostico:</label>
       <input
         type="text"
-        name=""
+        name="diagnostic"
         id="diagnostic"
         readonly
         [(ngModel)]="selectedPaciente.diagnostico"
@@ -212,7 +212,7 @@
       <label for="primaryCaregiver">Cuidador Primario:</label>
       <input
         type="text"
-        name=""
+        name="primaryCaregiver"
         id="primaryCaregiver"
         readonly
         [(ngModel)]="selectedPaciente.cuidadorPrimario"

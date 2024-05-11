@@ -18,6 +18,7 @@ export class NewPacienteComponent implements OnInit {
   otraEntidadFederativa: string = '';
   otraNacionalidad: string = '';
   otroTipoPrograma: string = '';
+  // nombreCompletoCuidador: string = '';
 
   constructor(
     public pacientesService: PacientesService,
@@ -44,20 +45,20 @@ export class NewPacienteComponent implements OnInit {
     );
   }
 
+
+//   onSelectCuidador(event: any) {
+//     console.log(this.nombreCompletoCuidador);
+// }
+
+
+
+  
+
   addPaciente(form: NgForm) {
     if (!form.valid) {
       alert('Por favor, completa todos los campos antes de continuar.');
       return;
     }
-
-    // Agrega otrocuidador variableDB | variableComponente
-    form.value.cuidadorPrimario = this.otroCuidador;
-    // Agrega otraEntidadFederativa variableDB | variableComponente
-    form.value.otraEntidadFederativa = this.otraEntidadFederativa;
-    // Agrega otraNacionalidad variableDB | variableComponente
-    form.value.otraNacionalidad = this.otraNacionalidad;
-    // Agrega otraTipoPrograma variableDB | variableComponente
-    form.value.otraTipoPrograma = this.otroTipoPrograma;
 
     if (form.value.id_employee) {
       this.pacientesService.updatePaciente(form.value).subscribe(
@@ -73,4 +74,10 @@ export class NewPacienteComponent implements OnInit {
       );
     }
   }
+
+
+  
+  
+  
+  
 }

@@ -1,75 +1,35 @@
-<h1>Calendario de Servicios</h1>
-<div class="search-paciente-container">
-  <h1>Buscar paciente</h1>
-  <div class="search-paciente-container2">
-    <i class="bx bx-search"></i>
+<button class="btnSuplencia" (click)="agregarSuplencia()">
+  Agregar Suplencias
+</button>
 
-    <input
-      type="search"
-      name="txtSearchPaciente"
-      id="txtSearchPaciente"
-      placeholder="Buscar paciente"
-      [(ngModel)]="searchText"
-      (input)="buscarPacienteDB()"
-    />
+<div class="select-cuidador" (click)="toggleSelect()">
+  <div class="select-btn">
+    <span class="sBtn-text">Seleccionar cuidador</span>
+    <i class="bx" [class.bx-chevron-down]="!selectAbierto" [class.bx-chevron-up]="selectAbierto"></i>
   </div>
 
-  <div
-    class="paciente-find-card"
-    *ngFor="let paciente of pacientes"
-    (click)="seleccionarPaciente(paciente)"
-  >
-    <i class="bx bxs-user-pin"></i>
-
-    <h3 class="paciente-find-name">
-      {{ paciente.nombre_paciente }} {{ paciente.apellido_paterno }}
-      <!--como poner este dato?-->
-    </h3>
-    <!--quiero estos datos del paciente-->
-
-    <!--Nombre del paciente-->
-    <p class="lastUpdate">
-      {{ paciente?.ultima_modificacion | date : "dd/MM/yyyy" }}
-    </p>
-    <!--Ultima modificacion fue el: 27/02/2024-->
-  </div>
+  <ul class="options" *ngIf="selectAbierto">
+    <li class="option">
+      <i class="bx bxs-user-badge"></i>
+      <span class="option-nameCuidador"> Cuidador 1 </span>
+    </li>
+    <li class="option">
+      <i class="bx bxs-user-badge"></i>
+      <span class="option-nameCuidador"> Cuidador 2 </span>
+    </li>
+    <li class="option">
+      <i class="bx bxs-user-badge"></i>
+      <span class="option-nameCuidador"> Cuidador 3 </span>
+    </li>
+    <li class="option">
+      <i class="bx bxs-user-badge"></i>
+      <span class="option-nameCuidador"> Cuidador 4 </span>
+    </li>
+  </ul>
 </div>
 
-
-
-
-
-
-
-
-
-<!--Calendario-->
-<div class="calendar-header">
-  <h1>Calendario de Servicios</h1>
-  <div class="paciente-info">
-    <i class="bx bxs-user-pin"></i>
-    <h4>Paciente:</h4>
-    <div class="container">
-      <h3>
-        {{ selectedPaciente?.nombre_paciente }}
-        {{ selectedPaciente?.apellido_paterno }}
-      </h3>
-    </div>
-
-    <h4>Cuidador primario:</h4>
-    <div class="container">
-      <h3>{{ selectedPaciente?.cuidadorPrimario }}</h3>
-    </div>
-
-    <h4>Suplencias:</h4>
-    <div class="container">
-      <h3>
-        {{ selectedPaciente?.suplencias }}
-      </h3>
-    </div>
-  </div>
-  <button class="btnSuplencia" (click)="agregarSuplencia()">Agregar Suplencias</button>
+<div class="calendar-container">
+  <full-calendar [options]="options" [events]="events" class="custom-calendar">
+  </full-calendar>
 </div>
 
-<full-calendar [options]="options" [events]="events" class="custom-calendar">
-</full-calendar>

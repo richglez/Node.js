@@ -1,1 +1,48 @@
-<h1>Panel de control</h1>
+<div class="header">
+  <h1>Panel de control</h1>
+  <div class="linea-separadora"></div>
+  <h5>Inicio</h5>
+</div>
+
+<div class="container">
+  <div class="totalStatistics">
+    <div class="info-card">
+      <i class="bx bxs-heart-circle"></i>
+      <span>{{ totalPacientes }}</span>
+      <p>Pacientes Registrados</p>
+    </div>
+    <div class="info-card">
+      <i class="bx bx-group"></i>
+      <span>{{ totalCuidadores }}</span>
+      <p>Cuidadores Registrados</p>
+    </div>
+    <div class="info-card">
+      <i class="bx bxs-calendar-heart"></i>
+      <span>{{ totalSuplenciasRegistradas }}</span>
+      <p>Total de Suplencias Registradas</p>
+    </div>
+    <div class="info-card">
+      <i class="bx bx-child"></i>
+      <span>{{ totalPacientesMenoresEdad }}</span>
+      <p>Total de Pacientes Menores de Edad</p>
+    </div>
+    <div class="info-card">
+      <i class="bx bxs-user"></i>
+      <span>{{ totalPacientesMayoresEdad }}</span>
+      <p>Total de Pacientes Mayores de Edad</p>
+    </div>
+    <div class="info-card">
+      <i class="bx bx-plus-medical"></i>
+      <span>{{ totalCECPAM }}</span>
+      <p>Total de programas por CECPAM</p>
+    </div>
+  </div>
+
+  <div class="time">
+    <div class="info-card-time">
+      <i class="bx bx-time-five"></i>
+      <span>06:12 pm</span>
+      <p>Sabado, Marzo 3 del 2024</p>
+    </div>
+  </div>
+</div>
