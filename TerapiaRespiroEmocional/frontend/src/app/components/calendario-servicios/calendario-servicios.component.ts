@@ -1,24 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import esLocale from '@fullcalendar/core/locales/es';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { PacientesService } from '../../services/pacientes.service'
+import { PacientesService } from '../../services/pacientes.service';
 import { Paciente } from '../../models/pacientes';
-import { Suplencia } from '../../models/suplencias'
+import { Suplencia } from '../../models/suplencias';
 import { MatDialog } from '@angular/material/dialog'; // Importa el servicio MatDialog si estás usando Angular Material
 import { DialogoAgendarServicioComponent } from '../dialogo-agendar-servicio-component/dialogo-agendar-servicio-component.component';
 import { NuevaSuplenciaDialogComponent } from '../nueva-suplencia-dialog/nueva-suplencia-dialog.component';
-
-
-
+import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
+import { Cuidador } from '../../models/cuidadores';
 
 @Component({
   selector: 'app-calendario-servicios',
   templateUrl: './calendario-servicios.component.html',
   styleUrls: ['./calendario-servicios.component.scss'],
 })
-export class CalendarioServiciosComponent {
+export class CalendarioServiciosComponent implements OnInit {
   public events: any[] = [];
   public options: any; // Usa any para opciones
   pacientes: Paciente[] = [];
@@ -28,36 +27,32 @@ export class CalendarioServiciosComponent {
   public selectedCuidador: string = ''; // Variable para almacenar el cuidador seleccionado
   mostrarInfoPaciente: boolean = false;
   public selectAbierto: boolean = false;
+  cuidadores: any[] = [];
+  searchTextCuidadores: string = '';
 
-
-  
-
-
-
-
-  
-
-  constructor(public pacientesService: PacientesService,  public dialog: MatDialog) {
+  constructor(
+    public pacientesService: PacientesService,
+    public dialog: MatDialog,
+    public cuidadoresService: CuidadoresServiceService
+  ) {
     this.events = [
-      { 
-        title: 'Suplencia 1', 
+      {
+        title: 'Suplencia 1',
         start: new Date(),
-        cuidador: 'cuidador1' // Asigna un cuidador a la suplencia
+        cuidador: 'cuidador1', // Asigna un cuidador a la suplencia
       },
-      { 
-        title: 'Suplencia 2', 
+      {
+        title: 'Suplencia 2',
         start: new Date(new Date().getTime() + 86400000),
-        cuidador: 'cuidador2' // Asigna un cuidador a la suplencia
+        cuidador: 'cuidador2', // Asigna un cuidador a la suplencia
       },
-      { 
-        title: 'Suplencia 3', 
-        start: new Date(new Date().getTime() + (86400000 * 2) ),
-        end: new Date(new Date().getTime() + (86400000 * 3) ),
-        cuidador: 'cuidador3' // Asigna un cuidador a la suplencia
-      }
+      {
+        title: 'Suplencia 3',
+        start: new Date(new Date().getTime() + 86400000 * 2),
+        end: new Date(new Date().getTime() + 86400000 * 3),
+        cuidador: 'cuidador3', // Asigna un cuidador a la suplencia
+      },
     ];
-
-    
 
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -67,12 +62,9 @@ export class CalendarioServiciosComponent {
         left: 'prev,next',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay',
-        
-      }
+      },
     };
   }
-
-
 
   // buscarPacienteDB(): void {  // buscar a todos los registros de pacientes en la base de datos, para poder seleccionarlo
   //   this.pacientesService.searchAllPacientes(this.searchText).subscribe((pacientes: Paciente[]) => { // auto completado en el input?
@@ -83,7 +75,7 @@ export class CalendarioServiciosComponent {
   // seleccionarPaciente(paciente: Paciente) {
   //   // Asigna el nombre del paciente al campo de búsqueda
   //   this.searchText = paciente.nombre_paciente;
-  
+
   //   // Verifica si id_paciente tiene un valor antes de usarlo
   //   if (paciente.id_paciente !== undefined) {
   //     // Busca los detalles del paciente por su ID y asigna los detalles al paciente seleccionado
@@ -99,12 +91,46 @@ export class CalendarioServiciosComponent {
   // }
 
 
+  ngOnInit() {
+    // Obtener la lista de cuidadores
+    this.cuidadoresService.getCuidadores().subscribe(
+      (cuidadores) => {
+        this.cuidadores = cuidadores;
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+  }
+
+
+  seleccionarCuidador(cuidador: Cuidador) {
+    // Asigna el nombre del cuidador al campo de búsqueda
+    this.searchTextCuidadores = `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`;
+  
+    // Asigna el nombre completo del cuidador a la variable selectedCuidador
+    this.selectedCuidador = `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`;
+  
+    // Verifica si id_cuidador_paciente tiene un valor antes de usarlo
+    if (cuidador.id_cuidador_paciente !== undefined) {
+      // Busca los detalles del paciente por su ID y asigna los detalles al paciente seleccionado
+      this.pacientesService.getPacienteById(cuidador.id_cuidador_paciente).subscribe((cuidadorData: Paciente) => {
+        this.selectedPaciente = cuidadorData;
+      });
+    } else {
+      console.error('El paciente seleccionado no tiene un ID válido.');
+    }
+  }
+  
+  
+
+
   agregarSuplencia(): void {
     const dialogRef = this.dialog.open(NuevaSuplenciaDialogComponent, {
-      width: '850px'
+      width: '850px',
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // Agregar el evento al calendario
         // this.agregarEvento(result);
@@ -112,12 +138,9 @@ export class CalendarioServiciosComponent {
     });
   }
 
-
   toggleSelect() {
     this.selectAbierto = !this.selectAbierto;
   }
-  
-
 
   // agregarEvento(suplencia: any): void {
   //   const nuevoEvento = {
@@ -129,10 +152,7 @@ export class CalendarioServiciosComponent {
   //     particular: suplencia.particular,
   //     cuidador: suplencia.cuidador
   //   };
-  
-  
+
   // Agregar el nuevo evento a la lista de eventos
   // this.events = [...this.events, nuevoEvento];
-  
-
 }

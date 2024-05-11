@@ -5,31 +5,32 @@
 <div class="select-cuidador" (click)="toggleSelect()">
   <div class="select-btn">
     <span class="sBtn-text">Seleccionar cuidador</span>
-    <i class="bx" [class.bx-chevron-down]="!selectAbierto" [class.bx-chevron-up]="selectAbierto"></i>
+
+    <i
+      class="bx"
+      [class.bx-chevron-down]="!selectAbierto"
+      [class.bx-chevron-up]="selectAbierto"
+    ></i>
   </div>
 
   <ul class="options" *ngIf="selectAbierto">
-    <li class="option">
+    <li
+      class="option"
+      *ngFor="let cuidador of cuidadores"
+      (click)="seleccionarCuidador(cuidador)"
+    >
       <i class="bx bxs-user-badge"></i>
-      <span class="option-nameCuidador"> Cuidador 1 </span>
-    </li>
-    <li class="option">
-      <i class="bx bxs-user-badge"></i>
-      <span class="option-nameCuidador"> Cuidador 2 </span>
-    </li>
-    <li class="option">
-      <i class="bx bxs-user-badge"></i>
-      <span class="option-nameCuidador"> Cuidador 3 </span>
-    </li>
-    <li class="option">
-      <i class="bx bxs-user-badge"></i>
-      <span class="option-nameCuidador"> Cuidador 4 </span>
+      <span class="option-nameCuidador">
+        {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
+        {{ cuidador.apMatCuidador }}
+      </span>
     </li>
   </ul>
+
+  <input type="text" [(ngModel)]="searchTextCuidadores" />
 </div>
 
 <div class="calendar-container">
   <full-calendar [options]="options" [events]="events" class="custom-calendar">
   </full-calendar>
 </div>
-
