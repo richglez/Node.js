@@ -34,7 +34,7 @@ CREATE TABLE cuidadores(
     sexoCuidador char not null,
     edadCuidador int not null,
     telefonoCuidador varchar(30) not null,
-    num_suplencias int not null
+    num_suplencias INT NOT NULL DEFAULT 0
 );
 
 
@@ -66,6 +66,7 @@ DESCRIBE cuidadores;
 
 SELECT * FROM Empleado;
 SELECT * FROM Cuidadores;
+SELECT * FROM suplencias;
 
 
 

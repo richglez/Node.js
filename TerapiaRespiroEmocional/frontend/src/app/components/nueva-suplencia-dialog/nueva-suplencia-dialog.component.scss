@@ -52,7 +52,7 @@ form input[type="date"],
 form input[type="time"],
 form input[type="text"],
 form select {
-  padding: 8px;
+  padding: 9px;
   border: 2px solid #2196f3;
   border-radius: 4px;
   margin-bottom: 10px;
@@ -63,10 +63,31 @@ form select {
   margin-bottom: 14px;
 }
 
+/* Estilos para las opciones del select */
+form select option {
+  padding: 10px;
+  color: #115083;
+  background-color: #fff;
+  font-size: 14px;
+  overflow-y: auto; /* Mostrar barra de desplazamiento vertical cuando sea necesario */
+  scrollbar-width: thin; /* Grosor de la barra de desplazamiento */
+  scrollbar-color: #2196f3 transparent; /* Color de la barra de desplazamiento y su fondo */
+}
+
+
+
+/* Estilos para el select cuando está enfocado */
+form select:focus {
+  outline: none; /* Eliminar el contorno de enfoque predeterminado */
+  border-color: #2196f3; /* Cambiar el color del borde al azul */
+}
+
+
 /* Estilos para los inputs cuando están enfocados */
 form input:focus {
   outline: none; /* Eliminar el contorno de enfoque predeterminado */
   border-color: #2196f3; /* Cambiar el color del borde al azul */
+  
 }
 
 /* Estilos para los inputs cuando están deshabilitados */

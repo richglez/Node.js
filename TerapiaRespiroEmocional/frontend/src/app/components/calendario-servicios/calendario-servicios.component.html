@@ -2,9 +2,9 @@
   Agregar Suplencias
 </button>
 
-<div class="select-cuidador" (click)="toggleSelect()">
+<div class="select-paciente" (click)="toggleSelect()">
   <div class="select-btn">
-    <span class="sBtn-text">Seleccionar cuidador</span>
+    <span class="sBtn-text">Seleccionar paciente</span>
 
     <i
       class="bx"
@@ -16,19 +16,42 @@
   <ul class="options" *ngIf="selectAbierto">
     <li
       class="option"
-      *ngFor="let cuidador of cuidadores"
-      (click)="seleccionarCuidador(cuidador)"
+      *ngFor="let paciente of pacientes"
+      (click)="seleccionarPacienteCuidadorSuplencias(paciente)"
     >
       <i class="bx bxs-user-badge"></i>
-      <span class="option-nameCuidador">
-        {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
-        {{ cuidador.apMatCuidador }}
+      <span class="option-namePaciente">
+        {{ paciente.nombre_paciente }} {{ paciente.apellido_paterno }}
+        {{ paciente.apellido_materno }}
       </span>
     </li>
   </ul>
-
-  <input type="text" [(ngModel)]="searchTextCuidadores" />
 </div>
+
+ 
+
+<input
+  id="txts"
+  type="text"
+  [(ngModel)]="searchTextPacientes"
+  readonly
+  placeholder="Nombre del paciente"
+/>
+
+<input
+  id="txts"
+  type="text"
+  [(ngModel)]="searchTextCuidadores"
+  readonly
+  placeholder="Nombre del cuidador"
+/>
+
+<input
+  id="txts-suplenciasT"
+  type="text"
+  readonly
+  placeholder="Total de suplencias"
+/>
 
 <div class="calendar-container">
   <full-calendar [options]="options" [events]="events" class="custom-calendar">

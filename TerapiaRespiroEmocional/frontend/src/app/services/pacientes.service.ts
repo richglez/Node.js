@@ -49,6 +49,11 @@ export class PacientesService {
     );
   }
 
+  getPacienteByCuidador(idCuidador: number): Observable<Paciente> {
+    return this.http.get<Paciente>(`${this.URL_API}/cuidador/${idCuidador}`);
+  }
+  
+
   getPacienteById(id: number): Observable<Paciente> {
     return this.http.get<Paciente>(`${this.URL_API}/${id}`);
   }

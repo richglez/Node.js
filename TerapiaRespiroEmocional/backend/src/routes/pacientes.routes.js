@@ -17,6 +17,8 @@ router.post('/pacientes', pacientesCtrls.addPaciente) // alta paciente
 router.put('/pacientes/:id', pacientesCtrls.updatePaciente) // actulizar paciente
 router.delete('/pacientes/:id', pacientesCtrls.deletePaciente) // bajas paciente
 router.get('/pacientes/expedientes', pacientesCtrls.getExpedientes);
+router.get('/pacientes/cuidador/:id', pacientesCtrls.getPacienteByCuidador);
+
 
 
 //suplencias

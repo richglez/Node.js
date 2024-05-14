@@ -17,11 +17,11 @@ export class CuidadoresServiceService {
     apPatCuidador: '',
     apMatCuidador: '',
     sexoCuidador: '',
-    edadCuidador: '',
+    edadCuidador: 0,
     telefonoCuidador: '',
     num_suplencias: 0,
     ultima_modificacion: '',
-    ingreso_programa: ''
+    ingreso_programa: '',
   }
 
   constructor(private http: HttpClient) { }

@@ -111,6 +111,24 @@ pacientesCtrls.getExpedientes = async (req, res) => {
     res.json(expedientes);
 };
 
+
+pacientesCtrls.getPacienteByCuidador = async (req, res) => {
+    const id_cuidador_paciente = req.params.id; // Obtener el ID del cuidador de los parámetros de la solicitud
+    const [rows] = await pool
+        .promise()
+        .query("SELECT * FROM pacientes WHERE cuidadorPrimario = ?", [
+            id_cuidador_paciente,
+        ]);
+
+    if (rows.length > 0) {
+        res.json(rows); // Devolver los pacientes relacionados con el cuidador
+    } else {
+        res.status(404).send("No se encontraron pacientes relacionados con el cuidador"); // Si no se encuentran pacientes relacionados, devolver un mensaje de error
+    }
+};
+
+
+
 pacientesCtrls.updatePaciente = async (req, res) => {
     const id_paciente = req.params.id; // Obtener el ID del paciente de los parámetros de la solicitud
     const {
@@ -253,8 +271,10 @@ pacientesCtrls.deletePaciente = async (req, res) => {
 
 pacientesCtrls.addSuplencia = async (req, res) => {
     const {
-        id_paciente,
-        id_cuidador_paciente,
+        nombreCuidador, // Aquí puedes recibir el nombre del cuidador desde el frontend
+        apPatCuidador,
+        apMatCuidador,
+        // Otros campos de la suplencia
         dia_suplencia,
         hora_inicial,
         hora_final,
@@ -262,33 +282,55 @@ pacientesCtrls.addSuplencia = async (req, res) => {
         particular,
     } = req.body;
 
-    console.log(req.body); // Mostrar el contenido de req.body en la consola
+    // Obtener el ID del cuidador de paciente
+    const [cuidador] = await pool.promise().query(
+        "SELECT id_cuidador_paciente FROM cuidadores WHERE nombreCuidador = ? AND apPatCuidador = ? AND apMatCuidador = ?",
+        [nombreCuidador, apPatCuidador, apMatCuidador]
+    );
 
-    const [rows] = await pool
-        .promise()
-        .query(
-            "INSERT INTO suplencias (id_paciente, id_cuidador_paciente, dia_suplencia, hora_inicial, hora_final, costoGuardia, particular) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [
-                id_paciente,
-                id_cuidador_paciente,
-                dia_suplencia,
-                hora_inicial,
-                hora_final,
-                costoGuardia,
-                particular,
-            ]
-        );
+    // Verificar si se encontró el cuidador
+    if (cuidador.length > 0) {
+        const id_cuidador_paciente = cuidador[0].id_cuidador_paciente;
 
-    res.send({
-        id_paciente,
-        id_cuidador_paciente,
-        dia_suplencia,
-        hora_inicial,
-        hora_final,
-        costoGuardia,
-        particular,
-    });
+        // Insertar la suplencia
+        const [rows] = await pool
+            .promise()
+            .query(
+                "INSERT INTO suplencias (id_cuidador_paciente, dia_suplencia, hora_inicial, hora_final, costoGuardia, particular) VALUES (?, ?, ?, ?, ?, ?)",
+                [
+                    id_cuidador_paciente,
+                    dia_suplencia,
+                    hora_inicial,
+                    hora_final,
+                    costoGuardia,
+                    particular,
+                ]
+            );
+
+        // Actualizar el número de suplencias del cuidador
+        await pool
+            .promise()
+            .query(
+                "UPDATE cuidadores SET num_suplencias = num_suplencias + 1 WHERE id_cuidador_paciente = ?",
+                [id_cuidador_paciente]
+            );
+
+        res.send({
+            id_cuidador_paciente,
+            dia_suplencia,
+            hora_inicial,
+            hora_final,
+            costoGuardia,
+            particular,
+        });
+    } else {
+        res.status(404).send("Cuidador no encontrado");
+    }
 };
+
+
+
+
 
 // Cuidadores
 

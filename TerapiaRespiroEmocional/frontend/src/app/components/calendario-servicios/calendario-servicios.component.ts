@@ -4,13 +4,14 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { PacientesService } from '../../services/pacientes.service';
-import { Paciente } from '../../models/pacientes';
 import { Suplencia } from '../../models/suplencias';
 import { MatDialog } from '@angular/material/dialog'; // Importa el servicio MatDialog si estás usando Angular Material
 import { DialogoAgendarServicioComponent } from '../dialogo-agendar-servicio-component/dialogo-agendar-servicio-component.component';
 import { NuevaSuplenciaDialogComponent } from '../nueva-suplencia-dialog/nueva-suplencia-dialog.component';
 import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
 import { Cuidador } from '../../models/cuidadores';
+import { Paciente } from '../../models/pacientes';
+
 
 @Component({
   selector: 'app-calendario-servicios',
@@ -20,15 +21,17 @@ import { Cuidador } from '../../models/cuidadores';
 export class CalendarioServiciosComponent implements OnInit {
   public events: any[] = [];
   public options: any; // Usa any para opciones
-  pacientes: Paciente[] = [];
+  public pacienteRelacionado: Paciente | null = null;
+  public selectedCuidador: string = ''; // Variable para almacenar el cuidador seleccionado
+  public selectAbierto: boolean = false;
   suplencia: Suplencia[] = [];
   searchText: string = '';
   selectedPaciente: Paciente | null = null; // Variable para almacenar el paciente seleccionado
-  public selectedCuidador: string = ''; // Variable para almacenar el cuidador seleccionado
   mostrarInfoPaciente: boolean = false;
-  public selectAbierto: boolean = false;
   cuidadores: any[] = [];
+  pacientes: Paciente[] = [];
   searchTextCuidadores: string = '';
+  searchTextPacientes: string = '';
 
   constructor(
     public pacientesService: PacientesService,
@@ -101,26 +104,32 @@ export class CalendarioServiciosComponent implements OnInit {
         console.error(err);
       }
     );
+    // Obtener la lista de pacientes
+    this.pacientesService.getPacientes().subscribe(
+      (pacientes) => {
+        this.pacientes = pacientes;
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
   }
 
 
-  seleccionarCuidador(cuidador: Cuidador) {
+  seleccionarPacienteCuidadorSuplencias(paciente: Paciente) {
     // Asigna el nombre del cuidador al campo de búsqueda
-    this.searchTextCuidadores = `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`;
-  
-    // Asigna el nombre completo del cuidador a la variable selectedCuidador
-    this.selectedCuidador = `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`;
-  
-    // Verifica si id_cuidador_paciente tiene un valor antes de usarlo
-    if (cuidador.id_cuidador_paciente !== undefined) {
-      // Busca los detalles del paciente por su ID y asigna los detalles al paciente seleccionado
-      this.pacientesService.getPacienteById(cuidador.id_cuidador_paciente).subscribe((cuidadorData: Paciente) => {
-        this.selectedPaciente = cuidadorData;
-      });
-    } else {
-      console.error('El paciente seleccionado no tiene un ID válido.');
-    }
+    this.searchTextPacientes = `${paciente.nombre_paciente} ${paciente.apellido_paterno} ${paciente.apellido_materno}`;
+    this.searchTextCuidadores = `${paciente.cuidadorPrimario}`
+
   }
+  
+  
+   
+  
+  
+  
+  
+
   
   
 
@@ -130,12 +139,12 @@ export class CalendarioServiciosComponent implements OnInit {
       width: '850px',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        // Agregar el evento al calendario
-        // this.agregarEvento(result);
-      }
-    });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          // Agregar el evento al calendario
+          // this.agregarEvento(result);
+        }
+      });
   }
 
   toggleSelect() {

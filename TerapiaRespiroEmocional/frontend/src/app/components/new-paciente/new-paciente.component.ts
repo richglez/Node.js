@@ -13,7 +13,7 @@ export class NewPacienteComponent implements OnInit {
   fechaActual: Date = new Date();
   textoConAcentos: string = '';
   txtFechaIngreso: string = '';
-  cuidadores: any[] = [];
+  cuidadoresList: any[] = [];
   otroCuidador: string = '';
   otraEntidadFederativa: string = '';
   otraNacionalidad: string = '';
@@ -37,7 +37,7 @@ export class NewPacienteComponent implements OnInit {
     // Obtener la lista de cuidadores
     this.cuidadoresService.getCuidadores().subscribe(
       (cuidadores) => {
-        this.cuidadores = cuidadores;
+        this.cuidadoresList = cuidadores;
       },
       (err) => {
         console.error(err);

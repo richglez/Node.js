@@ -10,21 +10,31 @@ export class SuplenciasServiceService {
   URL_API = 'http://localhost:4000/api/ccuidarte-app/pacientes';
   suplencia: Suplencia[] = [];
 
-  nuevaSuplencia: Suplencia = {
+  selectedSuplencia: Suplencia = {
     dia_suplencia: '',
     hora_inicial: '',
     hora_final: '',
     costoGuardia: 0,
-    particular: ''
+    particular: '',
   };
-  
 
   constructor(private http: HttpClient) {}
 
-  addSuplencia(idPaciente: number, idCuidador: number, suplencia: Suplencia) {
-    return this.http.post(
-      `${this.URL_API}/${idPaciente}/suplencias/${idCuidador}`,
-      suplencia
-    );
+  addSuplencia(
+    id_cuidador_paciente: number,
+    dia_suplencia: string,
+    hora_inicial: string,
+    hora_final: string,
+    costoGuardia: number,
+    particular: string
+  ) {
+    return this.http.post(`${this.URL_API}/suplencias`, {
+      id_cuidador_paciente,
+      dia_suplencia,
+      hora_inicial,
+      hora_final,
+      costoGuardia,
+      particular,
+    });
   }
 }

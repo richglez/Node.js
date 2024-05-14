@@ -1,5 +1,7 @@
 @import "boxicons/css/boxicons.min.css";
 
+
+
 h1 {
   text-align: center;
   color: #555555;
@@ -9,13 +11,13 @@ h1 {
 }
 
 
-.select-cuidador {
+.select-paciente {
   display: inline-table;
   position: relative;
   width: 320px;
 }
 
-.select-cuidador .select-btn {
+.select-paciente .select-btn {
   display: flex;
   align-items: center;
   padding: 10px;
@@ -33,7 +35,7 @@ h1 {
 
 
 
-.select-cuidador .select-btn:hover{
+.select-paciente .select-btn:hover{
   outline: none; /* Eliminar el contorno al enfocar */
   border-color: #0058e4; /* Cambiar el color del borde al enfocar */
   box-shadow: 0 0 12px rgba(36, 129, 255, 0.9); /* Aumentar la intensidad de la sombra al enfocar */
@@ -48,7 +50,7 @@ h1 {
 
 
 
-.select-cuidador .options {
+.select-paciente .options {
   position: absolute;
   top: calc(100% + 10px); /* Posiciona la lista justo debajo del botón */
   left: 0;
@@ -74,7 +76,7 @@ h1 {
 
 
 .options .option:hover{
-  background: #f2f2f2;
+  background: #ececec;
 }
 
 .option i{
@@ -85,9 +87,57 @@ h1 {
 
 
 
-.option .option-nameCuidador{
+.option .option-namePaciente{
   font-size: 16px;
   color: #333;
+}
+
+
+#txts{
+  display: inline-table;
+  position: relative;
+  width: 260px;
+  margin-left: 45px;
+  align-items: center;
+  padding: 12px;
+  background-color: #fff;
+  border: 2px solid #2481FF;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: space-between;
+  color: #555555; /* Color de texto */
+  box-shadow: 0 0 10px rgba(36, 129, 255, 0.5); /* Sombra opaca tipo neon */
+}
+
+
+
+#txts:hover{
+  outline: none; /* Eliminar el contorno al enfocar */
+  border-color: #0058e4; /* Cambiar el color del borde al enfocar */
+  box-shadow: 0 0 12px rgba(36, 129, 255, 0.9); /* Aumentar la intensidad de la sombra al enfocar */
+}
+#txts-suplenciasT{
+  display: inline-table;
+  position: relative;
+  width: 180px;
+  margin-left: 310px;
+  align-items: center;
+  padding: 12px;
+  background-color: #fff;
+  border: 2px solid #2481FF;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: space-between;
+  color: #555555; /* Color de texto */
+  box-shadow: 0 0 10px rgba(36, 129, 255, 0.5); /* Sombra opaca tipo neon */
+}
+
+
+
+#txts-suplenciasT:hover{
+  outline: none; /* Eliminar el contorno al enfocar */
+  border-color: #0058e4; /* Cambiar el color del borde al enfocar */
+  box-shadow: 0 0 12px rgba(36, 129, 255, 0.9); /* Aumentar la intensidad de la sombra al enfocar */
 }
 
 

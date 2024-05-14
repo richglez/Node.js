@@ -160,10 +160,9 @@
       <select
         name="cuidadorPrimario"
         id="txtCuidador"
-        [(ngModel)]="pacientesService.selectedPaciente.cuidadorPrimario"
       >
         <option
-          *ngFor="let cuidador of cuidadores"
+          *ngFor="let cuidador of cuidadoresList"
         >
           {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }} {{ cuidador.apMatCuidador }}
         </option>
