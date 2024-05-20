@@ -6,7 +6,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { PacientesService } from '../../services/pacientes.service';
 import { Suplencia } from '../../models/suplencias';
 import { MatDialog } from '@angular/material/dialog'; // Importa el servicio MatDialog si estás usando Angular Material
-import { DialogoAgendarServicioComponent } from '../dialogo-agendar-servicio-component/dialogo-agendar-servicio-component.component';
 import { NuevaSuplenciaDialogComponent } from '../nueva-suplencia-dialog/nueva-suplencia-dialog.component';
 import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
 import { Cuidador } from '../../models/cuidadores';

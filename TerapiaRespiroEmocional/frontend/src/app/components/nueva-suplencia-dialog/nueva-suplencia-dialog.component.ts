@@ -33,6 +33,7 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
         (response) => {
           console.log('Suplencia agregada exitosamente', response);
           this.dialogRef.close(true);
+          // this.actualizarEventos();
         },
         (error) => {
           console.error('Error al agregar suplencia', error);
@@ -44,6 +45,7 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
       // Manejar la validación del formulario
     }
   }
+  
 
   ngOnInit() {
     // Obtener la lista de cuidadores

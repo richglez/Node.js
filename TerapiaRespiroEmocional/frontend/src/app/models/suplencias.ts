@@ -8,3 +8,6 @@ export interface Suplencia {
     id_cuidador_paciente?: number; // Add this line
   }
   
+
+
+

@@ -27,14 +27,15 @@ export class SuplenciasServiceService {
     hora_final: string,
     costoGuardia: number,
     particular: string
-  ) {
-    return this.http.post(`${this.URL_API}/suplencias`, {
+  ): Observable<any> {
+    const suplencia = {
       id_cuidador_paciente,
       dia_suplencia,
       hora_inicial,
       hora_final,
       costoGuardia,
       particular,
-    });
+    };
+    return this.http.post<any>(`${this.URL_API}/suplencias`, suplencia);
   }
 }

@@ -19,7 +19,6 @@ import { ExpedienteElectronicoComponent } from './components/expediente-electron
 import { BaseDatosComponent } from './components/base-datos/base-datos.component';
 import { ExitComponent } from './components/exit/exit.component';
 import { BodyComponent } from './components/body/body.component';
-import { DialogoAgendarServicioComponent } from './components/dialogo-agendar-servicio-component/dialogo-agendar-servicio-component.component';
 import { ConfirmarEliminarDialogComponent } from './components/confirmar-eliminar-dialog/confirmar-eliminar-dialog.component';
 import { ActualizarDialogComponent } from './components/actualizar-dialog/actualizar-dialog.component';
 import { NuevaSuplenciaDialogComponent } from './components/nueva-suplencia-dialog/nueva-suplencia-dialog.component';
@@ -40,7 +39,6 @@ import { ConfirmarEliminar2DialogComponent } from './components/confirmar-elimin
     BaseDatosComponent,
     ExitComponent,
     BodyComponent,
-    DialogoAgendarServicioComponent,
     ConfirmarEliminarDialogComponent,
     ActualizarDialogComponent,
     NuevaSuplenciaDialogComponent,
