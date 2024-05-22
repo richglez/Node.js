@@ -19,4 +19,5 @@ export interface Paciente{ // descripcion del objeto empleado, proveniente de lo
     recomendaciones?: string,
     observaciones?: string,
     suplencias?: number
+    id_cuidador_paciente?: number; // Nuevo campo para el id del cuidador
 }

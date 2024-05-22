@@ -7,10 +7,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SuplenciasServiceService {
-  URL_API = 'http://localhost:4000/api/ccuidarte-app/pacientes';
+  URL_API = 'http://localhost:4000/api/ccuidarte-app/suplencias';
   suplencia: Suplencia[] = [];
 
   selectedSuplencia: Suplencia = {
+    id_cuidador_paciente: 0,
     dia_suplencia: '',
     hora_inicial: '',
     hora_final: '',
@@ -28,7 +29,7 @@ export class SuplenciasServiceService {
     costoGuardia: number,
     particular: string
   ): Observable<any> {
-    const suplencia = {
+    const suplencia: Suplencia = {
       id_cuidador_paciente,
       dia_suplencia,
       hora_inicial,
@@ -36,6 +37,7 @@ export class SuplenciasServiceService {
       costoGuardia,
       particular,
     };
-    return this.http.post<any>(`${this.URL_API}/suplencias`, suplencia);
+    console.log('Datos enviados para la nueva suplencia:', suplencia);
+    return this.http.post<any>(`${this.URL_API}`, suplencia);
   }
 }

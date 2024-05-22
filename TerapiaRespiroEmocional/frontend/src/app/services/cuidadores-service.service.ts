@@ -10,7 +10,6 @@ export class CuidadoresServiceService {
   URL_API = 'http://localhost:4000/api/ccuidarte-app/cuidadores';
   cuidador: Cuidador[] = [];
 
-
   selectedCuidador: Cuidador = {
     // todos los datos del cuidador
     nombreCuidador: '',
@@ -26,11 +25,9 @@ export class CuidadoresServiceService {
 
   constructor(private http: HttpClient) { }
 
-
   getCuidadores() {
     return this.http.get<Cuidador[]>(this.URL_API);
   }  
-
 
   searchAllCuidadores(textoBusqueda: string): Observable<Cuidador[]> {
     return this.http.get<Cuidador[]>(
@@ -38,11 +35,13 @@ export class CuidadoresServiceService {
     );
   }
 
+  getTotalSuplencias(idCuidador: number): Observable<number> {
+    return this.http.get<number>(`${this.URL_API}/total-suplencias/${idCuidador}`);
+  }
 
   getCuidadorById(id: number): Observable<Cuidador> {
     return this.http.get<Cuidador>(`${this.URL_API}/${id}`);
   }
-
 
   addCuidador(cuidador: Cuidador) {
     return this.http.post(this.URL_API, cuidador);
@@ -55,5 +54,4 @@ export class CuidadoresServiceService {
   deleteCuidador(id: number): Observable<any> {
     return this.http.delete(`${this.URL_API}/${id}`);
   }
-
 }

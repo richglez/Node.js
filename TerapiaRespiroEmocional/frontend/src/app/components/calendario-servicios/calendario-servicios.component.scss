@@ -11,7 +11,109 @@ h1 {
 }
 
 
+
+//------------cuidador----------------------------------------------------------------------
+
+.select-cuidador {
+  display: inline-table;
+  position: relative;
+  width: 320px;
+}
+
+.select-cuidador .select-btn {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+  border: 2px solid #2481FF;
+  border-radius: 5px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  color: #555555; /* Color de texto */
+  box-shadow: 0 0 10px rgba(36, 129, 255, 0.5); /* Sombra opaca tipo neon */
+}
+
+
+
+
+
+.select-cuidador .select-btn:hover{
+  outline: none; /* Eliminar el contorno al enfocar */
+  border-color: #0058e4; /* Cambiar el color del borde al enfocar */
+  box-shadow: 0 0 12px rgba(36, 129, 255, 0.9); /* Aumentar la intensidad de la sombra al enfocar */
+}
+
+
+
+.select-cuidador .select-btn i {
+  font-size: 26px;
+  color: #2481FF;
+}
+
+
+.select-cuidador .options {
+  position: absolute;
+  top: calc(100% + 10px); /* Posiciona la lista justo debajo del botón */
+  left: 0;
+  width: 88%; /* Opcional: Haz que la lista ocupe todo el ancho */
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 4px rgb(46, 78, 218);
+  animation: fadeInDown 0.5s ease;
+  z-index: 999; /* Asegura que la lista esté por encima de otros elementos */
+}
+
+
+
+//------------suplencias----------------------------------------------------------------------
+
+
+.suplencias {
+  display: inline-table;
+  position: relative;
+  width: 200px;
+  padding-left: 20px;
+}
+
+.suplencias .select-btn2 {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #fff;
+  border: 2px solid #2481FF;
+  border-radius: 5px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  color: #555555; /* Color de texto */
+  box-shadow: 0 0 10px rgba(36, 129, 255, 0.5); /* Sombra opaca tipo neon */
+}
+
+
+
+
+
+.suplencias .select-btn2:hover{
+  outline: none; /* Eliminar el contorno al enfocar */
+  border-color: #0058e4; /* Cambiar el color del borde al enfocar */
+  box-shadow: 0 0 12px rgba(36, 129, 255, 0.9); /* Aumentar la intensidad de la sombra al enfocar */
+}
+
+
+
+.suplencias .select-btn2 i {
+  font-size: 26px;
+  color: #2481FF;
+}
+
+
+
+
+//-----------paciente-----------------------------------------------------------------------
 .select-paciente {
+  margin-left: 50px;
   display: inline-table;
   position: relative;
   width: 320px;
@@ -43,11 +145,10 @@ h1 {
 
 
 
-.select-btn i {
+.select-paciente .select-btn i {
   font-size: 26px;
   color: #2481FF;
 }
-
 
 
 .select-paciente .options {
@@ -62,6 +163,21 @@ h1 {
   animation: fadeInDown 0.5s ease;
   z-index: 999; /* Asegura que la lista esté por encima de otros elementos */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 .options .option{
@@ -97,54 +213,6 @@ h1 {
   margin-bottom: 10px;
 }
 
-
-
-#txts{
-  display: inline-table;
-  position: relative;
-  width: 260px;
-  margin-left: 45px;
-  align-items: center;
-  padding: 12px;
-  background-color: #fff;
-  border: 2px solid #2481FF;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: space-between;
-  color: #555555; /* Color de texto */
-  box-shadow: 0 0 10px rgba(36, 129, 255, 0.5); /* Sombra opaca tipo neon */
-}
-
-
-
-#txts:hover{
-  outline: none; /* Eliminar el contorno al enfocar */
-  border-color: #0058e4; /* Cambiar el color del borde al enfocar */
-  box-shadow: 0 0 12px rgba(36, 129, 255, 0.9); /* Aumentar la intensidad de la sombra al enfocar */
-}
-#txts-suplenciasT{
-  display: inline-table;
-  position: relative;
-  width: 180px;
-  margin-left: 310px;
-  align-items: center;
-  padding: 12px;
-  background-color: #fff;
-  border: 2px solid #2481FF;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: space-between;
-  color: #555555; /* Color de texto */
-  box-shadow: 0 0 10px rgba(36, 129, 255, 0.5); /* Sombra opaca tipo neon */
-}
-
-
-
-#txts-suplenciasT:hover{
-  outline: none; /* Eliminar el contorno al enfocar */
-  border-color: #0058e4; /* Cambiar el color del borde al enfocar */
-  box-shadow: 0 0 12px rgba(36, 129, 255, 0.9); /* Aumentar la intensidad de la sombra al enfocar */
-}
 
 
 @keyframes rotateArrow {
@@ -266,7 +334,7 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-  margin-right: 40px;
+  margin-right: 60px;
 }
 
 .btnSuplencia:hover {
@@ -278,3 +346,34 @@ h1 {
   background-color: #003fad;
   border-color: #003fad;
 }
+
+.btnBuscarSuplencia{
+  margin-left: 20px;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  background-color: #85a2ca;
+  border: 2px solid #81a3d4;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  margin-right: 40px;
+}
+
+
+.btnBuscarSuplencia:hover{
+  background-color: #0058e4;
+  border-color: #0058e4;
+}
+
+.btnBuscarSuplencia:active{
+  background-color: #003fad;
+  border-color: #003fad;
+}
+
+
+

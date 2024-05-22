@@ -22,7 +22,7 @@
         name="hora_inicial"
         id="hora_inicial"
         [(ngModel)]="suplenciasService.selectedSuplencia.hora_inicial"
-      />a
+      />
       <input
         type="time"
         name="hora_final"
@@ -52,11 +52,14 @@
         id="cuidadorPrimario"
         [(ngModel)]="suplenciasService.selectedSuplencia.id_cuidador_paciente"
       >
-        <option *ngFor="let cuidador of cuidadoresList" [value]="cuidador.id_cuidador_paciente">
-          {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }} {{ cuidador.apMatCuidador }}
+        <option
+          *ngFor="let cuidador of cuidadoresList"
+          [value]="cuidador.id_cuidador_paciente"
+        >
+          {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
+          {{ cuidador.apMatCuidador }}
         </option>
       </select>
-      
     </form>
   </div>
 

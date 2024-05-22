@@ -286,6 +286,8 @@ pacientesCtrls.addSuplencia = async (req, res) => {
     } = req.body;
 
     try {
+        console.log("Datos recibidos para la nueva suplencia:", req.body);
+
         // Verifica que el cuidador existe
         const [cuidador] = await pool.promise().query(
             "SELECT * FROM cuidadores WHERE id_cuidador_paciente = ?",
@@ -293,6 +295,8 @@ pacientesCtrls.addSuplencia = async (req, res) => {
         );
 
         if (cuidador.length > 0) {
+            console.log("Cuidador encontrado:", cuidador[0]);
+
             // Insertar la suplencia
             const [rows] = await pool.promise().query(
                 "INSERT INTO suplencias (id_cuidador_paciente, dia_suplencia, hora_inicial, hora_final, costoGuardia, particular) VALUES (?, ?, ?, ?, ?, ?)",
@@ -306,11 +310,15 @@ pacientesCtrls.addSuplencia = async (req, res) => {
                 ]
             );
 
+            console.log("Suplencia insertada:", rows);
+
             // Actualizar el número de suplencias del cuidador
-            await pool.promise().query(
+            const [updateResult] = await pool.promise().query(
                 "UPDATE cuidadores SET num_suplencias = num_suplencias + 1 WHERE id_cuidador_paciente = ?",
                 [id_cuidador_paciente]
             );
+
+            console.log("Número de suplencias actualizado:", updateResult);
 
             res.send({
                 id_cuidador_paciente,
@@ -328,6 +336,7 @@ pacientesCtrls.addSuplencia = async (req, res) => {
         res.status(500).send("Error al agregar la suplencia");
     }
 };
+
 
 
 
@@ -411,6 +420,27 @@ pacientesCtrls.getCuidadorById = async (req, res) => {
         res.status(404).send("Cuidador no encontrado"); // Si no se encuentra ningún cuidador con ese ID, devolver un mensaje de error
     }
 };
+
+
+pacientesCtrls.getTotalSuplenciasPorCuidador = async (req, res) => {
+    const id_cuidador = req.params.id;
+
+    try {
+        const [rows] = await pool
+            .promise()
+            .query("SELECT COUNT(*) AS total_suplencias FROM suplencias WHERE id_cuidador_paciente = ?", [id_cuidador]);
+
+        if (rows.length > 0) {
+            res.json({ total_suplencias: rows[0].total_suplencias });
+        } else {
+            res.status(404).send("Cuidador no encontrado");
+        }
+    } catch (error) {
+        console.error("Error al obtener el total de suplencias:", error);
+        res.status(500).send("Error al obtener el total de suplencias");
+    }
+};
+
 
 pacientesCtrls.updateCuidador = async (req, res) => {
     const id_cuidador_paciente = req.params.id; // Obtener el ID del cuidador de los parámetros de la solicitud

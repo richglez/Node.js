@@ -22,8 +22,8 @@ router.get('/pacientes/cuidador/:id', pacientesCtrls.getPacienteByCuidador);
 
 
 //suplencias
-router.post('/pacientes/suplencias', pacientesCtrls.addSuplencia) //alta suplencia
-router.get('/pacientes/suplencias', pacientesCtrls.getSuplencias) //todas las suplencias
+router.post('/suplencias', pacientesCtrls.addSuplencia) //alta suplencia
+router.get('/suplencias', pacientesCtrls.getSuplencias) //todas las suplencias
 
 //cuidadores
 router.get('/cuidadores', pacientesCtrls.getCuidadores)  // reporte todos los cuidadores
@@ -31,6 +31,8 @@ router.get('/cuidadores/search', pacientesCtrls.searchCuidadorAutoComplete); // 
 router.get('/cuidadores/:id', pacientesCtrls.getCuidadorById); // busqueda por su id
 router.post('/cuidadores', pacientesCtrls.addCuidador) // alta cuidador
 router.put('/cuidadores/:id', pacientesCtrls.updateCuidador) // actulizar cuidador
+router.get('/cuidadores/total-suplencias/:id', pacientesCtrls.getTotalSuplenciasPorCuidador);
+
 // router.delete('/cuidadores/:id', pacientesCtrls.deletePaciente) // bajas paciente
 
 // export

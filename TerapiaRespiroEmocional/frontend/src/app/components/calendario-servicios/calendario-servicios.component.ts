@@ -11,7 +11,6 @@ import { CuidadoresServiceService } from '../../services/cuidadores-service.serv
 import { Cuidador } from '../../models/cuidadores';
 import { Paciente } from '../../models/pacientes';
 
-
 @Component({
   selector: 'app-calendario-servicios',
   templateUrl: './calendario-servicios.component.html',
@@ -21,8 +20,10 @@ export class CalendarioServiciosComponent implements OnInit {
   public events: any[] = [];
   public options: any; // Usa any para opciones
   public pacienteRelacionado: Paciente | null = null;
-  public selectedCuidador: string = ''; // Variable para almacenar el cuidador seleccionado
+  public selectedCuidador: Cuidador | null = null;
+  public cuidadorSeleccionado: Cuidador | null = null;
   public selectAbierto: boolean = false;
+  public selectAbierto2: boolean = false;
   suplencia: Suplencia[] = [];
   searchText: string = '';
   selectedPaciente: Paciente | null = null; // Variable para almacenar el paciente seleccionado
@@ -31,30 +32,15 @@ export class CalendarioServiciosComponent implements OnInit {
   pacientes: Paciente[] = [];
   searchTextCuidadores: string = '';
   searchTextPacientes: string = '';
+  searchTextTotalSuplencias: string = '';
 
   constructor(
     public pacientesService: PacientesService,
     public dialog: MatDialog,
     public cuidadoresService: CuidadoresServiceService
   ) {
-    this.events = [
-      {
-        title: 'Suplencia 1',
-        start: new Date(),
-        cuidador: 'cuidador1', // Asigna un cuidador a la suplencia
-      },
-      {
-        title: 'Suplencia 2',
-        start: new Date(new Date().getTime() + 86400000),
-        cuidador: 'cuidador2', // Asigna un cuidador a la suplencia
-      },
-      {
-        title: 'Suplencia 3',
-        start: new Date(new Date().getTime() + 86400000 * 2),
-        end: new Date(new Date().getTime() + 86400000 * 3),
-        cuidador: 'cuidador3', // Asigna un cuidador a la suplencia
-      },
-    ];
+    // Inicializa el calendario sin eventos
+    this.events = [];
 
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -67,31 +53,6 @@ export class CalendarioServiciosComponent implements OnInit {
       },
     };
   }
-
-  // buscarPacienteDB(): void {  // buscar a todos los registros de pacientes en la base de datos, para poder seleccionarlo
-  //   this.pacientesService.searchAllPacientes(this.searchText).subscribe((pacientes: Paciente[]) => { // auto completado en el input?
-  //     this.pacientes = pacientes;
-  //   });
-  // }
-
-  // seleccionarPaciente(paciente: Paciente) {
-  //   // Asigna el nombre del paciente al campo de búsqueda
-  //   this.searchText = paciente.nombre_paciente;
-
-  //   // Verifica si id_paciente tiene un valor antes de usarlo
-  //   if (paciente.id_paciente !== undefined) {
-  //     // Busca los detalles del paciente por su ID y asigna los detalles al paciente seleccionado
-  //     this.pacientesService.getPacienteById(paciente.id_paciente).subscribe((pacienteData: Paciente) => {
-  //       this.selectedPaciente = pacienteData;
-  //       // Aquí puedes hacer lo que necesites con el paciente seleccionado, por ejemplo, mostrar los detalles en la ficha del paciente.
-  //         // Mostrar el contenedor de información del paciente
-  //         this.mostrarInfoPaciente = true;
-  //     });
-  //   } else {
-  //     console.error('El paciente seleccionado no tiene un ID válido.');
-  //   }
-  // }
-
 
   ngOnInit() {
     // Obtener la lista de cuidadores
@@ -114,53 +75,72 @@ export class CalendarioServiciosComponent implements OnInit {
     );
   }
 
-
-  seleccionarPacienteCuidadorSuplencias(paciente: Paciente) {
-    // Asigna el nombre del cuidador al campo de búsqueda
-    this.searchTextPacientes = `${paciente.nombre_paciente} ${paciente.apellido_paterno} ${paciente.apellido_materno}`;
-    this.searchTextCuidadores = `${paciente.cuidadorPrimario}`
-
+  seleccionarCuidador(cuidador: Cuidador) {
+    this.searchTextCuidadores = `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`;
+    this.searchTextTotalSuplencias = cuidador.num_suplencias.toString();
   }
   
   
-   
-  
-  
-  
-  
 
   
   
-
+  
+  seleccionarPaciente(paciente: Paciente) {
+    this.searchTextPacientes = `${paciente.nombre_paciente} ${paciente.apellido_paterno} ${paciente.apellido_materno}`
+  };
+  
+  
+  
+  
+  
 
   agregarSuplencia(): void {
     const dialogRef = this.dialog.open(NuevaSuplenciaDialogComponent, {
       width: '850px',
     });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          // Agregar el evento al calendario
-          // this.agregarEvento(result);
-        }
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Agregar el evento al calendario
+        this.agregarEvento(result);
+      }
+    });
   }
 
   toggleSelect() {
     this.selectAbierto = !this.selectAbierto;
   }
 
-  // agregarEvento(suplencia: any): void {
-  //   const nuevoEvento = {
-  //     title: 'Suplencia', // Puedes modificar este título según tus necesidades
-  //     start: suplencia.fechaInicio,
-  //     end: suplencia.fechaFin,
-  //     description: 'Suplencia', // Puedes modificar esta descripción según tus necesidades
-  //     costo: suplencia.costo,
-  //     particular: suplencia.particular,
-  //     cuidador: suplencia.cuidador
-  //   };
+  toggleSelect2() {
+    this.selectAbierto2 = !this.selectAbierto2;
+  }
 
-  // Agregar el nuevo evento a la lista de eventos
-  // this.events = [...this.events, nuevoEvento];
+  buscarSuplencia() {
+    if (this.selectedCuidador) {
+      // Filtrar la lista de pacientes antes de buscar suplencias
+      this.pacientes = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === this.selectedCuidador!.id_cuidador_paciente);
+      // Luego, puedes realizar la búsqueda de suplencias
+      // ...
+    }
+  }
+  
+
+  agregarEvento(suplencia: any): void {
+    const nuevoEvento = {
+      title: 'Suplencia', // Puedes modificar este título según tus necesidades
+      start: suplencia.fechaInicio,
+      end: suplencia.fechaFin,
+      description: 'Suplencia', // Puedes modificar esta descripción según tus necesidades
+      costo: suplencia.costo,
+      particular: suplencia.particular,
+      cuidador: suplencia.cuidador
+    };
+
+    // Agregar el nuevo evento a la lista de eventos
+    this.events = [...this.events, nuevoEvento];
+  }
+
+
+
+  
 }

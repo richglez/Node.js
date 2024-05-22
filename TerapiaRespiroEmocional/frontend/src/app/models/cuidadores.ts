@@ -6,7 +6,7 @@ export interface Cuidador {
   sexoCuidador: string;
   edadCuidador: number;
   telefonoCuidador: string;
-  num_suplencias: number;
+  num_suplencias: number; // Campo para el total de suplencias
   ultima_modificacion: string;
   ingreso_programa: string;
 }

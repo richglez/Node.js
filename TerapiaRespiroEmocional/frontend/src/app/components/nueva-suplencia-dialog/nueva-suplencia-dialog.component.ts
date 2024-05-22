@@ -11,7 +11,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./nueva-suplencia-dialog.component.scss'],
 })
 export class NuevaSuplenciaDialogComponent implements OnInit {
-  @ViewChild('suplenciaForm') suplenciaForm!: NgForm; // Add this line
+  @ViewChild('suplenciaForm') suplenciaForm!: NgForm; // Añadir referencia al formulario
 
   cuidadoresList: any[] = [];
 
@@ -26,26 +26,52 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  confirmar(): void {
-    if (this.suplenciaForm.valid) {
-      const { id_cuidador_paciente, dia_suplencia, hora_inicial, hora_final, costoGuardia, particular } = this.suplenciaForm.value;
-      this.suplenciasService.addSuplencia(id_cuidador_paciente, dia_suplencia, hora_inicial, hora_final, costoGuardia, particular).subscribe(
+  confirmar() {
+    const {
+      id_cuidador_paciente,
+      dia_suplencia,
+      hora_inicial,
+      hora_final,
+      costoGuardia,
+      particular,
+    } = this.suplenciasService.selectedSuplencia;
+
+    if (!id_cuidador_paciente) {
+      console.error('Cuidador no seleccionado');
+      return;
+    }
+
+    this.suplenciasService
+      .addSuplencia(
+        id_cuidador_paciente,
+        dia_suplencia,
+        hora_inicial,
+        hora_final,
+        costoGuardia,
+        particular
+      )
+      .subscribe(
         (response) => {
           console.log('Suplencia agregada exitosamente', response);
-          this.dialogRef.close(true);
-          // this.actualizarEventos();
+          this.resetForm(); // Reiniciar el formulario después de agregar exitosamente
         },
         (error) => {
           console.error('Error al agregar suplencia', error);
-          // Manejar el error apropiadamente
         }
       );
-    } else {
-      console.error('Formulario inválido');
-      // Manejar la validación del formulario
-    }
   }
-  
+
+  resetForm() {
+    this.suplenciasService.selectedSuplencia = {
+      id_cuidador_paciente: 0,
+      dia_suplencia: '',
+      hora_inicial: '',
+      hora_final: '',
+      costoGuardia: 0,
+      particular: '',
+    };
+    this.suplenciaForm.resetForm();
+  }
 
   ngOnInit() {
     // Obtener la lista de cuidadores
@@ -58,6 +84,4 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
       }
     );
   }
-
-
 }

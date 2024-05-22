@@ -32,6 +32,7 @@ export class PacientesService {
     recomendaciones: '',
     observaciones: '',
     suplencias: 0,
+    id_cuidador_paciente: 0
   };
 
   
@@ -74,6 +75,4 @@ export class PacientesService {
     return this.http.put(`${this.URL_API}/${paciente.id_paciente}`, paciente); // url + los datos del paciente
   }
 
-  
-  
 }

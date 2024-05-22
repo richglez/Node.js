@@ -22,7 +22,9 @@ CREATE TABLE pacientes(
     entidadFederativa varchar(255) not null,
     diagnostico varchar(255) not null,
 	cuidadorPrimario varchar(255) not null,
-    tipoPrograma varchar(255) not null
+    tipoPrograma varchar(255) not null,
+    id_cuidador_paciente int unsigned,
+    FOREIGN KEY (id_cuidador_paciente) REFERENCES cuidadores (id_cuidador_paciente)
 
 );
 
@@ -64,7 +66,7 @@ DESCRIBE cuidadores;
 
 
 
-SELECT * FROM Empleado;
+SELECT * FROM pacientes;
 SELECT * FROM Cuidadores;
 SELECT * FROM suplencias;
 
