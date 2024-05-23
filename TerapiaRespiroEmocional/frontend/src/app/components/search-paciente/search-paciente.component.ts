@@ -11,7 +11,7 @@ import { Paciente } from '../../models/pacientes';
 import { MatDialog } from '@angular/material/dialog'; // Importa solo MatDialog
 import { ConfirmarEliminarDialogComponent } from '../confirmar-eliminar-dialog/confirmar-eliminar-dialog.component';
 import { ActualizarDialogComponent } from '../actualizar-dialog/actualizar-dialog.component';
-
+import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
 
 @Component({
   selector: 'app-search-paciente',
@@ -23,11 +23,13 @@ export class SearchPacienteComponent implements OnInit {
   searchTextPacientes: string = '';
   selectedPaciente: Paciente | null = null; // Variable para almacenar el paciente seleccionado
   originalPaciente: Paciente | null = null; // Variable para almacenar los valores originales del paciente seleccionado
+  nombreCompletoCuidador: string = '';
 
   @ViewChildren('inputField') inputFields!: QueryList<ElementRef>;
 
   constructor(
     public pacientesService: PacientesService,
+    private cuidadoresService: CuidadoresServiceService,
     private dialog: MatDialog
   ) {
     //instancia, poder tener todos los metodos
@@ -67,6 +69,24 @@ export class SearchPacienteComponent implements OnInit {
         .subscribe((pacienteData: Paciente) => {
           this.selectedPaciente = pacienteData;
           this.originalPaciente = { ...pacienteData };
+
+          // Verifica si id_cuidador_paciente tiene un valor antes de usarlo
+          if (this.selectedPaciente.id_cuidador_paciente !== undefined) {
+            this.cuidadoresService
+              .getCuidadorById(this.selectedPaciente.id_cuidador_paciente)
+              .subscribe(
+                (cuidador) => {
+                  this.nombreCompletoCuidador = `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`;
+                },
+                (err) => {
+                  console.error(err);
+                }
+              );
+          } else {
+            console.error(
+              'El paciente seleccionado no tiene un cuidador asignado.'
+            );
+          }
         });
     } else {
       console.error('El paciente seleccionado no tiene un ID válido.');
@@ -122,8 +142,6 @@ export class SearchPacienteComponent implements OnInit {
       }
     });
   }
-
-  
 
   editPaciente() {
     const inputs = document.querySelectorAll('.container-data-paciente input');

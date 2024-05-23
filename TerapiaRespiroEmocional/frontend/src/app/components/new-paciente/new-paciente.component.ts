@@ -36,7 +36,7 @@ export class NewPacienteComponent implements OnInit {
 
     this.expediente_paciente = `${year}/${nroRegistroPadded}`;
     this.txtFechaIngreso = this.fechaActual.toISOString().split('T')[0]; // No es necesario convertir a ISO
-
+    
     // Obtener la lista de cuidadores
     this.cuidadoresService.getCuidadores().subscribe(
       (cuidadores) => {
