@@ -10,6 +10,7 @@ import { NuevaSuplenciaDialogComponent } from '../nueva-suplencia-dialog/nueva-s
 import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
 import { Cuidador } from '../../models/cuidadores';
 import { Paciente } from '../../models/pacientes';
+import { SuplenciasServiceService } from '../../services/suplencias-service.service';
 
 @Component({
   selector: 'app-calendario-servicios',
@@ -33,7 +34,8 @@ export class CalendarioServiciosComponent implements OnInit {
   constructor(
     public pacientesService: PacientesService,
     public dialog: MatDialog,
-    public cuidadoresService: CuidadoresServiceService
+    public cuidadoresService: CuidadoresServiceService,
+    private suplenciasService: SuplenciasServiceService
   ) {
     this.events = [];
     this.options = {
@@ -100,9 +102,39 @@ export class CalendarioServiciosComponent implements OnInit {
     this.selectAbierto2 = !this.selectAbierto2;
   }
 
-  buscarSuplencia() { //filtrar los pacientes asociados con un cuidador seleccionado y luego buscar suplencias específicas relacionadas con ese cuidador
-    console.log(`Estas buscando una suplencia en el calendario apartir del cuidador: ${this.searchTextCuidadores} \ny del paciente: ${this.searchTextPacientes}`); 
+  buscarSuplencia() {
+    if (this.selectedCuidador && this.searchTextPacientes) {
+      const idCuidador = this.selectedCuidador.id_cuidador_paciente;
+      const pacienteSeleccionado = this.filteredPacientes.find(paciente => 
+        `${paciente.nombre_paciente} ${paciente.apellido_paterno} ${paciente.apellido_materno}` === this.searchTextPacientes
+      );
+  
+      if (pacienteSeleccionado && pacienteSeleccionado.id_paciente !== undefined) {
+        const idPaciente = pacienteSeleccionado.id_paciente;
+        this.suplenciasService.buscarSuplenciasPorCuidadorYPaciente(idCuidador, idPaciente).subscribe(
+          (suplencias: Suplencia[]) => {
+            this.events = suplencias.map(suplencia => ({
+              title: `Suplencia de ${this.searchTextCuidadores}`,
+              start: `${suplencia.dia_suplencia}T${suplencia.hora_inicial}`,
+              end: `${suplencia.dia_suplencia}T${suplencia.hora_final}`,
+              description: `Costo: ${suplencia.costoGuardia}, Particular: ${suplencia.particular}`,
+            }));
+          },
+          (error) => {
+            console.error('Error fetching suplencias:', error);
+          }
+        );
+      } else {
+        console.warn('Paciente no encontrado o id_paciente es undefined');
+      }
+    } else {
+      console.warn('Cuidador o paciente no seleccionado');
+    }
   }
+  
+  
+  
+  
 
   agregarEvento(suplencia: any): void {
     const nuevoEvento = {

@@ -24,6 +24,7 @@ router.get('/pacientes/cuidador/:id', pacientesCtrls.getPacienteByCuidador);
 //suplencias
 router.post('/suplencias', pacientesCtrls.addSuplencia) //alta suplencia
 router.get('/suplencias', pacientesCtrls.getSuplencias) //todas las suplencias
+router.get('/suplencias/buscar', pacientesCtrls.buscarSuplenciasPorCuidadorYPaciente); // Ruta para buscar suplencias por cuidador y paciente
 
 //cuidadores
 router.get('/cuidadores', pacientesCtrls.getCuidadores)  // reporte todos los cuidadores

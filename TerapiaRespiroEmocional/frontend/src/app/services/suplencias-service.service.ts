@@ -11,37 +11,30 @@ export class SuplenciasServiceService {
   suplencia: Suplencia[] = [];
 
   selectedSuplencia: Suplencia = {
-    id_cuidador_paciente: 0,
     dia_suplencia: '',
     hora_inicial: '',
     hora_final: '',
     costoGuardia: 0,
     particular: '',
+    id_cuidador_paciente: 0,
+    id_paciente: 0
   };
 
   constructor(private http: HttpClient) {}
 
-  addSuplencia(
-    id_cuidador_paciente: number,
-    dia_suplencia: string,
-    hora_inicial: string,
-    hora_final: string,
-    costoGuardia: number,
-    particular: string
-  ): Observable<any> {
-    const suplencia: Suplencia = {
-      id_cuidador_paciente,
-      dia_suplencia,
-      hora_inicial,
-      hora_final,
-      costoGuardia,
-      particular,
-    };
-    console.log('Datos enviados para la nueva suplencia:', suplencia);
-    return this.http.post<any>(`${this.URL_API}`, suplencia);
+  addSuplencia(){
+
   }
+  
 
   getSuplencias(): Observable<Suplencia[]> {
     return this.http.get<Suplencia[]>(this.URL_API);
   }
+
+
+  buscarSuplenciasPorCuidadorYPaciente(idCuidador: number, idPaciente: number): Observable<Suplencia[]> {
+    return this.http.get<Suplencia[]>(`${this.URL_API}/buscar?cuidador=${idCuidador}&paciente=${idPaciente}`);
+  }
+  
+  
 }
