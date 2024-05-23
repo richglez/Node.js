@@ -4,6 +4,7 @@ import { CuidadoresServiceService } from '../../services/cuidadores-service.serv
 import { PacientesService } from '../../services/pacientes.service';
 import { SuplenciasServiceService } from '../../services/suplencias-service.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { CalendarioServiciosComponent } from '../calendario-servicios/calendario-servicios.component'; // Importar el componente de calendario
 
 @Component({
   selector: 'app-nueva-suplencia-dialog',
@@ -19,7 +20,8 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<NuevaSuplenciaDialogComponent>,
     public cuidadoresService: CuidadoresServiceService,
     public pacientesService: PacientesService,
-    public suplenciasService: SuplenciasServiceService
+    public suplenciasService: SuplenciasServiceService,
+    public calendarioServiciosComponent: CalendarioServiciosComponent // Inyectar el componente de calendario
   ) {}
 
   cancelar(): void {
@@ -53,6 +55,7 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('Suplencia agregada exitosamente', response);
+          this.calendarioServiciosComponent.agregarEvento(response); // Agregar evento al calendario
           this.resetForm(); // Reiniciar el formulario después de agregar exitosamente
         },
         (error) => {

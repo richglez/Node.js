@@ -21,7 +21,6 @@ CREATE TABLE pacientes (
     alcaldia_municipio VARCHAR(255),
     entidadFederativa VARCHAR(255),
     diagnostico VARCHAR(255),
-    cuidadorPrimario VARCHAR(255),
     parentesco_con_cuidador VARCHAR(255),  -- Nueva columna
     tipoPrograma VARCHAR(255),
     observaciones VARCHAR(255),
@@ -77,10 +76,9 @@ drop table cuidadores;
 drop table suplencias;
 
 use terapia_respiro_emocional;
-DESCRIBE suplencias;
 DESCRIBE pacientes;
 DESCRIBE cuidadores;
-
+DESCRIBE suplencias;
 
 
 SELECT * FROM pacientes;

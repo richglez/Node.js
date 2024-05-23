@@ -9,7 +9,6 @@ import { CuidadoresServiceService } from '../../services/cuidadores-service.serv
   styleUrls: ['./new-paciente.component.scss'],
 })
 export class NewPacienteComponent implements OnInit {
-  expediente_paciente: string = '';
   fechaActual: Date = new Date();
   textoConAcentos: string = '';
   txtFechaIngreso: string = '';
@@ -18,6 +17,10 @@ export class NewPacienteComponent implements OnInit {
   otraEntidadFederativa: string = '';
   otraNacionalidad: string = '';
   otroTipoPrograma: string = '';
+  selectedCuidadorId: number | undefined;
+  expediente_paciente: string = '';
+  expedienteExistenteError: boolean = false; // Agrega una propiedad para el mensaje de error
+  expedientesRegistrados: string[] = []; // Array para almacenar expedientes ya registrados
   // nombreCompletoCuidador: string = '';
 
   constructor(
@@ -45,22 +48,35 @@ export class NewPacienteComponent implements OnInit {
     );
   }
 
+  //   onSelectCuidador(event: any) {
+  //     console.log(this.nombreCompletoCuidador);
+  // }
 
-//   onSelectCuidador(event: any) {
-//     console.log(this.nombreCompletoCuidador);
-// }
-
-
-
-  
+  expedienteExists(expediente: string): boolean {
+    // Verifica si el expediente ya existe en la lista de pacientes registrados
+    return this.expedientesRegistrados.includes(expediente);
+  }
 
   addPaciente(form: NgForm) {
-    if (!form.valid) {
-      alert('Por favor, completa todos los campos antes de continuar.');
+    // Verifica si el expediente ya existe
+    if (this.expedienteExists(form.value.expediente_paciente)) {
+      this.expedienteExistenteError = true;
       return;
     }
 
-    if (form.value.id_employee) {
+    // if (!form.valid) {
+    //   alert('Por favor, completa todos los campos antes de continuar.');
+    //   return;
+    // }
+
+    // if (!this.selectedCuidadorId) {
+    //   alert('Por favor, selecciona un cuidador antes de continuar.');
+    //   return;
+    // }
+
+    form.value.id_cuidador_paciente = this.selectedCuidadorId;
+
+    if (form.value.id_paciente) {
       this.pacientesService.updatePaciente(form.value).subscribe(
         (res) => console.log(res),
         (err) => console.log(err)
@@ -74,10 +90,4 @@ export class NewPacienteComponent implements OnInit {
       );
     }
   }
-
-
-  
-  
-  
-  
 }

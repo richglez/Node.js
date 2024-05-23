@@ -17,7 +17,6 @@ pacientesCtrls.searchPacienteAutoComplete = async (req, res) => {
         );
     res.json(rows);
 };
-
 pacientesCtrls.addPaciente = async (req, res) => {
     const {
         expediente_paciente,
@@ -32,18 +31,21 @@ pacientesCtrls.addPaciente = async (req, res) => {
         alcaldia_municipio,
         entidadFederativa,
         diagnostico,
-        cuidadorPrimario,
+        parentesco_con_cuidador,
         tipoPrograma,
         observaciones,
         recomendaciones,
+        id_cuidador_paciente,  // Nuevo campo para el ID del cuidador
     } = req.body;
+
+    
 
     console.log(req.body); // Mostrar el contenido de req.body en la consola
 
     const [rows] = await pool
         .promise()
         .query(
-            "INSERT INTO pacientes (expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, cuidadorPrimario, tipoPrograma, observaciones, recomendaciones) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO pacientes (expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, parentesco_con_cuidador, tipoPrograma, observaciones, recomendaciones, id_cuidador_paciente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 expediente_paciente,
                 nombre_paciente,
@@ -57,10 +59,11 @@ pacientesCtrls.addPaciente = async (req, res) => {
                 alcaldia_municipio,
                 entidadFederativa,
                 diagnostico,
-                cuidadorPrimario,
+                parentesco_con_cuidador,
                 tipoPrograma,
                 observaciones,
                 recomendaciones,
+                id_cuidador_paciente,  // Se agrega el ID del cuidador
             ]
         );
 
@@ -78,12 +81,15 @@ pacientesCtrls.addPaciente = async (req, res) => {
         alcaldia_municipio,
         entidadFederativa,
         diagnostico,
-        cuidadorPrimario,
+        parentesco_con_cuidador,
         tipoPrograma,
         observaciones,
         recomendaciones,
+        id_cuidador_paciente,  // Se envía también el ID del cuidador
     });
 };
+
+
 
 pacientesCtrls.getPacientes = async (req, res) => {
     const [rows] = await pool.promise().query("SELECT * FROM pacientes");
@@ -103,6 +109,22 @@ pacientesCtrls.getPacienteById = async (req, res) => {
     }
 };
 
+
+pacientesCtrls.checkExpedienteInUse = async (req, res) => {
+    const expediente = req.body.expediente_paciente;
+    const [rows] = await pool
+      .promise()
+      .query("SELECT * FROM pacientes WHERE expediente_paciente = ?", [expediente]);
+  
+    if (rows.length > 0) {
+      res.json({ error: "Este expediente ya está en uso" });
+    } else {
+      res.json({ success: "Expediente válido" });
+    }
+  };
+
+  
+
 pacientesCtrls.getExpedientes = async (req, res) => {
     const [rows] = await pool
         .promise()
@@ -116,7 +138,7 @@ pacientesCtrls.getPacienteByCuidador = async (req, res) => {
     const id_cuidador_paciente = req.params.id; // Obtener el ID del cuidador de los parámetros de la solicitud
     const [rows] = await pool
         .promise()
-        .query("SELECT * FROM pacientes WHERE cuidadorPrimario = ?", [
+        .query("SELECT * FROM pacientes WHERE id_cuidador_paciente = ?", [
             id_cuidador_paciente,
         ]);
 
@@ -144,7 +166,6 @@ pacientesCtrls.updatePaciente = async (req, res) => {
         alcaldia_municipio,
         entidadFederativa,
         diagnostico,
-        cuidadorPrimario,
         tipoPrograma,
         observaciones,
         recomendaciones,
@@ -202,10 +223,6 @@ pacientesCtrls.updatePaciente = async (req, res) => {
         query += "diagnostico = ?, ";
         values.push(diagnostico);
     }
-    if (cuidadorPrimario) {
-        query += "cuidadorPrimario = ?, ";
-        values.push(cuidadorPrimario);
-    }
     if (tipoPrograma) {
         query += "tipoPrograma = ?, ";
         values.push(tipoPrograma);
@@ -243,7 +260,6 @@ pacientesCtrls.updatePaciente = async (req, res) => {
         alcaldia_municipio,
         entidadFederativa,
         diagnostico,
-        cuidadorPrimario,
         tipoPrograma,
         observaciones,
         recomendaciones,

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; // metodos http
+import { HttpClient } from '@angular/common/http';
 import { Paciente } from '../models/pacientes';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,6 @@ export class PacientesService {
   URL_API = 'http://localhost:4000/api/ccuidarte-app/pacientes';
   paciente: Paciente[] = [];
 
-
-  
   selectedPaciente: Paciente = {
     // todos los datos del paciente
     expediente_paciente: '',
@@ -26,16 +25,15 @@ export class PacientesService {
     alcaldia_municipio: '',
     entidadFederativa: '',
     diagnostico: '',
-    cuidadorPrimario: '',
+    parentesco_con_cuidador: '',
     tipoPrograma: '',
     ingreso_programa: '',
     recomendaciones: '',
     observaciones: '',
     suplencias: 0,
-    id_cuidador_paciente: 0
+    id_cuidador_paciente: 0,
   };
 
-  
   // constructor
   constructor(private http: HttpClient) {}
 
@@ -53,10 +51,16 @@ export class PacientesService {
   getPacienteByCuidador(idCuidador: number): Observable<Paciente> {
     return this.http.get<Paciente>(`${this.URL_API}/cuidador/${idCuidador}`);
   }
-  
 
   getPacienteById(id: number): Observable<Paciente> {
     return this.http.get<Paciente>(`${this.URL_API}/${id}`);
+  }
+
+  // Método para verificar si un expediente ya está en uso
+  checkExpedienteInUse(expediente: string): Observable<boolean> {
+    return this.getExpedientes().pipe(
+      map((expedientes: string[]) => expedientes.includes(expediente))
+    );
   }
 
   getExpedientes(): Observable<string[]> {
@@ -74,5 +78,4 @@ export class PacientesService {
   updatePaciente(paciente: Paciente): Observable<any> {
     return this.http.put(`${this.URL_API}/${paciente.id_paciente}`, paciente); // url + los datos del paciente
   }
-
 }

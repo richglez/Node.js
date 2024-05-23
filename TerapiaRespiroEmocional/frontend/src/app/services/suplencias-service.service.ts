@@ -40,4 +40,8 @@ export class SuplenciasServiceService {
     console.log('Datos enviados para la nueva suplencia:', suplencia);
     return this.http.post<any>(`${this.URL_API}`, suplencia);
   }
+
+  getSuplencias(): Observable<Suplencia[]> {
+    return this.http.get<Suplencia[]>(this.URL_API);
+  }
 }

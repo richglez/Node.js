@@ -46,14 +46,12 @@ export class CalendarioServiciosComponent implements OnInit {
         right: 'dayGridMonth,timeGridWeek,timeGridDay',
       },
     };
-    console.log('Constructor inicializado'); // Depuración
   }
 
   ngOnInit() {
     this.cuidadoresService.getCuidadores().subscribe(
       (cuidadores) => {
         this.cuidadores = cuidadores;
-        console.log('Cuidadores cargados:', this.cuidadores); // Verificar cuidadores
       },
       (err) => {
         console.error(err);
@@ -63,41 +61,23 @@ export class CalendarioServiciosComponent implements OnInit {
     this.pacientesService.getPacientes().subscribe(
       (pacientes) => {
         this.pacientes = pacientes;
-        this.filteredPacientes = this.pacientes; // Inicializar filteredPacientes con todos los pacientes
-        console.log('Pacientes cargados:', this.pacientes); // Verificar pacientes
+        this.filteredPacientes = this.pacientes;
       },
       (err) => {
         console.error(err);
       }
     );
   }
-  
 
-  
   seleccionarCuidador(cuidador: Cuidador) {
     this.selectedCuidador = cuidador;
     this.searchTextCuidadores = `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`;
     this.searchTextTotalSuplencias = cuidador.num_suplencias.toString();
-  
-    // Filtrar pacientes por id del cuidador
-    console.log('ID del cuidador seleccionado:', cuidador.id_cuidador_paciente);
-    this.filteredPacientes = this.pacientes.filter(paciente => {
-      console.log('ID del cuidador del paciente:', paciente.id_cuidador_paciente);
-      return paciente.id_cuidador_paciente === cuidador.id_cuidador_paciente;
-    });
-  
-    console.log('Pacientes filtrados:', this.filteredPacientes); // Verificar si se filtran correctamente
-    console.log('Cuidador seleccionado:', this.searchTextCuidadores); // Depuración
+    this.filteredPacientes = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === cuidador.id_cuidador_paciente);
   }
-  
-  
-
-  
-  
 
   seleccionarPaciente(paciente: Paciente) {
     this.searchTextPacientes = `${paciente.nombre_paciente} ${paciente.apellido_paterno} ${paciente.apellido_materno}`;
-    console.log('Paciente seleccionado:', this.searchTextPacientes); // Depuración
   }
 
   agregarSuplencia(): void {
@@ -114,34 +94,22 @@ export class CalendarioServiciosComponent implements OnInit {
 
   toggleSelect() {
     this.selectAbierto = !this.selectAbierto;
-    console.log('Toggle select abierto:', this.selectAbierto); // Depuración
   }
   
   toggleSelect2() {
     this.selectAbierto2 = !this.selectAbierto2;
-    console.log('Toggle select2 abierto:', this.selectAbierto2); // Depuración
   }
 
-  buscarSuplencia() {
-    if (this.selectedCuidador) {
-      // Filtrar la lista de pacientes antes de buscar suplencias
-      this.filteredPacientes = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === this.selectedCuidador!.id_cuidador_paciente);
-      // Luego, puedes realizar la búsqueda de suplencias
-      // ...
-    }
+  buscarSuplencia() { //filtrar los pacientes asociados con un cuidador seleccionado y luego buscar suplencias específicas relacionadas con ese cuidador
+    console.log(`Estas buscando una suplencia en el calendario apartir del cuidador: ${this.searchTextCuidadores} \ny del paciente: ${this.searchTextPacientes}`); 
   }
-
-  
 
   agregarEvento(suplencia: any): void {
     const nuevoEvento = {
-      title: 'Suplencia',
-      start: suplencia.fechaInicio,
-      end: suplencia.fechaFin,
-      description: 'Suplencia',
-      costo: suplencia.costo,
-      particular: suplencia.particular,
-      cuidador: suplencia.cuidador
+      title: `Suplencia de ${suplencia.cuidador}`,
+      start: `${suplencia.dia_suplencia}T${suplencia.hora_inicial}`,
+      end: `${suplencia.dia_suplencia}T${suplencia.hora_final}`,
+      description: `Costo: ${suplencia.costoGuardia}, Particular: ${suplencia.particular}`,
     };
 
     this.events = [...this.events, nuevoEvento];

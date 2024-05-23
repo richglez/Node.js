@@ -14,8 +14,7 @@ export interface Paciente{ // descripcion del objeto empleado, proveniente de lo
     alcaldia_municipio: string,
     entidadFederativa: string,
     diagnostico: string,
-    cuidadorPrimario: string,
-    parentesco_con_cuidador: string,
+    parentesco_con_cuidador: string, //nueva columna
     tipoPrograma: string,
     recomendaciones?: string,
     observaciones?: string,

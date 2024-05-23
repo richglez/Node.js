@@ -160,14 +160,34 @@
       <select
         name="cuidadorPrimario"
         id="txtCuidador"
+        [(ngModel)]="selectedCuidadorId"
+        required
       >
         <option
           *ngFor="let cuidador of cuidadoresList"
+          [value]="cuidador.id_cuidador_paciente"
         >
-          {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }} {{ cuidador.apMatCuidador }}
+          {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
+          {{ cuidador.apMatCuidador }}
         </option>
       </select>
-      
+      <input
+        type="hidden"
+        name="id_cuidador_paciente"
+        [value]="selectedCuidadorId"
+      />
+    </div>
+
+    <div class="form-section">
+      <label for="txtParentesco"
+        >Que Parentesco del cuidador tiene con este paciente?:
+      </label>
+      <input
+        type="text"
+        name="parentesco"
+        id="txtParentesco"
+        [(ngModel)]="pacientesService.selectedPaciente.parentesco_con_cuidador"
+      />
     </div>
 
     <div class="form-section">
@@ -208,6 +228,7 @@
       </div>
 
       <label for="txtExpediente">Expediente:</label>
+
       <input
         type="text"
         name="expediente_paciente"
@@ -216,6 +237,9 @@
         [(ngModel)]="expediente_paciente"
         required
       />
+      <div *ngIf="expedienteExistenteError" class="error-message">
+        * Este expediente ya está en uso
+      </div>
     </div>
 
     <input type="submit" value="Registrar" id="btnRegistrar" />

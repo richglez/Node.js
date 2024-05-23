@@ -1,0 +1,239 @@
+quiero un metodo para buscar una suplencias en especifico de acuerdo a
+- Quien es el cuidador?
+- Quien es el paciente?
+
+y asi mismo obtener en un <span> si se pudo obtener resultado de acuerdo a la busqueda o lanzar un error de que no
+
+
+como puedo programar que este boton pueda refleja el evento en el calendario?
+
+osea por ejemplo quiero que se refleje en mi calendario los eventos(suplencias) las suplencias que tengo en mi base de datos:
+
+
+mysql> SELECT * FROM suplencias;
++--------------+---------------+--------------+------------+--------------+------------+----------------------+-------------+
+| id_suplencia | dia_suplencia | hora_inicial | hora_final | costoGuardia | particular | id_cuidador_paciente | id_paciente |
++--------------+---------------+--------------+------------+--------------+------------+----------------------+-------------+
+|            1 | 2024-05-03    | 10:00        | 16:00      |          500 | si         |                    1 |        NULL |
++--------------+---------------+--------------+------------+--------------+------------+----------------------+-------------+
+1 row in set (0.00 sec)
+
+
+mysql> DESCRIBE suplencias;
++----------------------+--------------+------+-----+---------+----------------+
+| Field                | Type         | Null | Key | Default | Extra          |
++----------------------+--------------+------+-----+---------+----------------+
+| id_suplencia         | int unsigned | NO   | PRI | NULL    | auto_increment |
+| dia_suplencia        | date         | YES  |     | NULL    |                |
+| hora_inicial         | varchar(255) | YES  |     | NULL    |                |
+| hora_final           | varchar(255) | YES  |     | NULL    |                |
+| costoGuardia         | int          | YES  |     | NULL    |                |
+| particular           | varchar(80)  | YES  |     | NULL    |                |
+| id_cuidador_paciente | int unsigned | YES  | MUL | NULL    |                |
+| id_paciente          | int unsigned | YES  | MUL | NULL    |                |
++----------------------+--------------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+
+
+<button class="btnSuplencia" (click)="agregarSuplencia()">
+  Agregar Suplencias
+</button>
+
+<!----------------Select cuidador-------------------->
+<div class="select-cuidador" (click)="toggleSelect()">
+  <div class="select-btn">
+    <span class="sBtn-text">{{
+      searchTextCuidadores || "Seleccionar cuidador"
+    }}</span>
+    <i
+      class="bx"
+      [class.bx-chevron-down]="!selectAbierto"
+      [class.bx-chevron-up]="selectAbierto"
+    ></i>
+  </div>
+  <ul class="options" *ngIf="selectAbierto">
+    <li
+      class="option"
+      *ngFor="let cuidador of cuidadores"
+      (click)="seleccionarCuidador(cuidador)"
+    >
+      <i class="bx bxs-user-badge"></i>
+      <span class="option-namePaciente"
+        >{{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
+        {{ cuidador.apMatCuidador }}</span
+      >
+    </li>
+  </ul>
+</div>
+
+<!----------------suplencias-------------------->
+<div class="suplencias">
+  <div class="select-btn2">
+    <span class="sBtn-text">{{
+      "Total de suplencias:  " + searchTextTotalSuplencias
+    }}</span>
+  </div>
+</div>
+
+<!----------------Select paciente-------------------->
+<div class="select-paciente" (click)="toggleSelect2()">
+  <div class="select-btn">
+    <span class="sBtn-text">{{
+      searchTextPacientes || "Seleccionar paciente"
+    }}</span>
+    <i
+      class="bx"
+      [class.bx-chevron-down]="!selectAbierto2"
+      [class.bx-chevron-up]="selectAbierto2"
+    ></i>
+  </div>
+  <ul class="options" *ngIf="selectAbierto2">
+    <li
+      class="option"
+      *ngFor="let paciente of filteredPacientes"
+      (click)="seleccionarPaciente(paciente)"
+    >
+      <i class="bx bxs-user-badge"></i>
+      <span class="option-namePaciente"
+        >{{ paciente.nombre_paciente }} {{ paciente.apellido_paterno }}
+        {{ paciente.apellido_materno }}</span
+      >
+    </li>
+  </ul>
+</div>
+
+<button class="btnBuscarSuplencia" (click)="buscarSuplencia()">
+  Buscar Suplencias
+</button>
+
+<div class="calendar-container">
+  <full-calendar
+    [options]="options"
+    [events]="events"
+    class="custom-calendar"
+  ></full-calendar>
+</div>
+
+
+
+
+
+
+import { Component, OnInit } from '@angular/core';
+import esLocale from '@fullcalendar/core/locales/es';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { PacientesService } from '../../services/pacientes.service';
+import { Suplencia } from '../../models/suplencias';
+import { MatDialog } from '@angular/material/dialog';
+import { NuevaSuplenciaDialogComponent } from '../nueva-suplencia-dialog/nueva-suplencia-dialog.component';
+import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
+import { Cuidador } from '../../models/cuidadores';
+import { Paciente } from '../../models/pacientes';
+
+@Component({
+  selector: 'app-calendario-servicios',
+  templateUrl: './calendario-servicios.component.html',
+  styleUrls: ['./calendario-servicios.component.scss'],
+})
+export class CalendarioServiciosComponent implements OnInit {
+  public events: any[] = [];
+  public options: any;
+  public selectedCuidador: Cuidador | null = null;
+  public selectAbierto: boolean = false;
+  public selectAbierto2: boolean = false;
+  public suplencias: Suplencia[] = [];
+  public searchTextCuidadores: string = '';
+  public searchTextPacientes: string = '';
+  public searchTextTotalSuplencias: string = '';
+  public cuidadores: Cuidador[] = [];
+  public pacientes: Paciente[] = [];
+  public filteredPacientes: Paciente[] = [];
+
+  constructor(
+    public pacientesService: PacientesService,
+    public dialog: MatDialog,
+    public cuidadoresService: CuidadoresServiceService
+  ) {
+    this.events = [];
+    this.options = {
+      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+      initialView: 'dayGridMonth',
+      locale: esLocale,
+      headerToolbar: {
+        left: 'prev,next',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay',
+      },
+    };
+  }
+
+  ngOnInit() {
+    this.cuidadoresService.getCuidadores().subscribe(
+      (cuidadores) => {
+        this.cuidadores = cuidadores;
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+  
+    this.pacientesService.getPacientes().subscribe(
+      (pacientes) => {
+        this.pacientes = pacientes;
+        this.filteredPacientes = this.pacientes;
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+  }
+
+  seleccionarCuidador(cuidador: Cuidador) {
+    this.selectedCuidador = cuidador;
+    this.searchTextCuidadores = `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`;
+    this.searchTextTotalSuplencias = cuidador.num_suplencias.toString();
+    this.filteredPacientes = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === cuidador.id_cuidador_paciente);
+  }
+
+  seleccionarPaciente(paciente: Paciente) {
+    this.searchTextPacientes = `${paciente.nombre_paciente} ${paciente.apellido_paterno} ${paciente.apellido_materno}`;
+  }
+
+  agregarSuplencia(): void {
+    const dialogRef = this.dialog.open(NuevaSuplenciaDialogComponent, {
+      width: '850px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.agregarEvento(result);
+      }
+    });
+  }
+
+  toggleSelect() {
+    this.selectAbierto = !this.selectAbierto;
+  }
+  
+  toggleSelect2() {
+    this.selectAbierto2 = !this.selectAbierto2;
+  }
+
+  buscarSuplencia() { //filtrar los pacientes asociados con un cuidador seleccionado y luego buscar suplencias específicas relacionadas con ese cuidador
+    console.log(`Estas buscando una suplencia en el calendario apartir del cuidador: ${this.searchTextCuidadores} \ny del paciente: ${this.searchTextPacientes}`); 
+  }
+
+  agregarEvento(suplencia: any): void {
+    const nuevoEvento = {
+      title: `Suplencia de ${suplencia.cuidador}`,
+      start: `${suplencia.dia_suplencia}T${suplencia.hora_inicial}`,
+      end: `${suplencia.dia_suplencia}T${suplencia.hora_final}`,
+      description: `Costo: ${suplencia.costoGuardia}, Particular: ${suplencia.particular}`,
+    };
+
+    this.events = [...this.events, nuevoEvento];
+  }
+}
