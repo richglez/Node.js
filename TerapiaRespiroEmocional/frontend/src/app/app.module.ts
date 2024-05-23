@@ -26,6 +26,9 @@ import { NewCuidadorComponent } from './components/new-cuidador/new-cuidador.com
 import { SearchCuidadorComponent } from './components/search-cuidador/search-cuidador.component';
 import { Actulizar2DialogComponent } from './components/actulizar2-dialog/actulizar2-dialog.component';
 import { ConfirmarEliminar2DialogComponent } from './components/confirmar-eliminar2-dialog/confirmar-eliminar2-dialog.component';
+import { CuidadoresServiceService } from './services/cuidadores-service.service'
+import { PacientesService } from './services/pacientes.service'
+import { SuplenciasServiceService } from './services/suplencias-service.service'
 
 @NgModule({
   declarations: [
@@ -57,6 +60,9 @@ import { ConfirmarEliminar2DialogComponent } from './components/confirmar-elimin
     BrowserAnimationsModule // Agrega BrowserAnimationsModule a la lista de imports
   ],
   providers: [
+    PacientesService,
+    CuidadoresServiceService,
+    SuplenciasServiceService
   ],
   bootstrap: [AppComponent]
 })

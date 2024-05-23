@@ -5,6 +5,6 @@ export interface Suplencia {
   hora_final: string;
   costoGuardia: number;
   particular: string;
-  id_cuidador_paciente: number;
-  id_paciente: number;
+  id_cuidador_paciente?: number;
+  id_paciente?: number;
 }
