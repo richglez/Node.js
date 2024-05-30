@@ -20,11 +20,13 @@ export class SuplenciasServiceService {
 
   constructor(private http: HttpClient) {}
 
-  addSuplencia(suplencia: Suplencia): Observable<Suplencia> {
-    return this.http.post<Suplencia>('/api/suplencias', suplencia);
+
+  addSuplencia(suplencia: Suplencia) {
+    return this.http.post(this.URL_API, suplencia);
   }
 
   getSuplenciasByCuidadorAndPaciente(id_cuidador_paciente: number, id_paciente: number): Observable<Suplencia[]> {
-    return this.http.get<Suplencia[]>(`/api/suplencias?cuidador=${id_cuidador_paciente}&paciente=${id_paciente}`);
+    const url = `${this.URL_API}?cuidador=${id_cuidador_paciente}&paciente=${id_paciente}`;
+    return this.http.get<Suplencia[]>(url);
   }
 }
