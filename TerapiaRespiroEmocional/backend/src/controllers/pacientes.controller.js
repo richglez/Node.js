@@ -19,34 +19,40 @@ pacientesCtrls.searchPacienteAutoComplete = async (req, res) => {
         );
     res.json(rows);
 };
+
 pacientesCtrls.addPaciente = async (req, res) => {
-    const {
-        expediente_paciente,
-        nombre_paciente,
-        apellido_paterno,
-        apellido_materno,
-        sexo_paciente,
-        edad_paciente,
-        nacionalidad,
-        domicilio,
-        colonia,
-        alcaldia_municipio,
-        entidadFederativa,
-        diagnostico,
-        parentesco_con_cuidador,
-        tipoPrograma,
-        observaciones,
-        recomendaciones,
-        id_cuidador_paciente,  // Nuevo campo para el ID del cuidador
-    } = req.body;
+    try {
+        const {
+            expediente_paciente,
+            nombre_paciente,
+            apellido_paterno,
+            apellido_materno,
+            sexo_paciente,
+            edad_paciente,
+            nacionalidad,
+            domicilio,
+            colonia,
+            alcaldia_municipio,
+            entidadFederativa,
+            diagnostico,
+            parentesco_con_cuidador,
+            tipoPrograma,
+            observaciones,
+            recomendaciones,
+            id_cuidador_paciente
+        } = req.body;
 
-    
+        // Verificar si el expediente ya está en uso
+        const [existingExpediente] = await pool.promise().query(
+            "SELECT * FROM pacientes WHERE expediente_paciente = ?",
+            [expediente_paciente]
+        );
 
-    console.log(req.body); // Mostrar el contenido de req.body en la consola
+        if (existingExpediente.length > 0) {
+            return res.status(400).json({ error: "Este expediente ya está en uso" });
+        }
 
-    const [rows] = await pool
-        .promise()
-        .query(
+        const [rows] = await pool.promise().query(
             "INSERT INTO pacientes (expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, parentesco_con_cuidador, tipoPrograma, observaciones, recomendaciones, id_cuidador_paciente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 expediente_paciente,
@@ -65,31 +71,37 @@ pacientesCtrls.addPaciente = async (req, res) => {
                 tipoPrograma,
                 observaciones,
                 recomendaciones,
-                id_cuidador_paciente,  // Se agrega el ID del cuidador
+                id_cuidador_paciente
             ]
         );
 
-    res.send({
-        id_paciente: rows.insertId,
-        expediente_paciente,
-        nombre_paciente,
-        apellido_paterno,
-        apellido_materno,
-        sexo_paciente,
-        edad_paciente,
-        nacionalidad,
-        domicilio,
-        colonia,
-        alcaldia_municipio,
-        entidadFederativa,
-        diagnostico,
-        parentesco_con_cuidador,
-        tipoPrograma,
-        observaciones,
-        recomendaciones,
-        id_cuidador_paciente,  // Se envía también el ID del cuidador
-    });
+        res.json({
+            id_paciente: rows.insertId,
+            expediente_paciente,
+            nombre_paciente,
+            apellido_paterno,
+            apellido_materno,
+            sexo_paciente,
+            edad_paciente,
+            nacionalidad,
+            domicilio,
+            colonia,
+            alcaldia_municipio,
+            entidadFederativa,
+            diagnostico,
+            parentesco_con_cuidador,
+            tipoPrograma,
+            observaciones,
+            recomendaciones,
+            id_cuidador_paciente
+        });
+    } catch (error) {
+        console.error("Error al agregar paciente:", error);
+        res.status(500).json({ error: "Error al agregar paciente" });
+    }
 };
+
+
 
 
 
@@ -138,18 +150,20 @@ pacientesCtrls.getExpedientes = async (req, res) => {
 
 pacientesCtrls.getPacienteByCuidador = async (req, res) => {
     const id_cuidador_paciente = req.params.id; // Obtener el ID del cuidador de los parámetros de la solicitud
-    const [rows] = await pool
-        .promise()
-        .query("SELECT * FROM pacientes WHERE id_cuidador_paciente = ?", [
-            id_cuidador_paciente,
-        ]);
+    try {
+        const [rows] = await pool.promise().query("SELECT * FROM pacientes WHERE id_cuidador_paciente = ?", [id_cuidador_paciente]);
 
-    if (rows.length > 0) {
-        res.json(rows); // Devolver los pacientes relacionados con el cuidador
-    } else {
-        res.status(404).send("No se encontraron pacientes relacionados con el cuidador"); // Si no se encuentran pacientes relacionados, devolver un mensaje de error
+        if (rows.length > 0) {
+            res.json(rows); // Devolver los pacientes relacionados con el cuidador
+        } else {
+            res.status(404).send("No se encontraron pacientes relacionados con el cuidador"); // Si no se encuentran pacientes relacionados, devolver un mensaje de error
+        }
+    } catch (error) {
+        console.error("Error al obtener pacientes por cuidador:", error);
+        res.status(500).send("Error al obtener pacientes por cuidador");
     }
 };
+
 
 
 
@@ -168,9 +182,11 @@ pacientesCtrls.updatePaciente = async (req, res) => {
         alcaldia_municipio,
         entidadFederativa,
         diagnostico,
+        parentesco_con_cuidador,
         tipoPrograma,
         observaciones,
         recomendaciones,
+        id_cuidador_paciente,  // Nuevo campo para el ID del cuidador
     } = req.body;
 
     // Construir la consulta de actualización dinámicamente con los campos que se desean actualizar
@@ -225,6 +241,10 @@ pacientesCtrls.updatePaciente = async (req, res) => {
         query += "diagnostico = ?, ";
         values.push(diagnostico);
     }
+    if (parentesco_con_cuidador) {
+        query += "parentesco_con_cuidador = ?, ";
+        values.push(parentesco_con_cuidador);
+    }
     if (tipoPrograma) {
         query += "tipoPrograma = ?, ";
         values.push(tipoPrograma);
@@ -236,6 +256,10 @@ pacientesCtrls.updatePaciente = async (req, res) => {
     if (recomendaciones) {
         query += "recomendaciones = ?, ";
         values.push(recomendaciones);
+    }
+    if (id_cuidador_paciente) {
+        query += "id_cuidador_paciente = ?, ";
+        values.push(id_cuidador_paciente);
     }
 
     // Eliminar la coma extra al final de la cadena y agregar la condición WHERE
@@ -262,9 +286,11 @@ pacientesCtrls.updatePaciente = async (req, res) => {
         alcaldia_municipio,
         entidadFederativa,
         diagnostico,
+        parentesco_con_cuidador,
         tipoPrograma,
         observaciones,
         recomendaciones,
+        id_cuidador_paciente,  // Nuevo campo para el ID del cuidador
     });
 };
 

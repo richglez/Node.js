@@ -21,16 +21,15 @@ export class PacientesService {
     edad_paciente: 0,
     nacionalidad: '',
     domicilio: '',
+    ingreso_programa: '',
     colonia: '',
     alcaldia_municipio: '',
     entidadFederativa: '',
     diagnostico: '',
     parentesco_con_cuidador: '',
     tipoPrograma: '',
-    ingreso_programa: '',
-    recomendaciones: '',
     observaciones: '',
-    suplencias: 0,
+    recomendaciones: '',
     id_cuidador_paciente: 0,
   };
 
@@ -67,9 +66,10 @@ export class PacientesService {
     return this.http.get<string[]>(`${this.URL_API}/expedientes`);
   }
 
-  addPaciente(paciente: Paciente) {
-    return this.http.post(this.URL_API, paciente);
+  addPaciente(paciente: any): Observable<any> {
+    return this.http.post('/api/pacientes', paciente);
   }
+  
 
   deletePaciente(id: number): Observable<any> {
     return this.http.delete(`${this.URL_API}/${id}`);

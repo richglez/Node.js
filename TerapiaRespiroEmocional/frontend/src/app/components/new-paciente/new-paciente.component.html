@@ -184,8 +184,9 @@
       </label>
       <input
         type="text"
-        name="parentesco"
+        name="txtParentesco"
         id="txtParentesco"
+        placeholder="Parentesco con este paciente"
         [(ngModel)]="pacientesService.selectedPaciente.parentesco_con_cuidador"
       />
     </div>
@@ -241,6 +242,7 @@
         * Este expediente ya está en uso
       </div>
     </div>
+    <!-- <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div> -->
 
     <input type="submit" value="Registrar" id="btnRegistrar" />
   </form>

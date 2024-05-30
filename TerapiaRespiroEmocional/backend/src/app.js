@@ -22,6 +22,7 @@ app.use(express.json());
 app.use('/api/ccuidarte-app',pacientesRouter); 
 
 
+
 app.set('port', process.env.PORT || 4000) // si existe un puerto disponible usalo, si no usa el 4000
 
 // middleware

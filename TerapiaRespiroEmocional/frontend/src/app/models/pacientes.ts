@@ -6,18 +6,17 @@ export interface Paciente{ // descripcion del objeto empleado, proveniente de lo
     apellido_materno: string,
     sexo_paciente: string,
     edad_paciente: number,
-    ingreso_programa?: string,
-    ultima_modificacion? : string,
     nacionalidad: string,
     domicilio: string,
+    ingreso_programa?: string,
+    ultima_modificacion? : string,
     colonia: string,
     alcaldia_municipio: string,
     entidadFederativa: string,
     diagnostico: string,
     parentesco_con_cuidador: string, //nueva columna
     tipoPrograma: string,
-    recomendaciones?: string,
     observaciones?: string,
-    suplencias?: number
+    recomendaciones?: string,
     id_cuidador_paciente?: number; // Nuevo campo para el id del cuidador
 }
