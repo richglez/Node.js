@@ -11,6 +11,7 @@ import { CuidadoresServiceService } from '../../services/cuidadores-service.serv
 import { Cuidador } from '../../models/cuidadores';
 import { Paciente } from '../../models/pacientes';
 import { Suplencia } from '../../models/suplencias';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-calendario-servicios',
@@ -70,9 +71,6 @@ export class CalendarioServiciosComponent implements OnInit {
         console.error(err);
       }
     );
-  
-    // Llamar a buscarSuplencia al inicio para mostrar las suplencias por defecto
-    this.buscarSuplencia();
   }
   
 
@@ -81,11 +79,14 @@ export class CalendarioServiciosComponent implements OnInit {
     this.searchTextCuidadores = `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`;
     this.searchTextTotalSuplencias = cuidador.num_suplencias.toString();
     this.filteredPacientes = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === cuidador.id_cuidador_paciente);
+    console.log(`Seleccionaste al cuidador: ${this.selectedCuidador.id_cuidador_paciente}`);
+    
   }
 
   seleccionarPaciente(paciente: Paciente) {
     this.selectedPaciente = paciente;
     this.searchTextPacientes = `${paciente.nombre_paciente} ${paciente.apellido_paterno} ${paciente.apellido_materno}`;
+    console.log(`Seleccionaste al paciente: ${this.selectedPaciente.id_paciente}`);
   }
 
   agregarSuplencia(): void {
@@ -109,29 +110,52 @@ export class CalendarioServiciosComponent implements OnInit {
   }
 
   buscarSuplencia() {
-    if (!this.selectedCuidador || !this.selectedPaciente) {
-      console.error('Debe seleccionar un cuidador y un paciente');
-      return;
-    }
-  
     const idCuidador = this.selectedCuidador?.id_cuidador_paciente;
-    const idPaciente = this.selectedPaciente?.id_paciente; // Usando operador de encadenamiento opcional (?)
-    if (!idCuidador || !idPaciente) {
-      console.error('El cuidador o paciente seleccionado no tienen un ID válido');
-      return;
-    }
+    const idPaciente = this.selectedPaciente?.id_paciente;
+
+
+    console.log(`Buscar la suplencia del cuidador: ${idCuidador}, con el paciente: ${idPaciente}`);
+    // console.log(`Suplencia: ${this.suplenciasService.buscarSuplenciasPorCuidadorYPaciente(idCuidador, idPaciente )} `)
+    
   
-    this.suplenciasService
-      .buscarSuplenciasPorCuidadorYPaciente(idCuidador, idPaciente)
-      .subscribe(
-        (suplencias) => {
-          this.mostrarSuplenciasEnCalendario(suplencias);
-        },
-        (error) => {
-          console.error('Error al obtener suplencias', error);
-        }
-      );
+    // if (idCuidador === undefined) {
+    //   console.error('El cuidador seleccionado no tiene un ID válido');
+    //   return;
+    // }
+  
+    // // Obtener todos los pacientes que son cuidados por el cuidador seleccionado
+    // const pacientesDelCuidador = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === idCuidador && paciente.id_cuidador_paciente !== undefined);
+  
+    // // Obtener las suplencias para cada paciente
+    // const observables = pacientesDelCuidador.map(paciente =>
+    //   paciente.id_cuidador_paciente !== undefined && paciente.id_paciente !== undefined ?
+    //     this.suplenciasService.buscarSuplenciasPorCuidadorYPaciente(idCuidador, paciente.id_paciente) :
+    //     []
+    // );
+    
+  
+    // // Combinar observables para esperar a que todas las solicitudes de suplencias se completen
+    // forkJoin(observables).subscribe(
+    //   (suplenciasPorPaciente: any[]) => {
+    //     // suplenciasPorPaciente es una matriz de matrices de suplencias por cada paciente
+    //     const suplencias = [].concat(...suplenciasPorPaciente); // Aplanar la matriz
+  
+    //     // Mostrar las suplencias en el calendario
+    //     this.mostrarSuplenciasEnCalendario(suplencias);
+    //   },
+    //   (error: any) => {
+    //     console.error('Error al obtener suplencias', error);
+    //   }
+    // );
   }
+
+
+
+
+
+
+
+  
   
   
   
