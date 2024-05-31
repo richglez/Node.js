@@ -446,6 +446,26 @@ pacientesCtrls.addCuidador = async (req, res) => {
     });
 };
 
+
+pacientesCtrls.deleteCuidador = async (req, res) => {
+    const id_paciente = req.params.id; // Obtener el ID del paciente de los parámetros de la solicitud
+
+    try {
+        // Realizar la eliminación en la base de datos
+        await pool
+            .promise()
+            .query("DELETE FROM cuidadores WHERE id_cuidador_paciente = ?", [
+                id_paciente,
+            ]);
+        res.status(200).json({ message: "Cuidador eliminado correctamente" });
+    } catch (error) {
+        console.error("Error al eliminar el cuidador:", error);
+        res.status(500).json({ error: "Error al eliminar el cuidador" });
+    }
+};
+
+
+
 pacientesCtrls.getCuidadores = async (req, res) => {
     const [rows] = await pool.promise().query("SELECT * FROM cuidadores");
     res.json(rows);
