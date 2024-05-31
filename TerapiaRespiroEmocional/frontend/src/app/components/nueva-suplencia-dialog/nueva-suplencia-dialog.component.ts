@@ -34,7 +34,7 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
     // Obtener la lista de cuidadores
     this.cuidadoresService.getCuidadores().subscribe(
       (cuidadores) => {
-        this.cuidadoresList = cuidadores;
+        this.cuidadores = cuidadores;
       },
       (err) => {
         console.error(err);
@@ -43,8 +43,8 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
     // Obtener la lista de pacientes
     this.pacientesService.getPacientes().subscribe(
       (pacientes) => {
-        this.pacientesList = pacientes;
-        this.filteredPacientes = this.pacientesList;
+        this.pacientes = pacientes;
+        this.filteredPacientes = this.pacientes;
       },
       (err) => {
         console.error(err);
@@ -52,9 +52,17 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
     );
   }
 
-  onChangeCuidador() {
-    console.log('Cuidador seleccionado:', this.suplenciasService.selectedSuplencia.id_cuidador_paciente);
+
+  seleccionarCuidador(cuidador: Cuidador) {
+    const cuidadorId = this.suplenciasService.selectedSuplencia.id_cuidador_paciente;
+    if (cuidadorId !== undefined) {
+      this.filteredPacientes = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === cuidador.id_cuidador_paciente);
+    }
+    console.log('ID del cuidador seleccionado:', cuidadorId);
+    console.log('Pacientes filtrados:', this.filteredPacientes);
   }
+  
+  
   
 
   onChangePaciente(){

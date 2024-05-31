@@ -51,10 +51,11 @@
       name="cuidadorPrimario"
       id="cuidadorPrimario"
       [(ngModel)]="suplenciasService.selectedSuplencia.id_cuidador_paciente"
-      (change)="onChangeCuidador()"
     >
+    
       <option
-        *ngFor="let cuidador of cuidadoresList"
+      *ngFor="let cuidador of cuidadores"
+      (click)="seleccionarCuidador(cuidador)"
         [value]="cuidador.id_cuidador_paciente"
       >
         {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
