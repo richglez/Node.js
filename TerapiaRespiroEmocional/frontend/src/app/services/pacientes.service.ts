@@ -66,8 +66,8 @@ export class PacientesService {
     return this.http.get<string[]>(`${this.URL_API}/expedientes`);
   }
 
-  addPaciente(paciente: any): Observable<any> {
-    return this.http.post('/api/pacientes', paciente);
+  addPaciente(paciente: Paciente) {
+    return this.http.post(this.URL_API, paciente);
   }
   
 

@@ -22,7 +22,6 @@ export class NewPacienteComponent implements OnInit {
   expedienteExistenteError: boolean = false; // Agrega una propiedad para el mensaje de error
   expedientesRegistrados: string[] = []; // Array para almacenar expedientes ya registrados
   // nombreCompletoCuidador: string = '';
-  errorMessage: string = '';
 
   constructor(
     public pacientesService: PacientesService,
@@ -37,7 +36,7 @@ export class NewPacienteComponent implements OnInit {
 
     this.expediente_paciente = `${year}/${nroRegistroPadded}`;
     this.txtFechaIngreso = this.fechaActual.toISOString().split('T')[0]; // No es necesario convertir a ISO
-
+    
     // Obtener la lista de cuidadores
     this.cuidadoresService.getCuidadores().subscribe(
       (cuidadores) => {
@@ -81,7 +80,6 @@ export class NewPacienteComponent implements OnInit {
       this.pacientesService.updatePaciente(form.value).subscribe(
         (res) => console.log(res),
         (err) => console.log(err)
-        
       );
     } else {
       this.pacientesService.addPaciente(form.value).subscribe(

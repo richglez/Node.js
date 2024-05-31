@@ -52,6 +52,8 @@ pacientesCtrls.addPaciente = async (req, res) => {
             return res.status(400).json({ error: "Este expediente ya está en uso" });
         }
 
+        console.log(req.body); // Mostrar el contenido de req.body en la consola
+
         const [rows] = await pool.promise().query(
             "INSERT INTO pacientes (expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, parentesco_con_cuidador, tipoPrograma, observaciones, recomendaciones, id_cuidador_paciente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
