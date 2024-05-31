@@ -4,12 +4,13 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { PacientesService } from '../../services/pacientes.service';
-import { Suplencia } from '../../models/suplencias';
+import { SuplenciasServiceService } from '../../services/suplencias-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NuevaSuplenciaDialogComponent } from '../nueva-suplencia-dialog/nueva-suplencia-dialog.component';
 import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
 import { Cuidador } from '../../models/cuidadores';
 import { Paciente } from '../../models/pacientes';
+import { Suplencia } from '../../models/suplencias';
 
 @Component({
   selector: 'app-calendario-servicios',
@@ -20,6 +21,7 @@ export class CalendarioServiciosComponent implements OnInit {
   public events: any[] = [];
   public options: any;
   public selectedCuidador: Cuidador | null = null;
+  public selectedPaciente: Paciente | null = null;
   public selectAbierto: boolean = false;
   public selectAbierto2: boolean = false;
   public suplencias: Suplencia[] = [];
@@ -33,7 +35,8 @@ export class CalendarioServiciosComponent implements OnInit {
   constructor(
     public pacientesService: PacientesService,
     public dialog: MatDialog,
-    public cuidadoresService: CuidadoresServiceService
+    public cuidadoresService: CuidadoresServiceService,
+    public suplenciasService: SuplenciasServiceService
   ) {
     this.events = [];
     this.options = {
@@ -46,14 +49,12 @@ export class CalendarioServiciosComponent implements OnInit {
         right: 'dayGridMonth,timeGridWeek,timeGridDay',
       },
     };
-    console.log('Constructor inicializado'); // Depuración
   }
 
   ngOnInit() {
     this.cuidadoresService.getCuidadores().subscribe(
       (cuidadores) => {
         this.cuidadores = cuidadores;
-        console.log('Cuidadores cargados:', this.cuidadores); // Verificar cuidadores
       },
       (err) => {
         console.error(err);
@@ -63,42 +64,28 @@ export class CalendarioServiciosComponent implements OnInit {
     this.pacientesService.getPacientes().subscribe(
       (pacientes) => {
         this.pacientes = pacientes;
-        this.filteredPacientes = this.pacientes; // Inicializar filteredPacientes con todos los pacientes
-        console.log('Pacientes cargados:', this.pacientes); // Verificar pacientes
+        this.filteredPacientes = this.pacientes;
       },
       (err) => {
         console.error(err);
       }
     );
+  
+    // Llamar a buscarSuplencia al inicio para mostrar las suplencias por defecto
+    this.buscarSuplencia();
   }
   
 
-  
   seleccionarCuidador(cuidador: Cuidador) {
     this.selectedCuidador = cuidador;
     this.searchTextCuidadores = `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`;
     this.searchTextTotalSuplencias = cuidador.num_suplencias.toString();
-  
-    // Filtrar pacientes por id del cuidador
-    console.log('ID del cuidador seleccionado:', cuidador.id_cuidador_paciente);
-    this.filteredPacientes = this.pacientes.filter(paciente => {
-      console.log('ID del cuidador del paciente:', paciente.id_cuidador_paciente);
-      return paciente.id_cuidador_paciente === cuidador.id_cuidador_paciente;
-    });
-  
-    console.log('Pacientes filtrados:', this.filteredPacientes); // Verificar si se filtran correctamente
-    console.log('Cuidador seleccionado:', this.searchTextCuidadores); // Depuración
-  
-    // Agregar log para mostrar en consola el cuidador seleccionado
-    console.log('Cuidador seleccionado (id):', cuidador.id_cuidador_paciente);
+    this.filteredPacientes = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === cuidador.id_cuidador_paciente);
   }
-  
+
   seleccionarPaciente(paciente: Paciente) {
+    this.selectedPaciente = paciente;
     this.searchTextPacientes = `${paciente.nombre_paciente} ${paciente.apellido_paterno} ${paciente.apellido_materno}`;
-    console.log('Paciente seleccionado:', this.searchTextPacientes); // Depuración
-  
-    // Agregar log para mostrar en consola el paciente seleccionado
-    console.log('Paciente seleccionado (id):', paciente.id_paciente);
   }
 
   agregarSuplencia(): void {
@@ -115,35 +102,64 @@ export class CalendarioServiciosComponent implements OnInit {
 
   toggleSelect() {
     this.selectAbierto = !this.selectAbierto;
-    console.log('Toggle select abierto:', this.selectAbierto); // Depuración
   }
-  
+
   toggleSelect2() {
     this.selectAbierto2 = !this.selectAbierto2;
-    console.log('Toggle select2 abierto:', this.selectAbierto2); // Depuración
   }
 
   buscarSuplencia() {
-    if (this.selectedCuidador) {
-      // Filtrar la lista de pacientes antes de buscar suplencias
-      this.pacientes = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === this.selectedCuidador!.id_cuidador_paciente);
-      this.filteredPacientes = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === this.selectedCuidador!.id_cuidador_paciente);
-      // Luego, puedes realizar la búsqueda de suplencias
-      // ...
+    if (!this.selectedCuidador || !this.selectedPaciente) {
+      console.error('Debe seleccionar un cuidador y un paciente');
+      return;
     }
+  
+    const idCuidador = this.selectedCuidador?.id_cuidador_paciente;
+    const idPaciente = this.selectedPaciente?.id_paciente; // Usando operador de encadenamiento opcional (?)
+    if (!idCuidador || !idPaciente) {
+      console.error('El cuidador o paciente seleccionado no tienen un ID válido');
+      return;
+    }
+  
+    this.suplenciasService
+      .buscarSuplenciasPorCuidadorYPaciente(idCuidador, idPaciente)
+      .subscribe(
+        (suplencias) => {
+          this.mostrarSuplenciasEnCalendario(suplencias);
+        },
+        (error) => {
+          console.error('Error al obtener suplencias', error);
+        }
+      );
   }
-
+  
+  
+  
+  mostrarSuplenciasEnCalendario(suplencias: Suplencia[]): void {
+    if (!this.selectedCuidador) {
+      console.error('No se ha seleccionado un cuidador');
+      return;
+    }
+  
+    this.events = suplencias.map((suplencia) => ({
+      title: 'Suplencia',
+      start: `${suplencia.dia_suplencia}T${suplencia.hora_inicial}`,
+      end: `${suplencia.dia_suplencia}T${suplencia.hora_final}`,
+      description: `Cuidador: ${this.selectedCuidador?.id_cuidador_paciente}`,
+    }));
+  }
+  
+  
   
 
-  agregarEvento(suplencia: any): void {
+  agregarEvento(suplencia: Suplencia): void {
     const nuevoEvento = {
       title: 'Suplencia',
-      start: suplencia.fechaInicio,
-      end: suplencia.fechaFin,
-      description: 'Suplencia',
-      costo: suplencia.costo,
+      start: suplencia.dia_suplencia + 'T' + suplencia.hora_inicial,
+      end: suplencia.dia_suplencia + 'T' + suplencia.hora_final,
+      description: `Cuidador: ${suplencia.id_cuidador_paciente}`,
+      costo: suplencia.costoGuardia,
       particular: suplencia.particular,
-      cuidador: suplencia.cuidador
     };
 
     this.events = [...this.events, nuevoEvento];

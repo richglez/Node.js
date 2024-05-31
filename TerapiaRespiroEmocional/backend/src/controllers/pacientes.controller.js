@@ -391,8 +391,8 @@ pacientesCtrls.addSuplencia = async (req, res) => {
 
 // Ruta en backend para buscar suplencias por cuidador y paciente
 pacientesCtrls.buscarSuplenciasPorCuidadorYPaciente = async (req, res) => {
-    const { cuidador, paciente } = req.query;
-    const [rows] = await pool.promise().query("SELECT * FROM suplencias WHERE id_cuidador_paciente = ? AND id_paciente = ?", [cuidador, paciente]);
+    const { id_cuidador, id_paciente } = req.query;
+    const [rows] = await pool.promise().query("SELECT * FROM suplencias WHERE id_cuidador_paciente = ? AND id_paciente = ?", [id_cuidador, id_paciente]);
     res.json(rows);
 };
 

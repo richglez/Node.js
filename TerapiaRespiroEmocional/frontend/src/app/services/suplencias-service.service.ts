@@ -25,8 +25,10 @@ export class SuplenciasServiceService {
     return this.http.post(this.URL_API, suplencia);
   }
 
-  getSuplenciasByCuidadorAndPaciente(id_cuidador_paciente: number, id_paciente: number): Observable<Suplencia[]> {
-    const url = `${this.URL_API}?cuidador=${id_cuidador_paciente}&paciente=${id_paciente}`;
-    return this.http.get<Suplencia[]>(url);
-  }
+  // Método para buscar suplencias
+  buscarSuplenciasPorCuidadorYPaciente(idCuidador: number, idPaciente: number): Observable<Suplencia[]> {
+      return this.http.get<Suplencia[]>(`${this.URL_API}/buscar`, {
+        params: { id_cuidador: idCuidador.toString(), id_paciente: idPaciente.toString() },
+      });
+    }
 }
