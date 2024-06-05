@@ -1,17 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { PacientesService } from '../../services/pacientes.service';
+import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
+import { SuplenciasServiceService } from '../../services/suplencias-service.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
-  totalPacientes: number = 10; // Aquí debes obtener el número real de pacientes registrados
-  totalCuidadores: number = 5; // Aquí debes obtener el número real de cuidadores registrados
-  totalSuplenciasRegistradas: number = 40; // Aquí debes obtener el número real de totalSuplenciasRegistradas
-  totalPacientesMenoresEdad: number = 20; // Aquí debes obtener el número real de totalPacientesMenoresEdad
-  totalPacientesMayoresEdad: number = 30; // Aquí debes obtener el número real de totalPacientesMayoresEdadZ
-  totalCECPAM: number = 30; // Aquí debes obtener el número real de totalCECPAM
+export class DashboardComponent implements OnInit {
+  totalPacientes: number = 0;
+  totalCuidadores: number = 0;
+  totalSuplencias: number = 0;
+  totalPacientesMenores: number = 0;
+  totalPacientesMayores: number = 0;
+  totalCECPAM: number = 0;
+  date: Date = new Date();
+  LocalDate: string = new Date().toLocaleString();
+  hora: string = ''
 
-  
+  constructor(
+    private pacientesService: PacientesService,
+    private cuidadoresService: CuidadoresServiceService,
+    private suplenciasService: SuplenciasServiceService
+  ) {}
+
+  ngOnInit(): void {
+    this.pacientesService
+      .getTotalPacientes()
+      .subscribe((data) => (this.totalPacientes = data));
+    this.cuidadoresService
+      .getTotalCuidadores()
+      .subscribe((data) => (this.totalCuidadores = data));
+    this.suplenciasService
+      .getTotalSuplencias()
+      .subscribe((data) => (this.totalSuplencias = data));
+    this.pacientesService
+      .getTotalPacientesMenores()
+      .subscribe((data) => (this.totalPacientesMenores = data));
+    this.pacientesService
+      .getTotalPacientesMayores()
+      .subscribe((data) => (this.totalPacientesMayores = data));
+    this.pacientesService
+      .getTotalProgramasCECPAM()
+      .subscribe((data) => (this.totalCECPAM = data));
+  }
 }

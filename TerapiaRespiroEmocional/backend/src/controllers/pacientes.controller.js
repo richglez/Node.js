@@ -3,7 +3,6 @@ const { pool } = require("../database/database");
 
 const pacientesCtrls = {}; // obj
 
-
 // ----------------PACIENTES----------------
 pacientesCtrls.searchPacienteAutoComplete = async (req, res) => {
     const textoBusquedaPaciente = req.query.buscarAlpaciente;
@@ -39,43 +38,48 @@ pacientesCtrls.addPaciente = async (req, res) => {
             tipoPrograma,
             observaciones,
             recomendaciones,
-            id_cuidador_paciente
+            id_cuidador_paciente,
         } = req.body;
 
         // Verificar si el expediente ya está en uso
-        const [existingExpediente] = await pool.promise().query(
-            "SELECT * FROM pacientes WHERE expediente_paciente = ?",
-            [expediente_paciente]
-        );
+        const [existingExpediente] = await pool
+            .promise()
+            .query("SELECT * FROM pacientes WHERE expediente_paciente = ?", [
+                expediente_paciente,
+            ]);
 
         if (existingExpediente.length > 0) {
-            return res.status(400).json({ error: "Este expediente ya está en uso" });
+            return res
+                .status(400)
+                .json({ error: "Este expediente ya está en uso" });
         }
 
         console.log(req.body); // Mostrar el contenido de req.body en la consola
 
-        const [rows] = await pool.promise().query(
-            "INSERT INTO pacientes (expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, parentesco_con_cuidador, tipoPrograma, observaciones, recomendaciones, id_cuidador_paciente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [
-                expediente_paciente,
-                nombre_paciente,
-                apellido_paterno,
-                apellido_materno,
-                sexo_paciente,
-                edad_paciente,
-                nacionalidad,
-                domicilio,
-                colonia,
-                alcaldia_municipio,
-                entidadFederativa,
-                diagnostico,
-                parentesco_con_cuidador,
-                tipoPrograma,
-                observaciones,
-                recomendaciones,
-                id_cuidador_paciente
-            ]
-        );
+        const [rows] = await pool
+            .promise()
+            .query(
+                "INSERT INTO pacientes (expediente_paciente, nombre_paciente, apellido_paterno, apellido_materno, sexo_paciente, edad_paciente, nacionalidad, domicilio, colonia, alcaldia_municipio, entidadFederativa, diagnostico, parentesco_con_cuidador, tipoPrograma, observaciones, recomendaciones, id_cuidador_paciente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [
+                    expediente_paciente,
+                    nombre_paciente,
+                    apellido_paterno,
+                    apellido_materno,
+                    sexo_paciente,
+                    edad_paciente,
+                    nacionalidad,
+                    domicilio,
+                    colonia,
+                    alcaldia_municipio,
+                    entidadFederativa,
+                    diagnostico,
+                    parentesco_con_cuidador,
+                    tipoPrograma,
+                    observaciones,
+                    recomendaciones,
+                    id_cuidador_paciente,
+                ]
+            );
 
         res.json({
             id_paciente: rows.insertId,
@@ -95,17 +99,13 @@ pacientesCtrls.addPaciente = async (req, res) => {
             tipoPrograma,
             observaciones,
             recomendaciones,
-            id_cuidador_paciente
+            id_cuidador_paciente,
         });
     } catch (error) {
         console.error("Error al agregar paciente:", error);
         res.status(500).json({ error: "Error al agregar paciente" });
     }
 };
-
-
-
-
 
 pacientesCtrls.getPacientes = async (req, res) => {
     const [rows] = await pool.promise().query("SELECT * FROM pacientes");
@@ -125,21 +125,20 @@ pacientesCtrls.getPacienteById = async (req, res) => {
     }
 };
 
-
 pacientesCtrls.checkExpedienteInUse = async (req, res) => {
     const expediente = req.body.expediente_paciente;
     const [rows] = await pool
-      .promise()
-      .query("SELECT * FROM pacientes WHERE expediente_paciente = ?", [expediente]);
-  
-    if (rows.length > 0) {
-      res.json({ error: "Este expediente ya está en uso" });
-    } else {
-      res.json({ success: "Expediente válido" });
-    }
-  };
+        .promise()
+        .query("SELECT * FROM pacientes WHERE expediente_paciente = ?", [
+            expediente,
+        ]);
 
-  
+    if (rows.length > 0) {
+        res.json({ error: "Este expediente ya está en uso" });
+    } else {
+        res.json({ success: "Expediente válido" });
+    }
+};
 
 pacientesCtrls.getExpedientes = async (req, res) => {
     const [rows] = await pool
@@ -149,25 +148,27 @@ pacientesCtrls.getExpedientes = async (req, res) => {
     res.json(expedientes);
 };
 
-
 pacientesCtrls.getPacienteByCuidador = async (req, res) => {
     const id_cuidador_paciente = req.params.id; // Obtener el ID del cuidador de los parámetros de la solicitud
     try {
-        const [rows] = await pool.promise().query("SELECT * FROM pacientes WHERE id_cuidador_paciente = ?", [id_cuidador_paciente]);
+        const [rows] = await pool
+            .promise()
+            .query("SELECT * FROM pacientes WHERE id_cuidador_paciente = ?", [
+                id_cuidador_paciente,
+            ]);
 
         if (rows.length > 0) {
             res.json(rows); // Devolver los pacientes relacionados con el cuidador
         } else {
-            res.status(404).send("No se encontraron pacientes relacionados con el cuidador"); // Si no se encuentran pacientes relacionados, devolver un mensaje de error
+            res.status(404).send(
+                "No se encontraron pacientes relacionados con el cuidador"
+            ); // Si no se encuentran pacientes relacionados, devolver un mensaje de error
         }
     } catch (error) {
         console.error("Error al obtener pacientes por cuidador:", error);
         res.status(500).send("Error al obtener pacientes por cuidador");
     }
 };
-
-
-
 
 pacientesCtrls.updatePaciente = async (req, res) => {
     const id_paciente = req.params.id; // Obtener el ID del paciente de los parámetros de la solicitud
@@ -188,7 +189,7 @@ pacientesCtrls.updatePaciente = async (req, res) => {
         tipoPrograma,
         observaciones,
         recomendaciones,
-        id_cuidador_paciente,  // Nuevo campo para el ID del cuidador
+        id_cuidador_paciente, // Nuevo campo para el ID del cuidador
     } = req.body;
 
     // Construir la consulta de actualización dinámicamente con los campos que se desean actualizar
@@ -292,7 +293,7 @@ pacientesCtrls.updatePaciente = async (req, res) => {
         tipoPrograma,
         observaciones,
         recomendaciones,
-        id_cuidador_paciente,  // Nuevo campo para el ID del cuidador
+        id_cuidador_paciente, // Nuevo campo para el ID del cuidador
     });
 };
 
@@ -314,7 +315,70 @@ pacientesCtrls.deletePaciente = async (req, res) => {
 };
 
 
+pacientesCtrls.getTotalPacientes = async (req, res) => {
+    try {
+        const [count] = await pool
+            .promise()
+            .query("SELECT COUNT(*) as total FROM pacientes");
+        res.json(count[0].total);
+    } catch (error) {
+        console.error("Error en getTotalPacientes:", error);
+        res.status(500).json({
+            error: "Error al obtener el total de pacientes",
+        });
+    }
+};
 
+
+pacientesCtrls.getTotalPacientesMenores = async (req, res) => {
+    try {
+        const [count] = await pool
+            .promise()
+            .query(
+                "SELECT COUNT(*) as total FROM pacientes WHERE edad_paciente < 18"
+            );
+        res.json(count[0].total);
+    } catch (error) {
+        console.error("Error en getTotalPacientesMenores:", error);
+        res.status(500).json({
+            error: "Error al obtener el total de pacientes menores",
+        });
+    }
+};
+
+pacientesCtrls.getTotalPacientesMayores = async (req, res) => {
+    try {
+        const [count] = await pool
+            .promise()
+            .query(
+                "SELECT COUNT(*) as total FROM pacientes WHERE edad_paciente > 18"
+            );
+        res.json(count[0].total);
+    } catch (error) {
+        console.error("Error en getTotalPacientesMenores:", error);
+        res.status(500).json({
+            error: "Error al obtener el total de pacientes menores",
+        });
+    }
+};
+
+
+
+pacientesCtrls.getTotalProgramasCECPAM = async (req, res) => {
+    try {
+        const [count] = await pool
+            .promise()
+            .query(
+                "SELECT COUNT(*) as total FROM pacientes WHERE tipoPrograma = 'CECPAM'"
+            );
+        res.json(count[0].total);
+    } catch (error) {
+        console.error("Error en getTotalProgramasCECPAM:", error);
+        res.status(500).json({
+            error: "Error al obtener el total de programas CECPAM",
+        });
+    }
+};
 
 
 
@@ -325,59 +389,66 @@ pacientesCtrls.getSuplencias = async (req, res) => {
     res.json(rows);
 };
 
-
 pacientesCtrls.addSuplencia = async (req, res) => {
     const {
-        id_cuidador_paciente, // Asegúrate de recibir el ID del cuidador desde el frontend
         dia_suplencia,
         hora_inicial,
         hora_final,
         costoGuardia,
         particular,
+        id_cuidador_paciente, // Asegúrate de recibir el ID del cuidador desde el frontend
+        id_paciente,
     } = req.body;
 
     try {
         console.log("Datos recibidos para la nueva suplencia:", req.body);
 
         // Verifica que el cuidador existe
-        const [cuidador] = await pool.promise().query(
-            "SELECT * FROM cuidadores WHERE id_cuidador_paciente = ?",
-            [id_cuidador_paciente]
-        );
+        const [cuidador] = await pool
+            .promise()
+            .query("SELECT * FROM cuidadores WHERE id_cuidador_paciente = ?", [
+                id_cuidador_paciente,
+            ]);
 
         if (cuidador.length > 0) {
             console.log("Cuidador encontrado:", cuidador[0]);
 
             // Insertar la suplencia
-            const [rows] = await pool.promise().query(
-                "INSERT INTO suplencias (id_cuidador_paciente, dia_suplencia, hora_inicial, hora_final, costoGuardia, particular) VALUES (?, ?, ?, ?, ?, ?)",
-                [
-                    id_cuidador_paciente,
-                    dia_suplencia,
-                    hora_inicial,
-                    hora_final,
-                    costoGuardia,
-                    particular,
-                ]
-            );
+            const [rows] = await pool
+                .promise()
+                .query(
+                    "INSERT INTO suplencias (dia_suplencia, hora_inicial, hora_final, costoGuardia, particular, id_cuidador_paciente, id_paciente) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    [
+                        dia_suplencia,
+                        hora_inicial,
+                        hora_final,
+                        costoGuardia,
+                        particular,
+                        id_cuidador_paciente,
+                        id_paciente,
+                    ]
+                );
 
             console.log("Suplencia insertada:", rows);
 
             // Actualizar el número de suplencias del cuidador
-            const [updateResult] = await pool.promise().query(
-                "UPDATE cuidadores SET num_suplencias = num_suplencias + 1 WHERE id_cuidador_paciente = ?",
-                [id_cuidador_paciente]
-            );
+            const [updateResult] = await pool
+                .promise()
+                .query(
+                    "UPDATE cuidadores SET num_suplencias = num_suplencias + 1 WHERE id_cuidador_paciente = ?",
+                    [id_cuidador_paciente]
+                );
 
             console.log("Número de suplencias actualizado:", updateResult);
 
             res.send({
-                id_cuidador_paciente,
                 dia_suplencia,
                 hora_inicial,
                 hora_final,
                 costoGuardia,
                 particular,
+                id_cuidador_paciente,
+                id_paciente,
             });
         } else {
             res.status(404).send("Cuidador no encontrado");
@@ -388,19 +459,55 @@ pacientesCtrls.addSuplencia = async (req, res) => {
     }
 };
 
-
 // Ruta en backend para buscar suplencias por cuidador y paciente
 pacientesCtrls.buscarSuplenciasPorCuidadorYPaciente = async (req, res) => {
     const { id_cuidador, id_paciente } = req.query;
-    const [rows] = await pool.promise().query("SELECT * FROM suplencias WHERE id_cuidador_paciente = ? AND id_paciente = ?", [id_cuidador, id_paciente]);
+    const [rows] = await pool
+        .promise()
+        .query(
+            "SELECT * FROM suplencias WHERE id_cuidador_paciente = ? AND id_paciente = ?",
+            [id_cuidador, id_paciente]
+        );
     res.json(rows);
+};
+
+pacientesCtrls.getTotalSuplenciasPorCuidador = async (req, res) => {
+    const id_cuidador = req.params.id;
+
+    try {
+        const [rows] = await pool
+            .promise()
+            .query(
+                "SELECT COUNT(*) AS total_suplencias FROM suplencias WHERE id_cuidador_paciente = ?",
+                [id_cuidador]
+            );
+
+        if (rows.length > 0) {
+            res.json({ total_suplencias: rows[0].total_suplencias });
+        } else {
+            res.status(404).send("Cuidador no encontrado");
+        }
+    } catch (error) {
+        console.error("Error al obtener el total de suplencias:", error);
+        res.status(500).send("Error al obtener el total de suplencias");
+    }
 };
 
 
 
-
-
-
+pacientesCtrls.getTotalSuplencias = async (req, res) => {
+    try {
+        const [count] = await pool
+            .promise()
+            .query("SELECT COUNT(*) as total FROM suplencias");
+        res.json(count[0].total);
+    } catch (error) {
+        console.error("Error en getTotalSuplencias:", error);
+        res.status(500).json({
+            error: "Error al obtener el total de suplencias",
+        });
+    }
+};
 
 // ----------------CUIDADORES----------------
 
@@ -446,7 +553,6 @@ pacientesCtrls.addCuidador = async (req, res) => {
     });
 };
 
-
 pacientesCtrls.deleteCuidador = async (req, res) => {
     const id_paciente = req.params.id; // Obtener el ID del paciente de los parámetros de la solicitud
 
@@ -463,8 +569,6 @@ pacientesCtrls.deleteCuidador = async (req, res) => {
         res.status(500).json({ error: "Error al eliminar el cuidador" });
     }
 };
-
-
 
 pacientesCtrls.getCuidadores = async (req, res) => {
     const [rows] = await pool.promise().query("SELECT * FROM cuidadores");
@@ -500,27 +604,6 @@ pacientesCtrls.getCuidadorById = async (req, res) => {
         res.status(404).send("Cuidador no encontrado"); // Si no se encuentra ningún cuidador con ese ID, devolver un mensaje de error
     }
 };
-
-
-pacientesCtrls.getTotalSuplenciasPorCuidador = async (req, res) => {
-    const id_cuidador = req.params.id;
-
-    try {
-        const [rows] = await pool
-            .promise()
-            .query("SELECT COUNT(*) AS total_suplencias FROM suplencias WHERE id_cuidador_paciente = ?", [id_cuidador]);
-
-        if (rows.length > 0) {
-            res.json({ total_suplencias: rows[0].total_suplencias });
-        } else {
-            res.status(404).send("Cuidador no encontrado");
-        }
-    } catch (error) {
-        console.error("Error al obtener el total de suplencias:", error);
-        res.status(500).send("Error al obtener el total de suplencias");
-    }
-};
-
 
 pacientesCtrls.updateCuidador = async (req, res) => {
     const id_cuidador_paciente = req.params.id; // Obtener el ID del cuidador de los parámetros de la solicitud
@@ -587,6 +670,21 @@ pacientesCtrls.updateCuidador = async (req, res) => {
         telefonoCuidador,
         num_suplencias,
     });
+};
+
+
+pacientesCtrls.getTotalCuidadores = async (req, res) => {
+    try {
+        const [count] = await pool
+            .promise()
+            .query("SELECT COUNT(*) as total FROM cuidadores");
+        res.json(count[0].total);
+    } catch (error) {
+        console.error("Error en getTotalCuidadores:", error);
+        res.status(500).json({
+            error: "Error al obtener el total de cuidadores",
+        });
+    }
 };
 
 module.exports = pacientesCtrls;

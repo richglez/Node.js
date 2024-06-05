@@ -54,4 +54,9 @@ export class CuidadoresServiceService {
   deleteCuidador(id: number): Observable<any> {
     return this.http.delete(`${this.URL_API}/${id}`);
   }
+
+  getTotalCuidadores(): Observable<number> {
+    return this.http.get<number>(`${this.URL_API}/total-cuidadores`);
+  }
+  
 }

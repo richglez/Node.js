@@ -48,28 +48,25 @@
       </select>
       <p for="cuidadorPrimario">Cuidador al que se le asigna:</p>
       <select
-      name="cuidadorPrimario"
-      id="cuidadorPrimario"
-      [(ngModel)]="suplenciasService.selectedSuplencia.id_cuidador_paciente"
-    >
-    
-      <option
-      *ngFor="let cuidador of cuidadores"
-      (click)="seleccionarCuidador(cuidador)"
-        [value]="cuidador.id_cuidador_paciente"
+        name="cuidadorPrimario"
+        id="cuidadorPrimario"
+        [(ngModel)]="suplenciasService.selectedSuplencia.id_cuidador_paciente"
+        (change)="onChangeCuidador()"
       >
-        {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
-        {{ cuidador.apMatCuidador }}
-      </option>
-    </select>
-    
+        <option
+          *ngFor="let cuidador of cuidadores"
+          [value]="cuidador.id_cuidador_paciente"
+        >
+          {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
+          {{ cuidador.apMatCuidador }}
+        </option>
+      </select>
 
-      <p for="pacienteAsignado">Cual paciente?</p>
+      <p for="pacienteAsignado">¿Cuál paciente?</p>
       <select
         name="pacienteAsignado"
         id="pacienteAsignado"
         [(ngModel)]="suplenciasService.selectedSuplencia.id_paciente"
-        (change)="onChangePaciente()"
       >
         <option
           *ngFor="let paciente of filteredPacientes"

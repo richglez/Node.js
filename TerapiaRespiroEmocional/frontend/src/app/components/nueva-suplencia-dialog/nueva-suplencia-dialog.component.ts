@@ -14,14 +14,10 @@ import { Paciente } from '../../models/pacientes';
 })
 export class NuevaSuplenciaDialogComponent implements OnInit {
   public filteredPacientes: Paciente[] = [];
-  public selectedCuidador: any; // Tipo debe ser ajustado según la definición de tu modelo de cuidador
   public cuidadores: Cuidador[] = [];
   public pacientes: Paciente[] = [];
 
-  @ViewChild('suplenciaForm') suplenciaForm!: NgForm; // Añadir referencia al formulario
-
-  cuidadoresList: any[] = [];
-  pacientesList: any[] = [];
+  @ViewChild('suplenciaForm') suplenciaForm!: NgForm;
 
   constructor(
     public dialogRef: MatDialogRef<NuevaSuplenciaDialogComponent>,
@@ -31,7 +27,6 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Obtener la lista de cuidadores
     this.cuidadoresService.getCuidadores().subscribe(
       (cuidadores) => {
         this.cuidadores = cuidadores;
@@ -40,38 +35,22 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
         console.error(err);
       }
     );
-    // Obtener la lista de pacientes
-    this.pacientesService.getPacientes().subscribe(
-      (pacientes) => {
-        this.pacientes = pacientes;
-        this.filteredPacientes = this.pacientes;
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
   }
 
-
-  seleccionarCuidador(cuidador: Cuidador) {
-    const cuidadorId = this.suplenciasService.selectedSuplencia.id_cuidador_paciente;
-    if (cuidadorId !== undefined) {
-      this.filteredPacientes = this.pacientes.filter(paciente => paciente.id_cuidador_paciente === cuidador.id_cuidador_paciente);
+  onChangeCuidador() {
+    const selectedCuidadorId = this.suplenciasService.selectedSuplencia.id_cuidador_paciente;
+    if (selectedCuidadorId !== undefined) {
+      this.pacientesService.getPacienteByCuidador(selectedCuidadorId).subscribe(
+        (pacientes) => {
+          this.filteredPacientes = pacientes;
+          this.suplenciasService.selectedSuplencia.id_paciente = this.filteredPacientes[0]?.id_paciente || 0; // Establecer el primer paciente como predeterminado
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
     }
-    console.log('ID del cuidador seleccionado:', cuidadorId);
-    console.log('Pacientes filtrados:', this.filteredPacientes);
   }
-  
-  
-  
-
-  onChangePaciente(){
-    console.log('Paciente seleccionado:', this.suplenciasService.selectedSuplencia.id_paciente);
-  }
-
-
-  
-  
   
 
   cancelar(): void {
@@ -82,22 +61,24 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
     const suplencia = this.suplenciasService.selectedSuplencia;
   
     if (!suplencia.id_cuidador_paciente) {
-      
       console.error('Cuidador no seleccionado');
       return;
     }
   
-    this.suplenciasService
-      .addSuplencia(suplencia)
-      .subscribe(
-        (response) => {
-          console.log('Suplencia agregada exitosamente', response);
-          this.resetForm(); // Reiniciar el formulario después de agregar exitosamente
-        },
-        (error) => {
-          console.error('Error al agregar suplencia', error);
-        }
-      );
+    if (!suplencia.id_paciente) {
+      console.error('Paciente no seleccionado');
+      return;
+    }
+  
+    this.suplenciasService.addSuplencia(suplencia).subscribe(
+      (response) => {
+        console.log('Suplencia agregada exitosamente', response);
+        this.resetForm();
+      },
+      (error) => {
+        console.error('Error al agregar suplencia', error);
+      }
+    );
   }
   
 
@@ -109,9 +90,8 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
       hora_final: '',
       costoGuardia: 0,
       particular: '',
+      id_paciente: 0
     };
     this.suplenciaForm.resetForm();
   }
-
-
 }

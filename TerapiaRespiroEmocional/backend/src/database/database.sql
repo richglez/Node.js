@@ -69,7 +69,7 @@ CREATE TABLE suplencias (
 
 
 
-
+show tables;
 
 drop table pacientes;
 drop table cuidadores;

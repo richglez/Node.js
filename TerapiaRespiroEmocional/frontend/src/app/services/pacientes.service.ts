@@ -47,9 +47,10 @@ export class PacientesService {
     );
   }
 
-  getPacienteByCuidador(idCuidador: number): Observable<Paciente> {
-    return this.http.get<Paciente>(`${this.URL_API}/cuidador/${idCuidador}`);
+  getPacienteByCuidador(idCuidador: number): Observable<Paciente[]> {
+    return this.http.get<Paciente[]>(`${this.URL_API}/cuidador/${idCuidador}`);
   }
+  
 
   getPacienteById(id: number): Observable<Paciente> {
     return this.http.get<Paciente>(`${this.URL_API}/${id}`);
@@ -78,4 +79,21 @@ export class PacientesService {
   updatePaciente(paciente: Paciente): Observable<any> {
     return this.http.put(`${this.URL_API}/${paciente.id_paciente}`, paciente); // url + los datos del paciente
   }
+
+  getTotalPacientes(): Observable<number> {
+    return this.http.get<number>(`${this.URL_API}/total-pacientes`);
+  }
+  
+  getTotalPacientesMenores(): Observable<number> {
+    return this.http.get<number>(`${this.URL_API}/total-pacientes-menores`);
+  }
+  
+  getTotalPacientesMayores(): Observable<number> {
+    return this.http.get<number>(`${this.URL_API}/total-pacientes-mayores`);
+  }
+  
+  getTotalProgramasCECPAM(): Observable<number> {
+    return this.http.get<number>(`${this.URL_API}/total-programas-cecpam`);
+  }
+  
 }
