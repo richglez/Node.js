@@ -1,4 +1,21 @@
 @import "boxicons/css/boxicons.min.css";
+/* Importar Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  letter-spacing: normal;
+  margin: 0 0 16px;
+  font-size: 28px;
+  margin-left: 60px;
+}
+
+h5{
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  letter-spacing: normal;
+}
 
 .header {
   display: flex;
@@ -12,13 +29,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-
-.header h1 {
-  font-weight: 600;
-  margin-left: 60px;
-}
-
-
 .linea-separadora {
   height: 30px; /* Altura de la línea separadora */
   width: 2px; /* Grosor de la línea separadora */
@@ -29,7 +39,6 @@
 .header h5 {
   font-size: 16px;
   font-weight: 500;
-
 }
 
 .container {
@@ -46,7 +55,6 @@
   margin-top: 160px;
 }
 
-
 .info-card {
   position: relative;
   background-color: #fdfdfc;
@@ -55,7 +63,7 @@
   text-align: center;
   width: 200px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;  
+  transition: transform 0.3s;
 }
 
 .info-card:hover {
@@ -64,7 +72,7 @@
 
 .info-card i {
   font-size: 48px;
-  color: #4D98FF; /* Cambia el color del icono si lo deseas */
+  color: #4d98ff; /* Cambia el color del icono si lo deseas */
   margin-bottom: 10px;
   display: block;
 }
@@ -79,21 +87,13 @@
   color: #85898b; /* Cambia el color del texto adicional si lo deseas */
 }
 
-
-
-
-
-
-
-.time{
+.time {
   margin-left: 40px;
   flex-wrap: wrap; /* Permite que las tarjetas se envuelvan en filas */
   margin-top: 160px;
 }
 
-
-
-.info-card-time{
+.info-card-time {
   position: relative;
   background-color: #fdfdfc;
   border-radius: 5px;
@@ -101,24 +101,63 @@
   text-align: center;
   width: 300px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;  
+  transition: transform 0.3s;
 }
 
-
-.info-card-time span{
+.info-card-time span {
   font-size: 28px;
   font-weight: bold;
   color: #1e3c66; /* Cambia el color del número si lo deseas */
 }
 
-.info-card-time i{
+.info-card-time i {
   font-size: 48px;
-  color: #4D98FF; /* Cambia el color del icono si lo deseas */
+  color: #4d98ff; /* Cambia el color del icono si lo deseas */
   margin-bottom: 10px;
   display: block;
 }
 
-
-.info-card-time p{
+.info-card-time p {
   color: #85898b; /* Cambia el color del texto adicional si lo deseas */
+}
+
+.info {
+  background-color: #f9f9f9; /* Fondo claro */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 20px; /* Espaciado interno */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  width: 680px;
+  margin-top: 30px;
+  margin-left: 182px;
+}
+
+.info h1 {
+  font-size: 2em; /* Tamaño de fuente grande */
+  margin-bottom: 15px; /* Espaciado inferior */
+  color: #333; /* Color del texto */
+  text-align: center; /* Centrar el texto */
+}
+
+.info ul {
+  list-style-type: none; /* Sin viñetas */
+  padding: 0; /* Sin espaciado interno */
+}
+
+.info li {
+  margin-bottom: 10px; /* Espaciado inferior */
+}
+
+.info h3 {
+  font-size: 1.2em; /* Tamaño de fuente */
+  margin: 5px 0; /* Espaciado vertical */
+}
+
+.info a {
+  text-decoration: none; /* Sin subrayado */
+  color: #007bff; /* Color del enlace */
+}
+
+.info a:hover {
+  text-decoration: underline; /* Subrayado al pasar el cursor */
+  color: #0056b3; /* Color del enlace al pasar el cursor */
 }

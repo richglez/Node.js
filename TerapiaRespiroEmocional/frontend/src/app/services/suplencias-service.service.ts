@@ -17,6 +17,7 @@ export class SuplenciasServiceService {
     costoGuardia: 0,
     particular: '',
     id_cuidador_paciente: 0,
+    concurrencia_anual: '',
     id_paciente: 0,
   };
 

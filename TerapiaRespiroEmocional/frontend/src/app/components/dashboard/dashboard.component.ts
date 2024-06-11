@@ -15,9 +15,8 @@ export class DashboardComponent implements OnInit {
   totalPacientesMenores: number = 0;
   totalPacientesMayores: number = 0;
   totalCECPAM: number = 0;
-  date: Date = new Date();
-  LocalDate: string = new Date().toLocaleString();
-  hora: string = ''
+  fechaHoy: string = '';
+  horaHoy: string = '';
 
   constructor(
     private pacientesService: PacientesService,
@@ -44,5 +43,9 @@ export class DashboardComponent implements OnInit {
     this.pacientesService
       .getTotalProgramasCECPAM()
       .subscribe((data) => (this.totalCECPAM = data));
+
+    const now = new Date();
+    this.fechaHoy = now.toLocaleDateString();
+    this.horaHoy = now.toLocaleTimeString();
   }
 }

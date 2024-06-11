@@ -32,11 +32,6 @@ CREATE TABLE pacientes (
 
 /* Un cuidador cuida a varios pacientes: En la tabla pacientes, el campo id_cuidador_paciente es una clave foránea que referencia a la tabla cuidadores. */
 
-
-
-
-
-
 CREATE TABLE cuidadores(
     id_cuidador_paciente int unsigned auto_increment primary key,
     nombreCuidador varchar(255) not null,
@@ -58,6 +53,7 @@ CREATE TABLE suplencias (
     hora_final VARCHAR(255),
     costoGuardia INT,
     particular VARCHAR(80),
+    concurrencia_anual CHAR(7),
     id_cuidador_paciente INT unsigned,
     id_paciente INT unsigned,
     FOREIGN KEY (id_cuidador_paciente) REFERENCES cuidadores(id_cuidador_paciente),

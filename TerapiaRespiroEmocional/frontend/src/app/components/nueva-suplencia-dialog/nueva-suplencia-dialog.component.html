@@ -29,6 +29,12 @@
         id="hora_final"
         [(ngModel)]="suplenciasService.selectedSuplencia.hora_final"
       />
+      <p>Concurrencia</p>
+      <select name="repite_anual" id="repite_anual" [(ngModel)]="suplenciasService.selectedSuplencia.concurrencia_anual">
+        <option value="ANUAL">Se repite cada año</option>
+        <option value="MENSUAL">Se repite cada mes</option>
+        <option value="NO">No se repite</option>
+      </select>      
       <p>Costo:</p>
       <input
         type="text"

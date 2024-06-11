@@ -1,0 +1,84 @@
+/* Importar Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  letter-spacing: normal;
+  margin: 0 0 16px;
+  font-size: 28px;
+}
+
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #ffffff;
+  max-width: 1200px;
+
+  #que-tas-buscando{
+    display: block; /* Hace que el label sea un bloque */
+    margin-bottom: 0.5rem; /* Espacio entre el label y el input */
+    font-weight: bold;
+    font-family: "Poppins", sans-serif;
+  }
+
+  label {
+    margin-right: 1rem;
+    font-weight: bold;
+    font-family: "Poppins", sans-serif;
+  }
+
+  input {
+    padding: 0.5rem;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #f9f9ff;
+    margin-right: 1rem;
+  }
+
+  .filters {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+
+    .filter {
+      display: flex;
+      align-items: center;
+      margin-right: 1rem;
+
+      label {
+        margin-right: 0.5rem;
+        font-weight: bold;
+        font-family: "Poppins", sans-serif;
+      }
+
+      select {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #f9f9ff;
+      }
+    }
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: "Poppins", sans-serif;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}

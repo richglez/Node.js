@@ -383,7 +383,6 @@ pacientesCtrls.getTotalProgramasCECPAM = async (req, res) => {
 
 
 // ----------------SUPLENCIAS----------------
-
 pacientesCtrls.getSuplencias = async (req, res) => {
     const [rows] = await pool.promise().query("SELECT * FROM suplencias");
     res.json(rows);
@@ -396,6 +395,7 @@ pacientesCtrls.addSuplencia = async (req, res) => {
         hora_final,
         costoGuardia,
         particular,
+        concurrencia_anual,
         id_cuidador_paciente, // Asegúrate de recibir el ID del cuidador desde el frontend
         id_paciente,
     } = req.body;
@@ -417,13 +417,14 @@ pacientesCtrls.addSuplencia = async (req, res) => {
             const [rows] = await pool
                 .promise()
                 .query(
-                    "INSERT INTO suplencias (dia_suplencia, hora_inicial, hora_final, costoGuardia, particular, id_cuidador_paciente, id_paciente) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO suplencias (dia_suplencia, hora_inicial, hora_final, costoGuardia, particular, concurrencia_anual, id_cuidador_paciente, id_paciente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                     [
                         dia_suplencia,
                         hora_inicial,
                         hora_final,
                         costoGuardia,
                         particular,
+                        concurrencia_anual,
                         id_cuidador_paciente,
                         id_paciente,
                     ]
@@ -447,6 +448,7 @@ pacientesCtrls.addSuplencia = async (req, res) => {
                 hora_final,
                 costoGuardia,
                 particular,
+                concurrencia_anual,
                 id_cuidador_paciente,
                 id_paciente,
             });

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatDialogModule } from '@angular/material/dialog';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Importa BrowserAnimationsModule
 
 // Importa los componentes
@@ -28,7 +29,8 @@ import { Actulizar2DialogComponent } from './components/actulizar2-dialog/actuli
 import { ConfirmarEliminar2DialogComponent } from './components/confirmar-eliminar2-dialog/confirmar-eliminar2-dialog.component';
 import { CuidadoresServiceService } from './services/cuidadores-service.service'
 import { PacientesService } from './services/pacientes.service'
-import { SuplenciasServiceService } from './services/suplencias-service.service'
+import { SuplenciasServiceService } from './services/suplencias-service.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 
 @NgModule({
   declarations: [
@@ -62,7 +64,8 @@ import { SuplenciasServiceService } from './services/suplencias-service.service'
   providers: [
     PacientesService,
     CuidadoresServiceService,
-    SuplenciasServiceService
+    SuplenciasServiceService,
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

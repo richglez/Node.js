@@ -18,11 +18,6 @@ export class NewCuidadorComponent {
   }
 
   addCuidador(form: NgForm) {
-    // Verificar si estan vacios los campos y asignar '' a apMatCuidador si está vacío
-    if (!form.value.apMatCuidador || !form.value.apMatCuidador.trim()) {
-      form.value.apMatCuidador = '';
-    }
-    
 
     if (form.value.id_employee) {
       // si hay un registro por su id entonces actualiza

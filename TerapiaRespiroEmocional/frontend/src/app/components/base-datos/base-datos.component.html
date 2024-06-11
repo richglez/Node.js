@@ -1,1 +1,27 @@
 <h1>Base de Datos</h1>
+<div class="search-container">
+    <label id="que-tas-buscando" for="search-input">¿Qué estás buscando?</label><br> <!-- Salto de línea añadido aquí -->
+    <input
+      id="search-input"
+      type="text"
+      placeholder="Pacientes, cuidadores, estado, hombres, mujeres, etc."
+    />
+    <div class="filters">
+      <div class="filter">
+        <label for="category-select">Categoría:</label>
+        <select id="category-select">
+          <option value="pacientes">Pacientes</option>
+          <option value="cuidadores">Cuidadores</option>
+        </select>
+      </div>
+      <div class="filter">
+        <label for="status-select">Estatus:</label>
+        <select id="status-select">
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+      </div>
+    </div>
+    <button (click)="search()">Buscar</button>
+  </div>
+  

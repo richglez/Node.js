@@ -38,12 +38,14 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
   }
 
   onChangeCuidador() {
-    const selectedCuidadorId = this.suplenciasService.selectedSuplencia.id_cuidador_paciente;
+    const selectedCuidadorId =
+      this.suplenciasService.selectedSuplencia.id_cuidador_paciente;
     if (selectedCuidadorId !== undefined) {
       this.pacientesService.getPacienteByCuidador(selectedCuidadorId).subscribe(
         (pacientes) => {
           this.filteredPacientes = pacientes;
-          this.suplenciasService.selectedSuplencia.id_paciente = this.filteredPacientes[0]?.id_paciente || 0; // Establecer el primer paciente como predeterminado
+          this.suplenciasService.selectedSuplencia.id_paciente =
+            this.filteredPacientes[0]?.id_paciente || 0; // Establecer el primer paciente como predeterminado
         },
         (err) => {
           console.error(err);
@@ -51,12 +53,12 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
       );
     }
   }
-  
 
   cancelar(): void {
     this.dialogRef.close();
   }
 
+  //Cuando guardes una suplencia, verifica si concurrencia_anual es "SI". Si es así, crea eventos recurrentes para los siguientes años. Aquí tienes un ejemplo básico de cómo podrías hacerlo:
   confirmar() {
     const suplencia = this.suplenciasService.selectedSuplencia;
   
@@ -70,9 +72,49 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
       return;
     }
   
+    // Llamada para agregar la suplencia original
     this.suplenciasService.addSuplencia(suplencia).subscribe(
       (response) => {
         console.log('Suplencia agregada exitosamente', response);
+  
+        // Si se repite anualmente, agrega eventos para los próximos 10 años (puedes ajustar esto según tus necesidades)
+        if (suplencia.concurrencia_anual === 'ANUAL') {
+          for (let i = 1; i <= 10; i++) {
+            const nuevaFecha = new Date(suplencia.dia_suplencia);
+            nuevaFecha.setFullYear(nuevaFecha.getFullYear() + i);
+  
+            const suplenciaRecurrente = { ...suplencia, dia_suplencia: nuevaFecha.toISOString().split('T')[0] };
+  
+            this.suplenciasService.addSuplencia(suplenciaRecurrente).subscribe(
+              (response) => {
+                console.log(`Suplencia recurrente ${i} agregada exitosamente`, response);
+              },
+              (error) => {
+                console.error(`Error al agregar suplencia recurrente ${i}`, error);
+              }
+            );
+          }
+        }
+  
+        // Si se repite mensualmente, agrega eventos para los próximos 12 meses
+        if (suplencia.concurrencia_anual === 'MENSUAL') {
+          for (let i = 1; i <= 12; i++) {
+            const nuevaFecha = new Date(suplencia.dia_suplencia);
+            nuevaFecha.setMonth(nuevaFecha.getMonth() + i);
+  
+            const suplenciaRecurrente = { ...suplencia, dia_suplencia: nuevaFecha.toISOString().split('T')[0] };
+  
+            this.suplenciasService.addSuplencia(suplenciaRecurrente).subscribe(
+              (response) => {
+                console.log(`Suplencia mensual ${i} agregada exitosamente`, response);
+              },
+              (error) => {
+                console.error(`Error al agregar suplencia mensual ${i}`, error);
+              }
+            );
+          }
+        }
+  
         this.resetForm();
       },
       (error) => {
@@ -80,6 +122,7 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
       }
     );
   }
+  
   
 
   resetForm() {
@@ -90,7 +133,8 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
       hora_final: '',
       costoGuardia: 0,
       particular: '',
-      id_paciente: 0
+      concurrencia_anual: '',
+      id_paciente: 0,
     };
     this.suplenciaForm.resetForm();
   }
