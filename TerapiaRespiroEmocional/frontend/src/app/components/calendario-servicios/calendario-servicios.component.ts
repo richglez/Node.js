@@ -20,6 +20,7 @@ import Swal from 'sweetalert2';
   selector: 'app-calendario-servicios',
   templateUrl: './calendario-servicios.component.html',
   styleUrls: ['./calendario-servicios.component.scss'],
+
 })
 export class CalendarioServiciosComponent implements OnInit {
   public events: any[] = [];
@@ -116,7 +117,7 @@ export class CalendarioServiciosComponent implements OnInit {
     const eventId = typeof event.id === 'number' ? event.id : parseInt(event.id, 10);
 
     Swal.fire({
-      title: '¿Estás seguro?',
+      title: '¿Estás seguro de eliminar esta suplencia?',
       text: '¡No podrás revertir esto!',
       icon: 'warning',
       showCancelButton: true,

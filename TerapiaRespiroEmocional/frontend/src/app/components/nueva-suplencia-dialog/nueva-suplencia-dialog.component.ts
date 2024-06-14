@@ -80,6 +80,7 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
         console.log('Suplencia agregada exitosamente', response);
         this.snackBar.open('Suplencia agregada exitosamente', 'Cerrar', {
           duration: 3000,
+          panelClass: ['custom-snackbar'], // Aquí se aplica la clase de estilo personalizado
         });
 
         // Si se repite anualmente, agrega eventos para los próximos 10 años
