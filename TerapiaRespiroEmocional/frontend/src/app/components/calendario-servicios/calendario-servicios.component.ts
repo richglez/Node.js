@@ -12,6 +12,9 @@ import { Cuidador } from '../../models/cuidadores';
 import { Paciente } from '../../models/pacientes';
 import { Suplencia } from '../../models/suplencias';
 import { DatePipe } from '@angular/common';
+import multiMonthPlugin from '@fullcalendar/multimonth';
+import { CalendarOptions, EventClickArg, EventDropArg } from '@fullcalendar/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-calendario-servicios',
@@ -42,14 +45,19 @@ export class CalendarioServiciosComponent implements OnInit {
   ) {
     this.events = [];
     this.options = {
-      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, multiMonthPlugin],
       initialView: 'dayGridMonth',
+      editable: true,
+      eventResizableFromStart: true,
+      eventDrop: this.handleEventDrop.bind(this),
+      eventClick: this.handleEventClick.bind(this),
       locale: esLocale,
       headerToolbar: {
         left: 'prev,next',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay',
       },
+      eventContent: this.renderEventContent.bind(this),
     };
   }
 
@@ -70,6 +78,84 @@ export class CalendarioServiciosComponent implements OnInit {
       },
       (err) => {
         console.error(err);
+      }
+    );
+  }
+
+  handleEventDrop(eventDropInfo: EventDropArg) {
+    const event = eventDropInfo.event;
+    if (!event.start) return; // Verificamos que event.start no sea nulo
+
+    const suplencia = {
+      id_suplencia: Number(event.id),
+      dia_suplencia: event.start.toISOString().split('T')[0],
+      hora_inicial: event.start.toISOString().split('T')[1].substr(0, 5),
+      hora_final: event.end ? event.end.toISOString().split('T')[1].substr(0, 5) : event.start.toISOString().split('T')[1].substr(0, 5),
+      costoGuardia: 0, // Completar con un valor válido
+      particular: '', // Completar con un valor válido
+      concurrencia_anual: '', // Completar con un valor válido
+      id_cuidador_paciente: 0, // Completar con un valor válido
+      id_paciente: 0, // Completar con un valor válido
+    };
+
+    this.suplenciasService.updateSuplencia(suplencia).subscribe(
+      (response) => {
+        alert('¡Suplencia actualizada exitosamente!');
+        console.log('Suplencia actualizada exitosamente', response);
+      },
+      (error) => {
+        console.error('Error al actualizar suplencia', error);
+      }
+    );
+  }
+
+  handleEventClick(info: EventClickArg) {
+    const event = info.event;
+    if (!event || typeof event.id !== 'string') return;
+
+    const eventId = typeof event.id === 'number' ? event.id : parseInt(event.id, 10);
+
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡No podrás revertir esto!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.suplenciasService.deleteSuplencia(eventId).subscribe(() => {
+          info.event.remove();
+          Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
+        });
+      }
+    });
+  }
+
+
+  renderEventContent(eventInfo: any) {
+    return {
+      html: `
+        <div>
+          <strong>${eventInfo.timeText}</strong>
+          <br>
+          <span>${eventInfo.event.title}</span>
+          <br>
+          <button onclick="deleteEvent(${eventInfo.event.id})">🗑️</button>
+        </div>
+      `
+    };
+  }
+
+  deleteEvent(eventId: number) {
+    this.suplenciasService.deleteSuplencia(eventId).subscribe(
+      (response) => {
+        alert('¡Suplencia eliminada exitosamente!');
+        console.log('Suplencia eliminada exitosamente', response);
+        this.events = this.events.filter(event => event.id !== eventId);
+      },
+      (error) => {
+        console.error('Error al eliminar suplencia', error);
       }
     );
   }
@@ -140,6 +226,8 @@ export class CalendarioServiciosComponent implements OnInit {
     );
   }
 
+ 
+
   mostrarSuplenciasEnCalendario(suplencias: Suplencia[]): void {
     if (!this.selectedCuidador) {
       console.error('No se ha seleccionado un cuidador');
@@ -179,5 +267,5 @@ export class CalendarioServiciosComponent implements OnInit {
   
     console.log('Eventos actualizados:', this.events);
   }
-  
+
 }

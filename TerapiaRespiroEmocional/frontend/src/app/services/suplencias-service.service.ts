@@ -43,4 +43,14 @@ export class SuplenciasServiceService {
   getTotalSuplencias(): Observable<number> {
     return this.http.get<number>(`${this.URL_API}/total-suplencias`);
   }
+
+  updateSuplencia(suplencia: Suplencia): Observable<any> {
+    return this.http.put(`${this.URL_API}/${suplencia.id_suplencia}`, suplencia);
+  }
+  
+
+  deleteSuplencia(id: number): Observable<any> {
+    return this.http.delete(`${this.URL_API}/${id}`);
+  }
+  
 }

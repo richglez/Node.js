@@ -9,76 +9,89 @@ h1 {
   font-size: 28px;
 }
 
+input {
+  padding: 0.5rem 2rem 0.5rem 2rem; /* Ajusta el padding para dar espacio al ícono */
+  width: 300px;
+  border: none;
+  border-radius: 4px;
+  background: #f9f9ff
+    url('data:image/svg+xml;utf8,<svg fill="rgba(0, 0, 0, 0.5)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="20"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>')
+    no-repeat left 0.5rem center; /* Añade el ícono a la izquierda */
+  background-size: 24px; /* Tamaño del ícono */
+  margin-right: 1rem;
+  margin-top: 12px;
 
+  &:focus {
+    outline: 2px solid #4d98ff;
+  }
+}
 
-.search-container {
+label {
+  display: block;
+  margin-right: 1rem;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Navbar styles */
+.navbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border: 1px solid #ccc;
   border-radius: 20px;
   background-color: #ffffff;
-  max-width: 1200px;
+  font-family: "Poppins", sans-serif;
+  max-width: 1700px;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1);
+}
 
-  #que-tas-buscando{
-    display: block; /* Hace que el label sea un bloque */
-    margin-bottom: 0.5rem; /* Espacio entre el label y el input */
-    font-weight: bold;
-    font-family: "Poppins", sans-serif;
+/* Search container styles */
+.search-container {
+  display: flex;
+}
+
+/* Form group styles */
+.form-group {
+  margin-right: 1rem;
+}
+
+/* Select styles */
+select {
+  padding: 0.5rem;
+  
+  border: 1px solid #c7c7c7; /* Ancho, estilo y color del borde */
+  margin-top: 12px;
+  border-radius: 10px;
+
+  &:focus {
+    outline: 2px solid #4d98ff;
   }
+}
 
-  label {
-    margin-right: 1rem;
-    font-weight: bold;
-    font-family: "Poppins", sans-serif;
-  }
+.botondiv {
+  display: flex; /* Utilizar flexbox */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+}
 
-  input {
-    padding: 0.5rem;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: #f9f9ff;
-    margin-right: 1rem;
-  }
 
-  .filters {
-    display: flex;
-    align-items: center;
-    margin-right: 1rem;
+button {
+  padding: 0.8rem 2.7rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
 
-    .filter {
-      display: flex;
-      align-items: center;
-      margin-right: 1rem;
-
-      label {
-        margin-right: 0.5rem;
-        font-weight: bold;
-        font-family: "Poppins", sans-serif;
-      }
-
-      select {
-        padding: 0.5rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background: #f9f9ff;
-      }
-    }
-  }
-
-  button {
-    padding: 0.5rem 1rem;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-family: "Poppins", sans-serif;
-
-    &:hover {
-      background-color: #0056b3;
-    }
+  &:hover {
+    background-color: #0056b3;
   }
 }

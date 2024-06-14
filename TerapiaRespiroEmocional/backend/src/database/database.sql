@@ -53,7 +53,7 @@ CREATE TABLE suplencias (
     hora_final VARCHAR(255),
     costoGuardia INT,
     particular VARCHAR(80),
-    concurrencia_anual CHAR(7),
+    concurrencia_anual CHAR(12),
     id_cuidador_paciente INT unsigned,
     id_paciente INT unsigned,
     FOREIGN KEY (id_cuidador_paciente) REFERENCES cuidadores(id_cuidador_paciente),

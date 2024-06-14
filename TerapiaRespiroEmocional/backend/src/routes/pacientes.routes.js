@@ -32,10 +32,12 @@ router.delete('/cuidadores/:id', pacientesCtrls.deleteCuidador);
 // router.get('/cuidadores/total-suplencias/:id', pacientesCtrls.getTotalSuplenciasPorCuidador);
 
 // suplencias
-router.post('/suplencias', pacientesCtrls.addSuplencia);
 router.get('/suplencias', pacientesCtrls.getSuplencias);
 router.get('/suplencias/buscar', pacientesCtrls.buscarSuplenciasPorCuidadorYPaciente);
 router.get('/suplencias/total-suplencias', pacientesCtrls.getTotalSuplencias);
+router.post('/suplencias', pacientesCtrls.addSuplencia);
+router.put('/suplencias/:id', pacientesCtrls.updateSuplencia);
+router.delete('/suplencias/:id', pacientesCtrls.deleteSuplencia);
 // router.get('/suplencias/total-suplencias', pacientesCtrls.getTotalSuplencias);
 
 module.exports = router;
