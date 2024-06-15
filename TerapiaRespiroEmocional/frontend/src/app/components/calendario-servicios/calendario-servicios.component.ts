@@ -13,14 +13,18 @@ import { Paciente } from '../../models/pacientes';
 import { Suplencia } from '../../models/suplencias';
 import { DatePipe } from '@angular/common';
 import multiMonthPlugin from '@fullcalendar/multimonth';
-import { CalendarOptions, EventClickArg, EventDropArg } from '@fullcalendar/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  CalendarOptions,
+  EventClickArg,
+  EventDropArg,
+} from '@fullcalendar/core';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-calendario-servicios',
   templateUrl: './calendario-servicios.component.html',
   styleUrls: ['./calendario-servicios.component.scss'],
-
 })
 export class CalendarioServiciosComponent implements OnInit {
   public events: any[] = [];
@@ -42,11 +46,17 @@ export class CalendarioServiciosComponent implements OnInit {
     public pacientesService: PacientesService,
     public dialog: MatDialog,
     public cuidadoresService: CuidadoresServiceService,
-    public suplenciasService: SuplenciasServiceService
+    public suplenciasService: SuplenciasServiceService,
+    private snackBar: MatSnackBar
   ) {
     this.events = [];
     this.options = {
-      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, multiMonthPlugin],
+      plugins: [
+        dayGridPlugin,
+        timeGridPlugin,
+        interactionPlugin,
+        multiMonthPlugin,
+      ],
       initialView: 'dayGridMonth',
       editable: true,
       eventResizableFromStart: true,
@@ -91,7 +101,9 @@ export class CalendarioServiciosComponent implements OnInit {
       id_suplencia: Number(event.id),
       dia_suplencia: event.start.toISOString().split('T')[0],
       hora_inicial: event.start.toISOString().split('T')[1].substr(0, 5),
-      hora_final: event.end ? event.end.toISOString().split('T')[1].substr(0, 5) : event.start.toISOString().split('T')[1].substr(0, 5),
+      hora_final: event.end
+        ? event.end.toISOString().split('T')[1].substr(0, 5)
+        : event.start.toISOString().split('T')[1].substr(0, 5),
       costoGuardia: 0, // Completar con un valor válido
       particular: '', // Completar con un valor válido
       concurrencia_anual: '', // Completar con un valor válido
@@ -101,8 +113,12 @@ export class CalendarioServiciosComponent implements OnInit {
 
     this.suplenciasService.updateSuplencia(suplencia).subscribe(
       (response) => {
-        alert('¡Suplencia actualizada exitosamente!');
         console.log('Suplencia actualizada exitosamente', response);
+        this.snackBar.open('¡Suplencia actualizada exitosamente!', 'Cerrar', {
+          duration: 4000,
+          panelClass: ['main-snackbar'], // Aplica la clase de estilo personalizado
+        });
+        
       },
       (error) => {
         console.error('Error al actualizar suplencia', error);
@@ -114,7 +130,8 @@ export class CalendarioServiciosComponent implements OnInit {
     const event = info.event;
     if (!event || typeof event.id !== 'string') return;
 
-    const eventId = typeof event.id === 'number' ? event.id : parseInt(event.id, 10);
+    const eventId =
+      typeof event.id === 'number' ? event.id : parseInt(event.id, 10);
 
     Swal.fire({
       title: '¿Estás seguro de eliminar esta suplencia?',
@@ -122,7 +139,7 @@ export class CalendarioServiciosComponent implements OnInit {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
     }).then((result: any) => {
       if (result.isConfirmed) {
         this.suplenciasService.deleteSuplencia(eventId).subscribe(() => {
@@ -132,7 +149,6 @@ export class CalendarioServiciosComponent implements OnInit {
       }
     });
   }
-
 
   renderEventContent(eventInfo: any) {
     return {
@@ -144,7 +160,7 @@ export class CalendarioServiciosComponent implements OnInit {
           <br>
           <button onclick="deleteEvent(${eventInfo.event.id})">🗑️</button>
         </div>
-      `
+      `,
     };
   }
 
@@ -153,7 +169,7 @@ export class CalendarioServiciosComponent implements OnInit {
       (response) => {
         alert('¡Suplencia eliminada exitosamente!');
         console.log('Suplencia eliminada exitosamente', response);
-        this.events = this.events.filter(event => event.id !== eventId);
+        this.events = this.events.filter((event) => event.id !== eventId);
       },
       (error) => {
         console.error('Error al eliminar suplencia', error);
@@ -227,19 +243,17 @@ export class CalendarioServiciosComponent implements OnInit {
     );
   }
 
- 
-
   mostrarSuplenciasEnCalendario(suplencias: Suplencia[]): void {
     if (!this.selectedCuidador) {
       console.error('No se ha seleccionado un cuidador');
       return;
     }
-  
+
     this.events = suplencias.map((suplencia) => {
       const fecha = suplencia.dia_suplencia.split('-');
       const horaInicial = suplencia.hora_inicial.split(':');
       const horaFinal = suplencia.hora_final.split(':');
-  
+
       const start = new Date(
         parseInt(fecha[0]), // Año
         parseInt(fecha[1]) - 1, // Mes (restamos 1 porque los meses van de 0 a 11 en JavaScript)
@@ -247,7 +261,7 @@ export class CalendarioServiciosComponent implements OnInit {
         parseInt(horaInicial[0]), // Hora
         parseInt(horaInicial[1]) // Minutos
       );
-  
+
       const end = new Date(
         parseInt(fecha[0]), // Año
         parseInt(fecha[1]) - 1, // Mes
@@ -255,7 +269,7 @@ export class CalendarioServiciosComponent implements OnInit {
         parseInt(horaFinal[0]), // Hora
         parseInt(horaFinal[1]) // Minutos
       );
-  
+
       return {
         title: `Suplencia`,
         start,
@@ -265,8 +279,7 @@ export class CalendarioServiciosComponent implements OnInit {
         // Aquí puedes agregar lógica adicional para manejar eventos recurrentes si es necesario
       };
     });
-  
+
     console.log('Eventos actualizados:', this.events);
   }
-
 }

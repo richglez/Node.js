@@ -1,15 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
 
-*{
+* {
     padding: 0;
     margin: 0;
     font-family: "Poppins", sans-serif;
 }
-body{
-    background-color: #F6FAFD;
+body {
+    background-color: #f6fafd;
     overflow-x: hidden; /* Oculta la barra de desplazamiento horizontal */
 }
 
+.main-snackbar {
+    .mdc-snackbar__surface {
+        background-color: #d4edda !important;
+        border: #D6E9C6 solid 1px;
+    }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+    .mdc-snackbar__label {
+        color: #697668 !important;
+    }
+    
+    .mat-mdc-snack-bar-actions {
+        button {
+            color: #000000 !important;
+        }
+    }
+}
+
+
+
+
+
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
