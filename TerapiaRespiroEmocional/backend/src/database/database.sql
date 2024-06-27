@@ -48,7 +48,7 @@ CREATE TABLE cuidadores(
 
 CREATE TABLE suplencias (
     id_suplencia INT unsigned PRIMARY KEY AUTO_INCREMENT,
-    dia_suplencia DATE,
+    dia_suplencia VARCHAR(255),
     hora_inicial VARCHAR(255),
     hora_final VARCHAR(255),
     costoGuardia INT,

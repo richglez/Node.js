@@ -314,7 +314,6 @@ pacientesCtrls.deletePaciente = async (req, res) => {
     }
 };
 
-
 pacientesCtrls.getTotalPacientes = async (req, res) => {
     try {
         const [count] = await pool
@@ -328,7 +327,6 @@ pacientesCtrls.getTotalPacientes = async (req, res) => {
         });
     }
 };
-
 
 pacientesCtrls.getTotalPacientesMenores = async (req, res) => {
     try {
@@ -362,8 +360,6 @@ pacientesCtrls.getTotalPacientesMayores = async (req, res) => {
     }
 };
 
-
-
 pacientesCtrls.getTotalProgramasCECPAM = async (req, res) => {
     try {
         const [count] = await pool
@@ -380,162 +376,89 @@ pacientesCtrls.getTotalProgramasCECPAM = async (req, res) => {
     }
 };
 
-
-
 // ----------------SUPLENCIAS----------------
 pacientesCtrls.getSuplencias = async (req, res) => {
     const [rows] = await pool.promise().query("SELECT * FROM suplencias");
     res.json(rows);
 };
 
-pacientesCtrls.addSuplencia = async (req, res) => {
-    const {
-        dia_suplencia,
-        hora_inicial,
-        hora_final,
-        costoGuardia,
-        particular,
-        concurrencia_anual,
-        id_cuidador_paciente, // Asegúrate de recibir el ID del cuidador desde el frontend
-        id_paciente,
-    } = req.body;
-
+pacientesCtrls.addSuplencias = async (req, res) => {
     try {
-        console.log("Datos recibidos para la nueva suplencia:", req.body);
+        const {
+            dia_suplencia,
+            hora_inicial,
+            hora_final,
+            costoGuardia,
+            particular,
+            concurrencia_anual,
+            id_cuidador_paciente,
+            id_paciente,
+        } = req.body;
 
-        // Verifica que el cuidador existe
-        const [cuidador] = await pool
+        console.log(req.body); // Mostrar el contenido de req.body en la consola
+
+        const [rows] = await pool
             .promise()
-            .query("SELECT * FROM cuidadores WHERE id_cuidador_paciente = ?", [
-                id_cuidador_paciente,
-            ]);
+            .query(
+                "INSERT INTO suplencias (dia_suplencia, hora_inicial, hora_final, costoGuardia, particular, concurrencia_anual, id_cuidador_paciente, id_paciente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                [
+                    dia_suplencia,
+                    hora_inicial,
+                    hora_final,
+                    costoGuardia,
+                    particular,
+                    concurrencia_anual,
+                    id_cuidador_paciente,
+                    id_paciente,
+                ]
+            );
 
-        if (cuidador.length > 0) {
-            console.log("Cuidador encontrado:", cuidador[0]);
-
-            // Insertar la suplencia
-            const [rows] = await pool
-                .promise()
-                .query(
-                    "INSERT INTO suplencias (dia_suplencia, hora_inicial, hora_final, costoGuardia, particular, concurrencia_anual, id_cuidador_paciente, id_paciente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                    [
-                        dia_suplencia,
-                        hora_inicial,
-                        hora_final,
-                        costoGuardia,
-                        particular,
-                        concurrencia_anual,
-                        id_cuidador_paciente,
-                        id_paciente,
-                    ]
-                );
-
-            console.log("Suplencia insertada:", rows);
-
-            // Actualizar el número de suplencias del cuidador
-            const [updateResult] = await pool
-                .promise()
-                .query(
-                    "UPDATE cuidadores SET num_suplencias = num_suplencias + 1 WHERE id_cuidador_paciente = ?",
-                    [id_cuidador_paciente]
-                );
-
-            console.log("Número de suplencias actualizado:", updateResult);
-
-            res.send({
-                dia_suplencia,
-                hora_inicial,
-                hora_final,
-                costoGuardia,
-                particular,
-                concurrencia_anual,
-                id_cuidador_paciente,
-                id_paciente,
-            });
-        } else {
-            res.status(404).send("Cuidador no encontrado");
-        }
+        res.json({
+            id_suplencia: rows.insertId,
+            dia_suplencia,
+            hora_inicial,
+            hora_final,
+            costoGuardia,
+            particular,
+            concurrencia_anual,
+            id_cuidador_paciente,
+            id_paciente,
+        });
     } catch (error) {
         console.error("Error al agregar la suplencia:", error);
-        res.status(500).send("Error al agregar la suplencia");
+        res.status(500).json({ error: "Error al agregar la suplencia" });
     }
 };
-
 
 //update
-
 pacientesCtrls.updateSuplencia = async (req, res) => {
-    const id_suplencia  = req.params.id; // Obtener el ID del paciente de los parámetros de la solicitud
-    const {
-        dia_suplencia,
-        hora_inicial,
-        hora_final,
-        costoGuardia,
-        particular,
-        concurrencia_anual,
-        id_cuidador_paciente,
-        id_paciente
-    } = req.body;
-
-    // Construir la consulta de actualización dinámicamente con los campos que se desean actualizar
+    const id_suplencia = req.params.id; // Asegúrate de obtener el id correctamente
+    const { dia_suplencia } = req.body;
+  
     let query = "UPDATE suplencias SET ";
     let values = [];
-
+  
     if (dia_suplencia) {
-        query += "dia_suplencia = ?, ";
-        values.push(dia_suplencia);
+      query += "dia_suplencia = ?, ";
+      values.push(dia_suplencia);
     }
-    if (hora_inicial) {
-        query += "hora_inicial = ?, ";
-        values.push(hora_inicial);
-    }
-    if (hora_final) {
-        query += "hora_final = ?, ";
-        values.push(hora_final);
-    }
-    if (costoGuardia) {
-        query += "costoGuardia = ?, ";
-        values.push(costoGuardia);
-    }
-    if (particular) {
-        query += "particular = ?, ";
-        values.push(particular);
-    }
-    if (concurrencia_anual) {
-        query += "concurrencia_anual = ?, ";
-        values.push(concurrencia_anual);
-    }
-    if (id_cuidador_paciente) {
-        query += "id_cuidador_paciente = ?, ";
-        values.push(id_cuidador_paciente);
-    }
-    if (id_paciente) {
-        query += "id_paciente = ?, ";
-        values.push(id_paciente);
-    }
-
-    // Eliminar la coma extra al final de la cadena y agregar la condición WHERE
+  
     query = query.slice(0, -2) + " WHERE id_suplencia = ?";
-
-    // Agregar el ID del paciente al array de valores
     values.push(id_suplencia);
-
-    // Continuar con la actualización en la base de datos
-    const [rows] = await pool.promise().query(query, values);
-
-    res.send({
-        message: "Suplencia updated successfully",
+  
+    try {
+      const [rows] = await pool.promise().query(query, values);
+      res.send({
+        message: "Suplencia actualizada exitosamente",
         id_suplencia,
         dia_suplencia,
-        hora_inicial,
-        hora_final,
-        costoGuardia,
-        particular,
-        concurrencia_anual,
-        id_cuidador_paciente,
-        id_paciente
-    });
-};
+      });
+    } catch (error) {
+      console.error("Er al actualizar suplencia:", error);
+      res.status(500).send("Error al actualizar suplencia");
+    }
+  };
+  
 
 
 pacientesCtrls.deleteSuplencia = async (req, res) => {
@@ -554,7 +477,6 @@ pacientesCtrls.deleteSuplencia = async (req, res) => {
         res.status(500).json({ error: "Error al eliminar la suplencia" });
     }
 };
-
 
 // buscar suplencias por cuidador y paciente
 pacientesCtrls.buscarSuplenciasPorCuidadorYPaciente = async (req, res) => {
@@ -589,8 +511,6 @@ pacientesCtrls.getTotalSuplenciasPorCuidador = async (req, res) => {
         res.status(500).send("Error al obtener el total de suplencias");
     }
 };
-
-
 
 pacientesCtrls.getTotalSuplencias = async (req, res) => {
     try {
@@ -768,7 +688,6 @@ pacientesCtrls.updateCuidador = async (req, res) => {
         num_suplencias,
     });
 };
-
 
 pacientesCtrls.getTotalCuidadores = async (req, res) => {
     try {

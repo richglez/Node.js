@@ -28,6 +28,28 @@ body {
 }
 
 
+.error-snackbar {
+    .mdc-snackbar__surface {
+        background-color: #F5CBCA !important;
+        border: #e29b9a solid 1px;
+    }
+
+    .mdc-snackbar__label {
+        color: #CE3935 !important;
+    }
+    
+    .mat-mdc-snack-bar-actions {
+        button {
+            color: #5f0f0f !important;
+        }
+    }
+}
+
+
+
+
+
+
 
 
 

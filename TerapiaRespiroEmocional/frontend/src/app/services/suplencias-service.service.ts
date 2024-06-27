@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; // metodos http
-import { Suplencia } from '../models/suplencias';
+import { HttpClient } from '@angular/common/http'; // métodos http
+import { Suplencia } from '../models/suplencias'; // interfaz
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -23,8 +23,13 @@ export class SuplenciasServiceService {
 
   constructor(private http: HttpClient) {}
 
+  getSuplencias() {
+    return this.http.get<Suplencia[]>(this.URL_API);
+  }
+
+
   addSuplencia(suplencia: Suplencia) {
-    return this.http.post(this.URL_API, suplencia);
+    return this.http.post<{ id_suplencia: number }>(this.URL_API, suplencia);
   }
 
   // Método para buscar suplencias
@@ -47,10 +52,10 @@ export class SuplenciasServiceService {
   updateSuplencia(suplencia: Suplencia): Observable<any> {
     return this.http.put(`${this.URL_API}/${suplencia.id_suplencia}`, suplencia);
   }
-  
+  //PORQUE ASI ESTA LA RUTA EN EL BACKEND DE ESTA FUNCION: // router.put('/suplencias/:id', pacientesCtrls.updateSuplencia);
+
 
   deleteSuplencia(id: number): Observable<any> {
     return this.http.delete(`${this.URL_API}/${id}`);
   }
-  
 }

@@ -91,24 +91,36 @@ export class CalendarioServiciosComponent implements OnInit {
         console.error(err);
       }
     );
+
+    document.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (target.classList.contains('delete-btn')) {
+        const eventId = target.getAttribute('data-id');
+        if (eventId) {
+          this.deleteEvent(parseInt(eventId, 10));
+        }
+      }
+    });
   }
+
+  // funcionalidad básica para manejar la actualización de eventos mediante el arrastre (drag and drop) y la eliminación de eventos.
 
   handleEventDrop(eventDropInfo: EventDropArg) {
     const event = eventDropInfo.event;
-    if (!event.start) return; // Verificamos que event.start no sea nulo
+    if (!event.start) return;
 
     const suplencia = {
       id_suplencia: Number(event.id),
       dia_suplencia: event.start.toISOString().split('T')[0],
-      hora_inicial: event.start.toISOString().split('T')[1].substr(0, 5),
+      hora_inicial: event.start.toTimeString().substr(0, 5),
       hora_final: event.end
-        ? event.end.toISOString().split('T')[1].substr(0, 5)
-        : event.start.toISOString().split('T')[1].substr(0, 5),
-      costoGuardia: 0, // Completar con un valor válido
-      particular: '', // Completar con un valor válido
-      concurrencia_anual: '', // Completar con un valor válido
-      id_cuidador_paciente: 0, // Completar con un valor válido
-      id_paciente: 0, // Completar con un valor válido
+        ? event.end.toTimeString().substr(0, 5)
+        : event.start.toTimeString().substr(0, 5),
+      costoGuardia: event.extendedProps['costoGuardia'],
+      particular: event.extendedProps['particular'],
+      concurrencia_anual: event.extendedProps['concurrencia_anual'],
+      id_cuidador_paciente: event.extendedProps['id_cuidador_paciente'],
+      id_paciente: event.extendedProps['id_paciente'],
     };
 
     this.suplenciasService.updateSuplencia(suplencia).subscribe(
@@ -116,12 +128,19 @@ export class CalendarioServiciosComponent implements OnInit {
         console.log('Suplencia actualizada exitosamente', response);
         this.snackBar.open('¡Suplencia actualizada exitosamente!', 'Cerrar', {
           duration: 4000,
-          panelClass: ['main-snackbar'], // Aplica la clase de estilo personalizado
+          panelClass: ['main-snackbar'],
         });
-        
       },
       (error) => {
         console.error('Error al actualizar suplencia', error);
+        this.snackBar.open(
+          'Error al actualizar la suplencia. Por favor, intenta de nuevo.',
+          'Cerrar',
+          {
+            duration: 4000,
+            panelClass: ['error-snackbar'],
+          }
+        );
       }
     );
   }
@@ -158,7 +177,7 @@ export class CalendarioServiciosComponent implements OnInit {
           <br>
           <span>${eventInfo.event.title}</span>
           <br>
-          <button onclick="deleteEvent(${eventInfo.event.id})">🗑️</button>
+          <button data-id="${eventInfo.event.id}" class="delete-btn">🗑️</button>
         </div>
       `,
     };
