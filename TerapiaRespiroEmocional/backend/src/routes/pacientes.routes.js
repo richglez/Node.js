@@ -6,7 +6,6 @@ const pacientesCtrls = require('../controllers/pacientes.controller');
 const router = Router();
 
 // routes pacientes CRUD
-router.get('/pacientes/con-cuidador', pacientesCtrls.getNombreCuidadorDelPaciente);
 router.get('/pacientes', pacientesCtrls.getPacientes);
 router.get('/pacientes/search', pacientesCtrls.searchPacienteAutoComplete);
 router.get('/pacientes/total-pacientes', pacientesCtrls.getTotalPacientes); 

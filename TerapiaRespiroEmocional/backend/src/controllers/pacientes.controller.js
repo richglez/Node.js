@@ -701,17 +701,5 @@ pacientesCtrls.getTotalCuidadores = async (req, res) => {
     }
 };
 
-pacientesCtrls.getNombreCuidadorDelPaciente = async (req, res) => {
-    try {
-        const pacientes = await db.query(`
-        SELECT p.*, CONCAT(c.nombreCuidador, ' ', c.apPatCuidador, ' ', c.apMatCuidador) AS nombreCompletoCuidador
-        FROM pacientes p
-        LEFT JOIN cuidadores c ON p.id_cuidador_paciente = c.id_cuidador_paciente
-      `);
-        res.json(pacientes);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
 
 module.exports = pacientesCtrls;

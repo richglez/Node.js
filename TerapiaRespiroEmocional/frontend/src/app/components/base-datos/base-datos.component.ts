@@ -22,7 +22,13 @@ export class BaseDatosComponent implements OnInit {
     private suplenciasService: SuplenciasServiceService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.selectedCategory === 'pacientes') {
+      this.pacientesService.getNombreCuidadorDelPaciente().subscribe(data => {
+        this.pacientes = data;
+      });
+    }
+  }
 
   search() {
     if (this.selectedCategory === 'pacientes') {
@@ -39,6 +45,10 @@ export class BaseDatosComponent implements OnInit {
       //   this.suplencias = data;
       // });
     }
+  }
+
+  exportExcel(){
+    
   }
 
   editPaciente(id: number) {

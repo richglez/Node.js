@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Paciente } from '../models/pacientes';
-import { Observable } from 'rxjs';
+import { Cuidador } from '../models/cuidadores'; // Importar el modelo Cuidador
+import { CuidadoresServiceService } from './cuidadores-service.service'; // Importar el servicio de cuidadores
+import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -35,7 +37,7 @@ export class PacientesService {
   };
 
   // constructor
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cuidadoresService: CuidadoresServiceService) {} 
 
   // metodos del backend // traer los datos desde el backend = peticion HTTP
   getPacientes() {
@@ -95,8 +97,22 @@ export class PacientesService {
     return this.http.get<number>(`${this.URL_API}/total-programas-cecpam`);
   }
 
+
   getNombreCuidadorDelPaciente(): Observable<Paciente[]> {
-    return this.http.get<Paciente[]>(`${this.URL_API}/con-cuidador`);
+    return forkJoin({
+      pacientes: this.getPacientes(),
+      cuidadores: this.cuidadoresService.getCuidadores(), // Usar el método del servicio de cuidadores
+    }).pipe(
+      map(({ pacientes, cuidadores }) => {
+        return pacientes.map(paciente => {
+          const cuidador = cuidadores.find((c: Cuidador) => c.id_cuidador_paciente === paciente.id_cuidador_paciente); // Declarar el tipo de 'c'
+          return {
+            ...paciente,
+            nombreCompletoCuidador: cuidador ? `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}` : ''
+          };
+        });
+      })
+    );
   }
 
 

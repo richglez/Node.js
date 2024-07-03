@@ -71,7 +71,7 @@ select {
   align-items: center;
 }
 
-button {
+#btnSearch {
   padding: 0.8rem 2.7rem;
   background-color: #007bff;
   color: #fff;
@@ -83,11 +83,33 @@ button {
   transition: background-color 0.3s;
   font-family: "Poppins", sans-serif;
   font-size: 13px;
+  font-weight: 520;
 
   &:hover {
     background-color: #0056b3;
   }
 }
+
+
+#btnExport {
+  padding: 0.8rem 2.7rem;
+  background-color: #38B686;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 520;
+
+  &:hover {
+    background-color: #31a076;
+  }
+}
+
 
 /*--ESTILOS DE LA TABLA--*/
 .styled-table {
