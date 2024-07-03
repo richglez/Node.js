@@ -69,10 +69,11 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 20px;
 }
 
 #btnSearch {
-  padding: 0.8rem 2.7rem;
+  padding: 0.8rem 2.2rem;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -92,7 +93,7 @@ select {
 
 
 #btnExport {
-  padding: 0.8rem 2.7rem;
+  padding: 0.8rem 2.2rem;
   background-color: #38B686;
   color: #fff;
   border: none;
