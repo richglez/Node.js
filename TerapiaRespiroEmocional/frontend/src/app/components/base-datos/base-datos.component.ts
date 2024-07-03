@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PacientesService } from '../../services/pacientes.service';
 import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
 import { SuplenciasServiceService } from '../../services/suplencias-service.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-base-datos',
@@ -47,8 +48,34 @@ export class BaseDatosComponent implements OnInit {
     }
   }
 
-  exportExcel(){
-    
+  /* Default name for excel file when download */ 
+  fileName1 = "BaseDatosPacientes.xlsx";
+  fileName2 = "BaseDatosCuidadores.xlsx";
+  fileName3 = "BaseDatosSuplencias.xlsx";
+  exportExcel() {
+    let data;
+    let fileName;
+    switch (this.selectedCategory) {
+      case 'pacientes':
+        data = document.getElementById('BaseDatosPacientes');
+        fileName = this.fileName1;
+        break;
+      case 'cuidadores':
+        data = document.getElementById('BaseDatosCuidadores');
+        fileName = this.fileName2;
+        break;
+      case 'suplencias':
+        data = document.getElementById('BaseDatosSuplencias');
+        fileName = this.fileName3;
+        break;
+      default:
+        return;
+    }
+
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, fileName);
   }
 
   editPaciente(id: number) {

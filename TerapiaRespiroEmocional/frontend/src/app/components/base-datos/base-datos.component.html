@@ -30,7 +30,7 @@
 </nav>
 
 <div *ngIf="selectedCategory === 'pacientes'">
-  <table class="styled-table">
+  <table class="styled-table" id="BaseDatosPacientes">
     <thead>
       <tr>
         <th>#</th>
@@ -68,7 +68,7 @@
 </div>
 
 <div *ngIf="selectedCategory === 'cuidadores'">
-  <table class="styled-table">
+  <table class="styled-table" id="BaseDatosCuidadores">
     <thead>
       <tr>
         <th>#</th>
@@ -96,7 +96,7 @@
 </div>
 
 <div *ngIf="selectedCategory === 'suplencias'">
-  <table class="styled-table">
+  <table class="styled-table" id="BaseDatosSuplencias">
     <thead>
       <tr>
         <th>#</th>
