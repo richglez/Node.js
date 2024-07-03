@@ -29,6 +29,7 @@ export class SuplenciasServiceService {
     return this.http.get<Suplencia[]>(this.URL_API);
   }
 
+
   addSuplencia(suplencia: Suplencia): Observable<{ id_suplencia: number }> {
     return this.http.post<{ id_suplencia: number }>(this.URL_API, suplencia);
   }

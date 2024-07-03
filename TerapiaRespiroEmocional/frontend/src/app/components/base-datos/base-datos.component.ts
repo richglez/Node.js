@@ -33,18 +33,17 @@ export class BaseDatosComponent implements OnInit {
 
   search() {
     if (this.selectedCategory === 'pacientes') {
-      this.pacientesService.searchAllPacientes(this.searchText).subscribe(data => {
+      this.pacientesService.getPacientes().subscribe(data => {
         this.pacientes = data;
       });
     } else if (this.selectedCategory === 'cuidadores') {
-      this.cuidadoresService.searchAllCuidadores(this.searchText).subscribe(data => {
+      this.cuidadoresService.getCuidadores().subscribe(data => {
         this.cuidadores = data;
       });
     } else if (this.selectedCategory === 'suplencias') {
-      // Aquí podrías agregar lógica similar para buscar suplencias
-      // this.suplenciasService.searchAllSuplencias(this.searchText).subscribe(data => {
-      //   this.suplencias = data;
-      // });
+      this.suplenciasService.getSuplencias().subscribe(data => {
+        this.suplencias = data;
+      });
     }
   }
 
