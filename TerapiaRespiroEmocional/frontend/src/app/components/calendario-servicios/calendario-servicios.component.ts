@@ -31,6 +31,7 @@ export class CalendarioServiciosComponent implements OnInit {
   public options: any;
   public selectedCuidador: Cuidador | null = null;
   public selectedPaciente: Paciente | null = null;
+  public selectedSuplencia: Suplencia | null = null;
   public selectAbierto: boolean = false;
   public selectAbierto2: boolean = false;
   public suplencias: Suplencia[] = [];
@@ -104,75 +105,96 @@ export class CalendarioServiciosComponent implements OnInit {
   }
 
   // funcionalidad básica para manejar la actualización de eventos mediante el arrastre (drag and drop) y la eliminación de eventos.
-
-  handleEventDrop(eventDropInfo: EventDropArg) {
+   async handleEventDrop(eventDropInfo: EventDropArg) { //para actualizar las fechas de las suplencias
     const event = eventDropInfo.event;
     if (!event.start) return;
 
-    const suplencia = {
-      id_suplencia: Number(event.id),
-      dia_suplencia: event.start.toISOString().split('T')[0],
-      hora_inicial: event.start.toTimeString().substr(0, 5),
-      hora_final: event.end
-        ? event.end.toTimeString().substr(0, 5)
-        : event.start.toTimeString().substr(0, 5),
-      costoGuardia: event.extendedProps['costoGuardia'],
-      particular: event.extendedProps['particular'],
-      concurrencia_anual: event.extendedProps['concurrencia_anual'],
-      id_cuidador_paciente: event.extendedProps['id_cuidador_paciente'],
-      id_paciente: event.extendedProps['id_paciente'],
-    };
+    const suplencia = this.selectedSuplencia;
 
-    this.suplenciasService.updateSuplencia(suplencia).subscribe(
-      (response) => {
-        console.log('Suplencia actualizada exitosamente', response);
-        this.snackBar.open('¡Suplencia actualizada exitosamente!', 'Cerrar', {
-          duration: 4000,
-          panelClass: ['main-snackbar'],
-        });
-      },
-      (error) => {
-        console.error('Error al actualizar suplencia', error);
-        this.snackBar.open(
-          'Error al actualizar la suplencia. Por favor, intenta de nuevo.',
-          'Cerrar',
-          {
-            duration: 4000,
-            panelClass: ['error-snackbar'],
-          }
-        );
-      }
-    );
+    if (!suplencia) {
+      console.error('No se ha seleccionado ninguna suplencia para actualizar.');
+      this.snackBar.open('No se ha seleccionado ninguna suplencia para actualizar.', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+      });
+      return;
+    }
+
+    // Actualizar lógica para la suplencia con nueva fecha y hora
+    suplencia.dia_suplencia = event.start.toISOString().split('T')[0];
+    suplencia.hora_inicial = event.start.toISOString().split('T')[1].substr(0, 5);
+    suplencia.hora_final = event.end ? event.end.toISOString().split('T')[1].substr(0, 5) : event.start.toISOString().split('T')[1].substr(0, 5);
+
+    try {
+      const response = await this.suplenciasService.updateSuplencia(suplencia).toPromise();
+      console.log('Suplencia actualizada exitosamente', response);
+      this.snackBar.open('¡Suplencia actualizada exitosamente!', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['main-snackbar'],
+      });
+    } catch (error) {
+      console.error('Error al actualizar suplencia', error);
+      this.snackBar.open('Error al actualizar la suplencia. Por favor, intenta de nuevo.', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+      });
+    }
   }
+  
 
-  handleEventClick(info: EventClickArg) {
+  // Método para manejar el clic en eventos (eliminar suplencia)
+  handleEventClick(info: EventClickArg) { //para borrar las suplencias de la base de datos
     const event = info.event;
     if (!event || typeof event.id !== 'string') return;
 
-    const eventId =
-      typeof event.id === 'number' ? event.id : parseInt(event.id, 10);
+    const eventId = typeof event.id === 'number' ? event.id : parseInt(event.id, 10);
+    const foundSuplencia = this.suplencias.find((s) => s.id_suplencia === eventId);
 
-    Swal.fire({
-      title: '¿Estás seguro de eliminar esta suplencia?',
-      text: '¡No podrás revertir esto!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-        this.suplenciasService.deleteSuplencia(eventId).subscribe(() => {
-          info.event.remove();
-          Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
-        });
-      }
+    if (!foundSuplencia) {
+      console.error('No se encontró ninguna suplencia con el eventId:', eventId);
+      return;
+    }
+
+    this.selectedSuplencia = foundSuplencia;
+    console.log('Suplencia seleccionada:', this.selectedSuplencia);
+    this.snackBar.open('Suplencia seleccionada', 'Cerrar', {
+      duration: 5000,
+      panelClass: ['important-snackbar'],
     });
   }
 
   renderEventContent(eventInfo: any) {
     return {
       html: `
-        <div>
+        <style>
+
+          .event-content strong {
+            color: #333;
+          }
+          .event-content span {
+            display: block;
+            margin-top: 2px;
+            margin-bottom: 5px;
+            font-size: 14px;
+          }
+          .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+          }
+          .delete-btn:hover {
+            background-color: darkred;
+          }
+          .delete-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.3);
+          }
+        </style>
+        <div class="event-content">
           <strong>${eventInfo.timeText}</strong>
           <br>
           <span>${eventInfo.event.title}</span>
@@ -182,19 +204,33 @@ export class CalendarioServiciosComponent implements OnInit {
       `,
     };
   }
+  
 
   deleteEvent(eventId: number) {
-    this.suplenciasService.deleteSuplencia(eventId).subscribe(
-      (response) => {
-        alert('¡Suplencia eliminada exitosamente!');
-        console.log('Suplencia eliminada exitosamente', response);
-        this.events = this.events.filter((event) => event.id !== eventId);
-      },
-      (error) => {
-        console.error('Error al eliminar suplencia', error);
+    Swal.fire({
+      title: '¿Estás seguro de eliminar esta suplencia?',
+      text: '¡No podrás revertir esto!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.suplenciasService.deleteSuplencia(eventId).subscribe(
+          () => {
+            this.events = this.events.filter((event) => event.id !== eventId);
+            Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
+            console.log('Suplencia eliminada exitosamente');
+          },
+          (error) => {
+            console.error('Error al eliminar suplencia', error);
+            Swal.fire('Error', 'Hubo un problema al eliminar la suplencia.', 'error');
+          }
+        );
       }
-    );
+    });
   }
+  
 
   seleccionarCuidador(cuidador: Cuidador) {
     this.selectedCuidador = cuidador;
@@ -238,9 +274,10 @@ export class CalendarioServiciosComponent implements OnInit {
   }
 
   buscarSuplencia() {
+    // esta funcion busca las suplenicas de un cuidador en especifico
     const idCuidador = this.selectedCuidador?.id_cuidador_paciente;
     const idPaciente = this.selectedPaciente?.id_paciente;
-
+  
     if (idCuidador && idPaciente) {
       this.suplenciasService
         .buscarSuplenciasPorCuidadorYPaciente(idCuidador, idPaciente)
@@ -248,6 +285,14 @@ export class CalendarioServiciosComponent implements OnInit {
           (suplencias) => {
             this.suplencias = suplencias;
             this.mostrarSuplenciasEnCalendario(suplencias);
+  
+            // Validar si no se encontraron suplencias
+            if (suplencias.length === 0) {
+              this.snackBar.open('No se ha encontrado una suplencia con estas características', 'Cerrar', {
+                duration: 5000,
+                panelClass: ['error-snackbar'],
+              });
+            }
           },
           (err) => {
             console.error('Error al buscar suplencias:', err);
@@ -255,15 +300,26 @@ export class CalendarioServiciosComponent implements OnInit {
         );
     } else {
       console.error('Debes seleccionar un cuidador y un paciente.');
+  
+      // Mostrar alerta si no se seleccionó cuidador y paciente
+      this.snackBar.open('Debes seleccionar un cuidador y un paciente', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+      });
     }
-
+  
     console.log(
       `Buscar la suplencia del cuidador: ${idCuidador}, con el paciente: ${idPaciente}`
     );
   }
+  
 
   mostrarSuplenciasEnCalendario(suplencias: Suplencia[]): void {
     if (!this.selectedCuidador) {
+      this.snackBar.open('No se ha seleccionado un cuidador', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+      });
       console.error('No se ha seleccionado un cuidador');
       return;
     }
@@ -290,6 +346,7 @@ export class CalendarioServiciosComponent implements OnInit {
       );
 
       return {
+        id: suplencia.id_suplencia, // Asegúrate de asignar el ID de la suplencia aquí
         title: `Suplencia`,
         start,
         end,
@@ -300,5 +357,7 @@ export class CalendarioServiciosComponent implements OnInit {
     });
 
     console.log('Eventos actualizados:', this.events);
+
+
   }
 }

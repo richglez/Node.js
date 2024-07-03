@@ -1,4 +1,3 @@
-/* Importar Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
 
 h1 {
@@ -10,14 +9,14 @@ h1 {
 }
 
 input {
-  padding: 0.5rem 2rem 0.5rem 2rem; /* Ajusta el padding para dar espacio al ícono */
+  padding: 0.5rem 2rem 0.5rem 2rem;
   width: 300px;
   border: none;
   border-radius: 4px;
   background: #f9f9ff
     url('data:image/svg+xml;utf8,<svg fill="rgba(0, 0, 0, 0.5)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="20"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>')
-    no-repeat left 0.5rem center; /* Añade el ícono a la izquierda */
-  background-size: 24px; /* Tamaño del ícono */
+    no-repeat left 0.5rem center;
+  background-size: 24px;
   margin-right: 1rem;
   margin-top: 12px;
 
@@ -33,7 +32,6 @@ label {
   font-family: "Poppins", sans-serif;
 }
 
-/* Navbar styles */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -48,21 +46,17 @@ label {
     0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Search container styles */
 .search-container {
   display: flex;
 }
 
-/* Form group styles */
 .form-group {
   margin-right: 1rem;
 }
 
-/* Select styles */
 select {
   padding: 0.5rem;
-  
-  border: 1px solid #c7c7c7; /* Ancho, estilo y color del borde */
+  border: 1px solid #c7c7c7;
   margin-top: 12px;
   border-radius: 10px;
 
@@ -72,11 +66,10 @@ select {
 }
 
 .botondiv {
-  display: flex; /* Utilizar flexbox */
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 
 button {
   padding: 0.8rem 2.7rem;
@@ -93,5 +86,71 @@ button {
 
   &:hover {
     background-color: #0056b3;
+  }
+}
+
+/*--ESTILOS DE LA TABLA--*/
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  margin: 20px 0;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  table-layout: auto;
+}
+
+.styled-table thead tr {
+  background-color: #1C4692;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+  border: 1px solid #dddddd;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #004298;
+}
+
+.edit-button {
+  background-color: #2481FF;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-right: 0.5rem;
+
+  &:hover {
+    background-color: #4565a0;
+  }
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+
+  &:hover {
+    background-color: #a12a21;
   }
 }

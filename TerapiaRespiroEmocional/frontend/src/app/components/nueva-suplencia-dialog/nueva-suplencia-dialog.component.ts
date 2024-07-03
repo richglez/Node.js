@@ -61,39 +61,110 @@ export class NuevaSuplenciaDialogComponent implements OnInit {
   }
 
   //Cuando guardes una suplencia, verifica si concurrencia_anual es "SI". Si es así, crea eventos recurrentes para los siguientes años. Aquí tienes un ejemplo básico de cómo podrías hacerlo:
-  confirmar() {
+  async confirmar() {
     const suplencia = this.suplenciasService.selectedSuplencia;
-
+  
+    // Validación de campos obligatorios
     if (!suplencia.id_cuidador_paciente) {
-        console.error('Cuidador no seleccionado');
-        return;
+      console.error('Cuidador no seleccionado');
+      return;
     }
-
+  
     if (!suplencia.id_paciente) {
-        console.error('Paciente no seleccionado');
-        return;
+      console.error('Paciente no seleccionado');
+      return;
     }
-
-    this.suplenciasService.addSuplencia(suplencia).subscribe(
-        (response) => {
-            console.log('Suplencia agregada exitosamente', response);
-            this.snackBar.open('Suplencia agregada exitosamente', 'Cerrar', {
-                duration: 3000,
-                panelClass: ['main-snackbar'],
-            });
-
-            // Actualizar el ID de la suplencia en el objeto seleccionado
-            this.suplenciasService.selectedSuplencia.id_suplencia = response.id_suplencia;
-
-            // Manejar suplencias recurrentes aquí (omitiendo para brevedad)
-            
-            this.resetForm();
-        },
-        (error) => {
-            console.error('Error al agregar suplencia', error);
+  
+    try {
+      // Llamada para agregar la suplencia original
+      const response = await this.suplenciasService.addSuplencia(suplencia).toPromise();
+      console.log('Suplencia agregada exitosamente', response);
+  
+      // Si se repite anualmente, agrega eventos para los próximos 10 años
+      if (suplencia.concurrencia_anual === 'ANUAL') {
+        for (let i = 1; i <= 10; i++) {
+          const nuevaFecha = new Date(suplencia.dia_suplencia);
+          nuevaFecha.setFullYear(nuevaFecha.getFullYear() + i);
+  
+          const suplenciaRecurrente = { ...suplencia, dia_suplencia: nuevaFecha.toISOString().split('T')[0] };
+  
+          const responseRec = await this.suplenciasService.addSuplencia(suplenciaRecurrente).toPromise();
+          console.log(`Suplencia recurrente ${i} agregada exitosamente`, responseRec);
         }
-    );
-}
+      }
+  
+      // Si se repite mensualmente, agrega eventos para los próximos 12 meses
+      if (suplencia.concurrencia_anual === 'MENSUAL') {
+        for (let i = 1; i <= 12; i++) {
+          const nuevaFecha = new Date(suplencia.dia_suplencia);
+          nuevaFecha.setMonth(nuevaFecha.getMonth() + i);
+  
+          const suplenciaRecurrente = { ...suplencia, dia_suplencia: nuevaFecha.toISOString().split('T')[0] };
+  
+          const responseRec = await this.suplenciasService.addSuplencia(suplenciaRecurrente).toPromise();
+          console.log(`Suplencia mensual ${i} agregada exitosamente`, responseRec);
+        }
+      }
+  
+      // Si se repite semanalmente, agrega eventos para las próximas 52 semanas
+      if (suplencia.concurrencia_anual === 'SEMANALMENTE') {
+        for (let i = 1; i <= 52; i++) {
+          const nuevaFecha = new Date(suplencia.dia_suplencia);
+          nuevaFecha.setDate(nuevaFecha.getDate() + (i * 7));
+  
+          const suplenciaRecurrente = { ...suplencia, dia_suplencia: nuevaFecha.toISOString().split('T')[0] };
+  
+          const responseRec = await this.suplenciasService.addSuplencia(suplenciaRecurrente).toPromise();
+          console.log(`Suplencia semanal ${i} agregada exitosamente`, responseRec);
+        }
+      }
+  
+      // Si se repite cada 2 semanas, agrega eventos para las próximas 26 quincenas
+      if (suplencia.concurrencia_anual === '2SEMANAS') {
+        for (let i = 1; i <= 26; i++) {
+          const nuevaFecha = new Date(suplencia.dia_suplencia);
+          nuevaFecha.setDate(nuevaFecha.getDate() + (i * 14));
+  
+          const suplenciaRecurrente = { ...suplencia, dia_suplencia: nuevaFecha.toISOString().split('T')[0] };
+  
+          const responseRec = await this.suplenciasService.addSuplencia(suplenciaRecurrente).toPromise();
+          console.log(`Suplencia cada 2 semanas ${i} agregada exitosamente`, responseRec);
+        }
+      }
+  
+      // Si se repite diariamente, agrega eventos para todos los días del año
+      if (suplencia.concurrencia_anual === 'DIARIAMENTE') {
+        for (let i = 1; i <= 365; i++) {
+          const nuevaFecha = new Date(suplencia.dia_suplencia);
+          nuevaFecha.setDate(nuevaFecha.getDate() + i);
+  
+          const suplenciaRecurrente = { ...suplencia, dia_suplencia: nuevaFecha.toISOString().split('T')[0] };
+  
+          const responseRec = await this.suplenciasService.addSuplencia(suplenciaRecurrente).toPromise();
+          console.log(`Suplencia diaria ${i} agregada exitosamente`, responseRec);
+        }
+      }
+  
+      // Mostrar mensaje de éxito
+      this.snackBar.open('¡Suplencia agregada exitosamente!', 'Cerrar', {
+        duration: 4000,
+        panelClass: ['main-snackbar'],
+      });
+  
+      // Reiniciar el formulario
+      this.resetForm();
+  
+    } catch (error) {
+      console.error('Error al agregar suplencia', error);
+      // Mostrar mensaje de error si falla la operación principal
+      this.snackBar.open('Error al agregar suplencia. Inténtalo de nuevo más tarde.', 'Cerrar', {
+        duration: 4000,
+        panelClass: ['error-snackbar'],
+      });
+    }
+  }
+  
+  
 
 
   resetForm() {

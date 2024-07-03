@@ -31,6 +31,7 @@ export class PacientesService {
     observaciones: '',
     recomendaciones: '',
     id_cuidador_paciente: 0,
+    
   };
 
   // constructor
@@ -50,7 +51,6 @@ export class PacientesService {
   getPacienteByCuidador(idCuidador: number): Observable<Paciente[]> {
     return this.http.get<Paciente[]>(`${this.URL_API}/cuidador/${idCuidador}`);
   }
-  
 
   getPacienteById(id: number): Observable<Paciente> {
     return this.http.get<Paciente>(`${this.URL_API}/${id}`);
@@ -70,7 +70,6 @@ export class PacientesService {
   addPaciente(paciente: Paciente) {
     return this.http.post(this.URL_API, paciente);
   }
-  
 
   deletePaciente(id: number): Observable<any> {
     return this.http.delete(`${this.URL_API}/${id}`);
@@ -83,17 +82,22 @@ export class PacientesService {
   getTotalPacientes(): Observable<number> {
     return this.http.get<number>(`${this.URL_API}/total-pacientes`);
   }
-  
+
   getTotalPacientesMenores(): Observable<number> {
     return this.http.get<number>(`${this.URL_API}/total-pacientes-menores`);
   }
-  
+
   getTotalPacientesMayores(): Observable<number> {
     return this.http.get<number>(`${this.URL_API}/total-pacientes-mayores`);
   }
-  
+
   getTotalProgramasCECPAM(): Observable<number> {
     return this.http.get<number>(`${this.URL_API}/total-programas-cecpam`);
   }
-  
+
+  getNombreCuidadorDelPaciente(): Observable<Paciente[]> {
+    return this.http.get<Paciente[]>(`${this.URL_API}/con-cuidador`);
+  }
+
+
 }

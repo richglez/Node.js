@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; // métodos http
-import { Suplencia } from '../models/suplencias'; // interfaz
+import { HttpClient } from '@angular/common/http';
+import { Suplencia } from '../models/suplencias';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,9 +8,10 @@ import { Observable } from 'rxjs';
 })
 export class SuplenciasServiceService {
   URL_API = 'http://localhost:4000/api/ccuidarte-app/suplencias';
-  suplencia: Suplencia[] = [];
+
 
   selectedSuplencia: Suplencia = {
+    // todos los datos de la suplencia
     dia_suplencia: '',
     hora_inicial: '',
     hora_final: '',
@@ -19,20 +20,19 @@ export class SuplenciasServiceService {
     id_cuidador_paciente: 0,
     concurrencia_anual: '',
     id_paciente: 0,
+
   };
 
   constructor(private http: HttpClient) {}
 
-  getSuplencias() {
+  getSuplencias(): Observable<Suplencia[]> {
     return this.http.get<Suplencia[]>(this.URL_API);
   }
 
-
-  addSuplencia(suplencia: Suplencia) {
+  addSuplencia(suplencia: Suplencia): Observable<{ id_suplencia: number }> {
     return this.http.post<{ id_suplencia: number }>(this.URL_API, suplencia);
   }
 
-  // Método para buscar suplencias
   buscarSuplenciasPorCuidadorYPaciente(
     idCuidador: number,
     idPaciente: number
@@ -50,10 +50,11 @@ export class SuplenciasServiceService {
   }
 
   updateSuplencia(suplencia: Suplencia): Observable<any> {
-    return this.http.put(`${this.URL_API}/${suplencia.id_suplencia}`, suplencia);
+    return this.http.put(
+      `${this.URL_API}/${suplencia.id_suplencia}`,
+      suplencia
+    );
   }
-  //PORQUE ASI ESTA LA RUTA EN EL BACKEND DE ESTA FUNCION: // router.put('/suplencias/:id', pacientesCtrls.updateSuplencia);
-
 
   deleteSuplencia(id: number): Observable<any> {
     return this.http.delete(`${this.URL_API}/${id}`);

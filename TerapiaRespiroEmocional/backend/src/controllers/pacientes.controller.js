@@ -434,32 +434,30 @@ pacientesCtrls.addSuplencias = async (req, res) => {
 pacientesCtrls.updateSuplencia = async (req, res) => {
     const id_suplencia = req.params.id; // Asegúrate de obtener el id correctamente
     const { dia_suplencia } = req.body;
-  
+
     let query = "UPDATE suplencias SET ";
     let values = [];
-  
+
     if (dia_suplencia) {
-      query += "dia_suplencia = ?, ";
-      values.push(dia_suplencia);
+        query += "dia_suplencia = ?, ";
+        values.push(dia_suplencia);
     }
-  
+
     query = query.slice(0, -2) + " WHERE id_suplencia = ?";
     values.push(id_suplencia);
-  
-    try {
-      const [rows] = await pool.promise().query(query, values);
-      res.send({
-        message: "Suplencia actualizada exitosamente",
-        id_suplencia,
-        dia_suplencia,
-      });
-    } catch (error) {
-      console.error("Er al actualizar suplencia:", error);
-      res.status(500).send("Error al actualizar suplencia");
-    }
-  };
-  
 
+    try {
+        const [rows] = await pool.promise().query(query, values);
+        res.send({
+            message: "Suplencia actualizada exitosamente",
+            id_suplencia,
+            dia_suplencia,
+        });
+    } catch (error) {
+        console.error("Er al actualizar suplencia:", error);
+        res.status(500).send("Error al actualizar suplencia");
+    }
+};
 
 pacientesCtrls.deleteSuplencia = async (req, res) => {
     const id_suplencia = req.params.id; // Obtener el ID del paciente de los parámetros de la solicitud
@@ -700,6 +698,19 @@ pacientesCtrls.getTotalCuidadores = async (req, res) => {
         res.status(500).json({
             error: "Error al obtener el total de cuidadores",
         });
+    }
+};
+
+pacientesCtrls.getNombreCuidadorDelPaciente = async (req, res) => {
+    try {
+        const pacientes = await db.query(`
+        SELECT p.*, CONCAT(c.nombreCuidador, ' ', c.apPatCuidador, ' ', c.apMatCuidador) AS nombreCompletoCuidador
+        FROM pacientes p
+        LEFT JOIN cuidadores c ON p.id_cuidador_paciente = c.id_cuidador_paciente
+      `);
+        res.json(pacientes);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
 

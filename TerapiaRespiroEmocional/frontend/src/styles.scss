@@ -46,6 +46,24 @@ body {
 }
 
 
+.important-snackbar {
+    .mdc-snackbar__surface {
+        background-color: #cadef5 !important;
+        border: #9ac1e2 solid 1px;
+    }
+
+    .mdc-snackbar__label {
+        color: #3591ce !important;
+    }
+    
+    .mat-mdc-snack-bar-actions {
+        button {
+            color: #0f325f !important;
+        }
+    }
+}
+
+
 
 
 
