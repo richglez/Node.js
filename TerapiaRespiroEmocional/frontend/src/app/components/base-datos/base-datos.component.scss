@@ -112,30 +112,32 @@ select {
 }
 
 
-/*--ESTILOS DE LA TABLA--*/
+/* Estilos de la tabla */
 .table-container {
-  overflow-x: auto;
+  overflow-x: auto; /* Habilitar desplazamiento horizontal */
   background-color: #f9f9ff;
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
+  max-width: 1700px;
 }
 
 .table-wrapper {
-  min-width: 1200px; /* Adjust this value as needed */
+  overflow-x: auto; /* Desplazamiento horizontal */
+  overflow-y: auto; /* Desplazamiento vertical */
+  max-height: 900px; /* Altura máxima para el desplazamiento vertical */
 }
 
 .styled-table {
-  width: 100%;
-  max-width: none;
   border-collapse: collapse;
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   margin: 20px 0;
-  min-width: 800px; /* Adjust this value as needed */
+  width: 100%; /* Ajustar el ancho al 100% del contenedor */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   table-layout: auto;
+  min-width: 800px; /* Ancho mínimo de la tabla */
 }
 
 .styled-table thead tr {
@@ -149,6 +151,7 @@ select {
 .styled-table td {
   padding: 12px 15px;
   border: 1px solid #dddddd;
+  width: auto; /* Opcional: ajusta el ancho de las celdas automáticamente */
 }
 
 .styled-table tbody tr {
@@ -167,7 +170,7 @@ select {
   background-color: #e7f4ff;
 }
 
-/* Styles for buttons */
+/* Estilos para botones */
 .edit-button {
   background-color: #2481FF;
   color: white;
@@ -197,13 +200,13 @@ select {
   }
 }
 
-/* Custom scrollbar */
+/* Scrollbar personalizado */
 .table-container::-webkit-scrollbar {
   height: 8px;
 }
 
 .table-container::-webkit-scrollbar-thumb {
-  background: #1C4692;
+  background: #1c4692;
   border-radius: 4px;
 }
 
