@@ -113,13 +113,27 @@ select {
 
 
 /*--ESTILOS DE LA TABLA--*/
+.table-container {
+  overflow-x: auto;
+  background-color: #f9f9ff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.table-wrapper {
+  min-width: 1200px; /* Adjust this value as needed */
+}
+
 .styled-table {
   width: 100%;
+  max-width: none;
   border-collapse: collapse;
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   margin: 20px 0;
-  min-width: 400px;
+  min-width: 800px; /* Adjust this value as needed */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   table-layout: auto;
 }
@@ -149,6 +163,11 @@ select {
   border-bottom: 2px solid #004298;
 }
 
+.styled-table tbody tr:hover {
+  background-color: #e7f4ff;
+}
+
+/* Styles for buttons */
 .edit-button {
   background-color: #2481FF;
   color: white;
@@ -176,4 +195,23 @@ select {
   &:hover {
     background-color: #a12a21;
   }
+}
+
+/* Custom scrollbar */
+.table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #1C4692;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #4d98ff;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
 }

@@ -3,7 +3,12 @@
   <div class="search-container">
     <div class="form-group">
       <label for="search-input">¿Qué estás buscando?</label>
-      <input id="search-input" type="text" placeholder="Pacientes, cuidadores, estado, hombres, mujeres, etc." [(ngModel)]="searchText" />
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Pacientes, cuidadores, estado, hombres, mujeres, etc."
+        [(ngModel)]="searchText"
+      />
     </div>
     <div class="form-group">
       <label for="category-select">Categoría:</label>
@@ -24,99 +29,136 @@
       <button id="btnSearch" (click)="search()">Buscar</button>
     </div>
     <div class="botondiv">
-      <button id="btnExport" (click)="exportExcel()">Exportar</button> <!--Boton para permitir descargar a formato excel la base de datos-->
+      <button id="btnExport" (click)="exportExcel()">Exportar</button>
+      <!--Boton para permitir descargar a formato excel la base de datos-->
     </div>
   </div>
 </nav>
 
-<div *ngIf="selectedCategory === 'pacientes'">
-  <table class="styled-table" id="BaseDatosPacientes">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Expediente</th>
-        <th>Nombre</th>
-        <th>Apellido Paterno</th>
-        <th>Apellido Materno</th>
-        <th>Edad</th>
-        <th>Sexo</th>
-        <th>Entidad Federativa</th>
-        <th>Diagnostico</th>
-        <th>Cuidador Primario</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let paciente of pacientes; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ paciente.expediente_paciente }}</td>
-        <td>{{ paciente.nombre_paciente }}</td>
-        <td>{{ paciente.apellido_paterno }}</td>
-        <td>{{ paciente.apellido_materno }}</td>
-        <td>{{ paciente.edad_paciente }}</td>
-        <td>{{ paciente.sexo_paciente }}</td>
-        <td>{{ paciente.entidadFederativa }}</td>
-        <td>{{ paciente.diagnostico }}</td>
-        <td>{{ paciente.nombreCompletoCuidador }}</td> <!-- Mostrar el nombre completo del cuidador -->
-        <td>
-          <button class="edit-button" (click)="editPaciente(paciente.id_paciente)">✏️ Editar</button>
-          <button class="delete-button" (click)="deletePaciente(paciente.id_paciente)">🗑️ Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div *ngIf="selectedCategory === 'pacientes'" class="table-container">
+  <div class="table-wrapper">
+    <table class="styled-table" id="BaseDatosPacientes">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Expediente</th>
+          <th>Nombre</th>
+          <th>Apellido Paterno</th>
+          <th>Apellido Materno</th>
+          <th>Edad</th>
+          <th>Sexo</th>
+          <th>Entidad Federativa</th>
+          <th>Diagnostico</th>
+          <th>Cuidador Primario</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let paciente of pacientes; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ paciente.expediente_paciente }}</td>
+          <td>{{ paciente.nombre_paciente }}</td>
+          <td>{{ paciente.apellido_paterno }}</td>
+          <td>{{ paciente.apellido_materno }}</td>
+          <td>{{ paciente.edad_paciente }}</td>
+          <td>{{ paciente.sexo_paciente }}</td>
+          <td>{{ paciente.entidadFederativa }}</td>
+          <td>{{ paciente.diagnostico }}</td>
+          <td>{{ paciente.nombreCompletoCuidador }}</td>
+          <td>
+            <button
+              class="edit-button"
+              (click)="editPaciente(paciente.id_paciente)"
+            >
+              ✏️ Editar
+            </button>
+            <button
+              class="delete-button"
+              (click)="deletePaciente(paciente.id_paciente)"
+            >
+              🗑️ Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div *ngIf="selectedCategory === 'cuidadores'">
-  <table class="styled-table" id="BaseDatosCuidadores">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Nombre</th>
-        <th>Apellido Paterno</th>
-        <th>Apellido Materno</th>
-        <th>Edad</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cuidador of cuidadores; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ cuidador.nombreCuidador }}</td>
-        <td>{{ cuidador.apPatCuidador }}</td>
-        <td>{{ cuidador.apMatCuidador }}</td>
-        <td>{{ cuidador.edadCuidador }}</td>
-        <td>
-          <button class="edit-button" (click)="editCuidador(cuidador.id_cuidador_paciente)">✏️ Editar</button>
-          <button class="delete-button" (click)="deleteCuidador(cuidador.id_cuidador_paciente)">🗑️ Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-wrapper">
+    <table class="styled-table" id="BaseDatosCuidadores">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Apellido Paterno</th>
+          <th>Apellido Materno</th>
+          <th>Edad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cuidador of cuidadores; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ cuidador.nombreCuidador }}</td>
+          <td>{{ cuidador.apPatCuidador }}</td>
+          <td>{{ cuidador.apMatCuidador }}</td>
+          <td>{{ cuidador.edadCuidador }}</td>
+          <td>
+            <button
+              class="edit-button"
+              (click)="editCuidador(cuidador.id_cuidador_paciente)"
+            >
+              ✏️ Editar
+            </button>
+            <button
+              class="delete-button"
+              (click)="deleteCuidador(cuidador.id_cuidador_paciente)"
+            >
+              🗑️ Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div *ngIf="selectedCategory === 'suplencias'">
-  <table class="styled-table" id="BaseDatosSuplencias">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Día</th>
-        <th>Hora Inicial</th>
-        <th>Hora Final</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let suplencia of suplencias; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ suplencia.dia_suplencia }}</td>
-        <td>{{ suplencia.hora_inicial }}</td>
-        <td>{{ suplencia.hora_final }}</td>
-        <td>
-          <button class="edit-button" (click)="editSuplencia(suplencia.id_suplencia)">✏️ Editar</button>
-          <button class="delete-button" (click)="deleteSuplencia(suplencia.id_suplencia)">🗑️ Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-wrapper">
+    <table class="styled-table" id="BaseDatosSuplencias">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Día</th>
+          <th>Hora Inicial</th>
+          <th>Hora Final</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let suplencia of suplencias; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ suplencia.dia_suplencia }}</td>
+          <td>{{ suplencia.hora_inicial }}</td>
+          <td>{{ suplencia.hora_final }}</td>
+          <td>
+            <button
+              class="edit-button"
+              (click)="editSuplencia(suplencia.id_suplencia)"
+            >
+              ✏️ Editar
+            </button>
+            <button
+              class="delete-button"
+              (click)="deleteSuplencia(suplencia.id_suplencia)"
+            >
+              🗑️ Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
