@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-base-datos',
   templateUrl: './base-datos.component.html',
-  styleUrls: ['./base-datos.component.scss']
+  styleUrls: ['./base-datos.component.scss'],
 })
 export class BaseDatosComponent implements OnInit {
   searchText: string = '';
@@ -24,33 +24,35 @@ export class BaseDatosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.selectedCategory === 'pacientes') {
-      this.pacientesService.getNombreCuidadorDelPaciente().subscribe(data => {
-        this.pacientes = data;
-      });
-    }
+    this.loadCategoryData();
   }
 
-  search() {
+  loadCategoryData(): void {
     if (this.selectedCategory === 'pacientes') {
-      this.pacientesService.getPacientes().subscribe(data => {
+      this.pacientesService.getNombreCuidadorDelPaciente().subscribe((data) => {
         this.pacientes = data;
+        console.log('Pacientes:', data);
       });
     } else if (this.selectedCategory === 'cuidadores') {
-      this.cuidadoresService.getCuidadores().subscribe(data => {
+      this.cuidadoresService.getCuidadores().subscribe((data) => {
         this.cuidadores = data;
       });
     } else if (this.selectedCategory === 'suplencias') {
-      this.suplenciasService.getSuplencias().subscribe(data => {
+      this.suplenciasService.getNombreCuidadoryPaciente().subscribe((data) => {
         this.suplencias = data;
+        console.log('Suplencias:', data);
       });
     }
   }
 
-  /* Default name for excel file when download */ 
-  fileName1 = "BaseDatosPacientes.xlsx";
-  fileName2 = "BaseDatosCuidadores.xlsx";
-  fileName3 = "BaseDatosSuplencias.xlsx";
+  search(): void {
+    this.loadCategoryData();
+  }
+
+  /* Default name for excel file when download */
+  fileName1 = 'BaseDatosPacientes.xlsx';
+  fileName2 = 'BaseDatosCuidadores.xlsx';
+  fileName3 = 'BaseDatosSuplencias.xlsx';
   exportExcel() {
     let data;
     let fileName;
@@ -84,7 +86,9 @@ export class BaseDatosComponent implements OnInit {
 
   deletePaciente(id: number) {
     this.pacientesService.deletePaciente(id).subscribe(() => {
-      this.pacientes = this.pacientes.filter(paciente => paciente.id_paciente !== id);
+      this.pacientes = this.pacientes.filter(
+        (paciente) => paciente.id_paciente !== id
+      );
     });
   }
 
@@ -95,7 +99,9 @@ export class BaseDatosComponent implements OnInit {
 
   deleteCuidador(id: number) {
     this.cuidadoresService.deleteCuidador(id).subscribe(() => {
-      this.cuidadores = this.cuidadores.filter(cuidador => cuidador.id_cuidador_paciente !== id);
+      this.cuidadores = this.cuidadores.filter(
+        (cuidador) => cuidador.id_cuidador_paciente !== id
+      );
     });
   }
 
@@ -106,7 +112,9 @@ export class BaseDatosComponent implements OnInit {
 
   deleteSuplencia(id: number) {
     this.suplenciasService.deleteSuplencia(id).subscribe(() => {
-      this.suplencias = this.suplencias.filter(suplencia => suplencia.id_suplencia !== id);
+      this.suplencias = this.suplencias.filter(
+        (suplencia) => suplencia.id_suplencia !== id
+      );
     });
   }
 }

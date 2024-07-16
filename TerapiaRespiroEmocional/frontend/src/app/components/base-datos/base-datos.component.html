@@ -42,14 +42,20 @@
         <tr>
           <th>#</th>
           <th>Expediente</th>
-          <th>Nombre</th>
           <th>Apellido Paterno</th>
           <th>Apellido Materno</th>
-          <th>Edad</th>
-          <th>Sexo</th>
+          <th>Nombre</th>
+          <th>Ingreso Programa Suplencia</th>
+          <th>Domicilio</th>
+          <th>Colonia</th>
+          <th>Alcaldia/Municipio</th>
           <th>Entidad Federativa</th>
+          <th>Sexo</th>
+          <th>Edad</th>
           <th>Diagnostico</th>
+          <th>Nacionalidad</th>
           <th>Cuidador Primario</th>
+          <th>Tipo de programa</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -57,14 +63,20 @@
         <tr *ngFor="let paciente of pacientes; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ paciente.expediente_paciente }}</td>
-          <td>{{ paciente.nombre_paciente }}</td>
           <td>{{ paciente.apellido_paterno }}</td>
           <td>{{ paciente.apellido_materno }}</td>
-          <td>{{ paciente.edad_paciente }}</td>
-          <td>{{ paciente.sexo_paciente }}</td>
+          <td>{{ paciente.nombre_paciente }}</td>
+          <td>{{ paciente.ingreso_programa | date:'dd/MM/yyyy' }}</td>
+          <td>{{ paciente.domicilio }}</td>
+          <td>{{ paciente.colonia }}</td>
+          <td>{{ paciente.alcaldia_municipio }}</td>
           <td>{{ paciente.entidadFederativa }}</td>
+          <td>{{ paciente.sexo_paciente }}</td>
+          <td>{{ paciente.edad_paciente }}</td>
           <td>{{ paciente.diagnostico }}</td>
+          <td>{{ paciente.nacionalidad }}</td>
           <td>{{ paciente.nombreCompletoCuidador }}</td>
+          <td>{{ paciente.tipoPrograma }}</td>
           <td>
             <button
               class="edit-button"
@@ -91,20 +103,28 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>Nombre</th>
           <th>Apellido Paterno</th>
           <th>Apellido Materno</th>
+          <th>Nombre</th>
+          <th>Sexo</th>
           <th>Edad</th>
+          <th>Telefono</th>
+          <th>Registro</th>
+          <th>Numero de Suplencias</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let cuidador of cuidadores; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ cuidador.nombreCuidador }}</td>
           <td>{{ cuidador.apPatCuidador }}</td>
           <td>{{ cuidador.apMatCuidador }}</td>
+          <td>{{ cuidador.nombreCuidador }}</td>
+          <td>{{ cuidador.sexoCuidador }}</td>
           <td>{{ cuidador.edadCuidador }}</td>
+          <td>{{ cuidador.telefonoCuidador }}</td>
+          <td>{{ cuidador.ingreso_programa | date:'dd/MM/yyyy' }}</td>
+          <td>{{ cuidador.num_suplencias}}</td>
           <td>
             <button
               class="edit-button"
@@ -134,6 +154,11 @@
           <th>Día</th>
           <th>Hora Inicial</th>
           <th>Hora Final</th>
+          <th>Costo por Guardia</th>
+          <th>Particular</th>
+          <th>Concurrencia</th>
+          <th>Cuidador</th>
+          <th>Paciente</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -143,6 +168,11 @@
           <td>{{ suplencia.dia_suplencia }}</td>
           <td>{{ suplencia.hora_inicial }}</td>
           <td>{{ suplencia.hora_final }}</td>
+          <td>{{ suplencia.costoGuardia }}</td>
+          <td>{{ suplencia.particular }}</td>
+          <td>{{ suplencia.concurrencia_anual }}</td>
+          <td>{{ suplencia.nombreCompletoCuidador }}</td>
+          <td>{{ suplencia.nombreCompletoPaciente }}</td>
           <td>
             <button
               class="edit-button"

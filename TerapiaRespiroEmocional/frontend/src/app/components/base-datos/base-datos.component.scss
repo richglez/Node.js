@@ -72,9 +72,8 @@ select {
   padding-left: 20px;
 }
 
-#btnSearch {
+#btnSearch, #btnExport {
   padding: 0.8rem 2.2rem;
-  background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -85,36 +84,25 @@ select {
   font-family: "Poppins", sans-serif;
   font-size: 13px;
   font-weight: 520;
+}
 
+#btnSearch {
+  background-color: #007bff;
   &:hover {
     background-color: #0056b3;
   }
 }
 
-
 #btnExport {
-  padding: 0.8rem 2.2rem;
   background-color: #38B686;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-size: 13px;
-  font-weight: 520;
-
   &:hover {
     background-color: #31a076;
   }
 }
 
-
 /* Estilos de la tabla */
 .table-container {
-  overflow-x: auto; /* Habilitar desplazamiento horizontal */
+  overflow-x: auto;
   background-color: #f9f9ff;
   padding: 1rem;
   border-radius: 10px;
@@ -124,9 +112,9 @@ select {
 }
 
 .table-wrapper {
-  overflow-x: auto; /* Desplazamiento horizontal */
-  overflow-y: auto; /* Desplazamiento vertical */
-  max-height: 900px; /* Altura máxima para el desplazamiento vertical */
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 900px;
 }
 
 .styled-table {
@@ -134,10 +122,10 @@ select {
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   margin: 20px 0;
-  width: 100%; /* Ajustar el ancho al 100% del contenedor */
+  width: 100%;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   table-layout: auto;
-  min-width: 800px; /* Ancho mínimo de la tabla */
+  min-width: 800px;
 }
 
 .styled-table thead tr {
@@ -147,11 +135,10 @@ select {
   font-weight: bold;
 }
 
-.styled-table th,
-.styled-table td {
-  padding: 12px 15px;
+.styled-table th, .styled-table td {
+  padding: 6px 15px;
   border: 1px solid #dddddd;
-  width: auto; /* Opcional: ajusta el ancho de las celdas automáticamente */
+  width: auto;
 }
 
 .styled-table tbody tr {
@@ -170,8 +157,13 @@ select {
   background-color: #e7f4ff;
 }
 
-/* Estilos para botones */
-.edit-button {
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-button, .delete-button {
   background-color: #2481FF;
   color: white;
   padding: 0.5rem 1rem;
@@ -179,7 +171,7 @@ select {
   border-radius: 4px;
   cursor: pointer;
   font-size: 13px;
-  margin-right: 0.5rem;
+  margin: 0 0.25rem;
 
   &:hover {
     background-color: #4565a0;
@@ -188,12 +180,6 @@ select {
 
 .delete-button {
   background-color: #f44336;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
 
   &:hover {
     background-color: #a12a21;

@@ -33,11 +33,13 @@ export class PacientesService {
     observaciones: '',
     recomendaciones: '',
     id_cuidador_paciente: 0,
-    
   };
 
   // constructor
-  constructor(private http: HttpClient, private cuidadoresService: CuidadoresServiceService) {} 
+  constructor(
+    private http: HttpClient,
+    private cuidadoresService: CuidadoresServiceService
+  ) {}
 
   // metodos del backend // traer los datos desde el backend = peticion HTTP
   getPacientes() {
@@ -97,23 +99,25 @@ export class PacientesService {
     return this.http.get<number>(`${this.URL_API}/total-programas-cecpam`);
   }
 
-
   getNombreCuidadorDelPaciente(): Observable<Paciente[]> {
     return forkJoin({
       pacientes: this.getPacientes(),
       cuidadores: this.cuidadoresService.getCuidadores(), // Usar el método del servicio de cuidadores
     }).pipe(
       map(({ pacientes, cuidadores }) => {
-        return pacientes.map(paciente => {
-          const cuidador = cuidadores.find((c: Cuidador) => c.id_cuidador_paciente === paciente.id_cuidador_paciente); // Declarar el tipo de 'c'
+        return pacientes.map((paciente) => {
+          const cuidador = cuidadores.find(
+            (c: Cuidador) =>
+              c.id_cuidador_paciente === paciente.id_cuidador_paciente
+          ); // Declarar el tipo de 'c'
           return {
             ...paciente,
-            nombreCompletoCuidador: cuidador ? `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}` : ''
+            nombreCompletoCuidador: cuidador
+              ? `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`
+              : '',
           };
         });
       })
     );
   }
-
-
 }
