@@ -45,7 +45,7 @@ export class BaseDatosComponent implements OnInit {
       this.pacientesService.getNombreCuidadorDelPaciente().subscribe((data) => {
         console.log('Datos de pacientes:', data);
         this.pacientes = data;
-        this.filteredPacientes = data;
+        this.filteredPacientes = this.filterBySexo(data); // Aplica el filtrado por sexo
       }, error => {
         console.error('Error al cargar pacientes:', error);
       });
@@ -53,7 +53,7 @@ export class BaseDatosComponent implements OnInit {
       this.cuidadoresService.getCuidadores().subscribe((data) => {
         console.log('Datos de cuidadores:', data);
         this.cuidadores = data;
-        this.filteredCuidadores = data;
+        this.filteredCuidadores = this.filterBySexo(data); // Aplica el filtrado por sexo
       }, error => {
         console.error('Error al cargar cuidadores:', error);
       });
@@ -67,17 +67,26 @@ export class BaseDatosComponent implements OnInit {
       });
     }
   }
+  
 
   removeAccents(str: string): string {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
   
-  filterBySexo(data: any[]): any[] { //filtrar los datos en función del sexo seleccionado.
-    if (!this.selectedSexo) { // para capturar el valor seleccionado en el filtro de sexo.
+  filterBySexo(data: any[]): any[] {
+    if (!this.selectedSexo) { // Si no se selecciona ningún filtro de sexo, retorna todos los datos.
       return data;
     }
-    return data.filter(item => item.sexo_paciente === this.selectedSexo || item.sexoCuidador === this.selectedSexo);
+    return data.filter(item => {
+      if (this.selectedCategory === 'pacientes') {
+        return item.sexo_paciente === this.selectedSexo;
+      } else if (this.selectedCategory === 'cuidadores') {
+        return item.sexoCuidador === this.selectedSexo;
+      }
+      return true;
+    });
   }
+  
 
   filterData(searchText: string) {
     const lowerSearchText = searchText.toLowerCase();
