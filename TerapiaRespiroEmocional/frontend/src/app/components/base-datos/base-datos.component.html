@@ -5,7 +5,7 @@
       <label for="search-input">¿Qué estás buscando?</label>
       <input
         type="text"
-        placeholder="Buscar por nombres, edades, sexo, estado, hombres, mujeres, etc."
+        placeholder="Buscar por nombres apellidos, alc/mun, programa, sexo, estado"
         [(ngModel)]="searchText"
         (ngModelChange)="onSearchChange()"
       />
@@ -23,6 +23,18 @@
         <option value="suplencias">Suplencias</option>
       </select>
     </div>
+    <div class="form-group">
+      <label for="sexo-select">Sexo:</label>
+      <select
+        id="sexo-select"
+        [(ngModel)]="selectedSexo"
+        (change)="onSexoChange()"
+      >
+        <option value="">Todos</option> <!-- Añade opción para mostrar todos los sexos -->
+        <option value="M">M</option>
+        <option value="F">F</option>
+      </select>
+    </div>    
     <div class="botondiv">
       <button id="btnSearch" (click)="search()">Buscar</button>
     </div>

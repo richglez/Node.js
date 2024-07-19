@@ -15,6 +15,7 @@ export class BaseDatosComponent implements OnInit {
   searchText: string = '';
   searchTextChanged: Subject<string> = new Subject<string>();
   selectedCategory: string = 'pacientes';
+  selectedSexo: string = ''; // Añadido para filtrar por sexo, POR DEFAILT TODOS LOS TIPOS DE SEXO
   pacientes: any[] = [];
   cuidadores: any[] = [];
   suplencias: any[] = [];
@@ -66,39 +67,60 @@ export class BaseDatosComponent implements OnInit {
       });
     }
   }
+
+  removeAccents(str: string): string {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
   
+  filterBySexo(data: any[]): any[] { //filtrar los datos en función del sexo seleccionado.
+    if (!this.selectedSexo) { // para capturar el valor seleccionado en el filtro de sexo.
+      return data;
+    }
+    return data.filter(item => item.sexo_paciente === this.selectedSexo || item.sexoCuidador === this.selectedSexo);
+  }
 
   filterData(searchText: string) {
     const lowerSearchText = searchText.toLowerCase();
     let filteredData: any[] = [];
     
     if (this.selectedCategory === 'pacientes') {
+      const normalizedSearchText = this.removeAccents(lowerSearchText);
+    
       filteredData = this.pacientes.filter(paciente =>
-        paciente.nombre_paciente.toLowerCase().includes(lowerSearchText) ||
-        paciente.apellido_paterno.toLowerCase().includes(lowerSearchText) ||
-        paciente.apellido_materno.toLowerCase().includes(lowerSearchText) ||
-        paciente.diagnostico.toLowerCase().includes(lowerSearchText) ||
-        paciente.sexo_paciente.toLowerCase().includes(lowerSearchText)
+        this.removeAccents(paciente.nombre_paciente.toLowerCase()).includes(normalizedSearchText) ||
+        this.removeAccents(paciente.apellido_paterno.toLowerCase()).includes(normalizedSearchText) ||
+        this.removeAccents(paciente.apellido_materno.toLowerCase()).includes(normalizedSearchText) ||
+        this.removeAccents(paciente.alcaldia_municipio.toLowerCase()).includes(normalizedSearchText) ||
+        this.removeAccents(paciente.entidadFederativa.toLowerCase()).includes(normalizedSearchText) ||
+        this.removeAccents(paciente.sexo_paciente.toLowerCase()).includes(normalizedSearchText) ||
+        this.removeAccents(paciente.tipoPrograma.toLowerCase()).includes(normalizedSearchText)
       );
+      
+      // Aplica el filtro por sexo
+      filteredData = this.filterBySexo(filteredData);
     } else if (this.selectedCategory === 'cuidadores') {
       filteredData = this.cuidadores.filter(cuidador =>
-        cuidador.nombreCuidador.toLowerCase().includes(lowerSearchText) ||
-        cuidador.apPatCuidador.toLowerCase().includes(lowerSearchText) ||
-        cuidador.apMatCuidador.toLowerCase().includes(lowerSearchText) ||
-        cuidador.telefonoCuidador.toLowerCase().includes(lowerSearchText)
+        this.removeAccents(cuidador.nombreCuidador.toLowerCase()).includes(lowerSearchText) ||
+        this.removeAccents(cuidador.apPatCuidador.toLowerCase()).includes(lowerSearchText) ||
+        this.removeAccents(cuidador.apMatCuidador.toLowerCase()).includes(lowerSearchText) ||
+        this.removeAccents(cuidador.telefonoCuidador.toLowerCase()).includes(lowerSearchText)
       );
+      
+      // Aplica el filtro por sexo
+      filteredData = this.filterBySexo(filteredData);
     } else if (this.selectedCategory === 'suplencias') {
       filteredData = this.suplencias.filter(suplencia =>
-        suplencia.dia_suplencia.toLowerCase().includes(lowerSearchText) ||
-        suplencia.hora_inicial.toLowerCase().includes(lowerSearchText) ||
-        suplencia.hora_final.toLowerCase().includes(lowerSearchText) ||
-        suplencia.particular.toLowerCase().includes(lowerSearchText) ||
-        suplencia.concurrencia_anual.toLowerCase().includes(lowerSearchText)
+        this.removeAccents(suplencia.dia_suplencia.toLowerCase()).includes(lowerSearchText) ||
+        this.removeAccents(suplencia.hora_inicial.toLowerCase()).includes(lowerSearchText) ||
+        this.removeAccents(suplencia.hora_final.toLowerCase()).includes(lowerSearchText) ||
+        this.removeAccents(suplencia.particular.toLowerCase()).includes(lowerSearchText) ||
+        this.removeAccents(suplencia.concurrencia_anual.toLowerCase()).includes(lowerSearchText)
       );
     }
-  
+    
     return of(filteredData);
   }
+  
   
 
   applyFilteredData(filteredData: any): void {
@@ -112,8 +134,12 @@ export class BaseDatosComponent implements OnInit {
   }
   
 
-  onSearchChange(): void {
+  onSearchChange(): void { //para recargar los datos cuando cambie la selección DE BUSQUEDA.
     this.searchTextChanged.next(this.searchText);
+  }
+
+  onSexoChange(): void {  //para recargar los datos cuando cambie la selección de sexo.
+    this.loadCategoryData();
   }
 
   search(): void {
