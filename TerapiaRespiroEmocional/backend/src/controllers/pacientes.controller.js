@@ -3,22 +3,43 @@ const { pool } = require("../database/database");
 
 const pacientesCtrls = {}; // obj
 
-// ----------------PACIENTES----------------
-pacientesCtrls.searchPacienteAutoComplete = async (req, res) => {
-    const textoBusquedaPaciente = req.query.buscarAlpaciente;
-    const [rows] = await pool
-        .promise()
-        .query(
-            "SELECT * FROM pacientes WHERE nombre_paciente LIKE ? OR apellido_paterno LIKE ? OR apellido_materno LIKE ?",
-            [
-                `%${textoBusquedaPaciente}%`,
-                `%${textoBusquedaPaciente}%`,
-                `%${textoBusquedaPaciente}%`,
-            ]
+// ----------------AutocompleteInComponente-Base-Datos-Componente----------------
+pacientesCtrls.searchInDataBase = async (req, res) => {
+    const searchText = req.query.searchText;
+
+    // Implementa la lógica para buscar en las tres tablas
+    try {
+        const pacientes = await Paciente.find({
+            $or: [
+                { nombre_paciente: { $regex: searchText, $options: "i" } },
+                { apellido_paterno: { $regex: searchText, $options: "i" } },
+                { apellido_materno: { $regex: searchText, $options: "i" } },
+                { sexo_paciente: { $regex: searchText, $options: "i" } },
+                { edad_paciente: { $regex: searchText, $options: "i" } },
+            ],
+        });
+
+        const cuidadores = await Cuidador.find({
+            $or: [
+                { nombreCuidador: { $regex: searchText, $options: "i" } },
+                { apPatCuidador: { $regex: searchText, $options: "i" } },
+                { apMatCuidador: { $regex: searchText, $options: "i" } },
+                { sexoCuidador: { $regex: searchText, $options: "i" } },
+                { edadCuidador: { $regex: searchText, $options: "i" } },
+            ],
+        });
+
+        const suplencias = await Suplencia.find().populate(
+            "id_cuidador_paciente id_paciente"
         );
-    res.json(rows);
+
+        res.json({ pacientes, cuidadores, suplencias });
+    } catch (error) {
+        res.status(500).send(error);
+    }
 };
 
+// ----------------PACIENTES----------------
 pacientesCtrls.addPaciente = async (req, res) => {
     try {
         const {
@@ -123,6 +144,55 @@ pacientesCtrls.getPacienteById = async (req, res) => {
     } else {
         res.status(404).send("Paciente no encontrado"); // Si no se encuentra ningún paciente con ese ID, devolver un mensaje de error
     }
+};
+
+pacientesCtrls.searchFichasPacientes = async (req, res) => {
+    const textoBusquedaPaciente = req.query.buscarAlpaciente;
+    const [rows] = await pool
+        .promise()
+        .query(
+            "SELECT * FROM pacientes WHERE nombre_paciente LIKE ? OR apellido_paterno LIKE ? OR apellido_materno LIKE ?",
+            [
+                `%${textoBusquedaPaciente}%`,
+                `%${textoBusquedaPaciente}%`,
+                `%${textoBusquedaPaciente}%`,
+            ]
+        );
+    res.json(rows);
+};
+
+pacientesCtrls.filterPacientes = async (req, res) => {
+    //método para filtrar los pacientes
+    const query = req.query.query;
+    const searchQuery = `SELECT * FROM pacientes WHERE expediente_paciente LIKE ? OR nombre_paciente LIKE ? OR apellido_paterno LIKE ? OR apellido_materno LIKE ? OR sexo_paciente LIKE ? OR edad_paciente LIKE ? OR ingreso_programa LIKE ? OR nacionalidad LIKE ? OR domicilio LIKE ? OR colonia LIKE ? OR alcaldia_municipio LIKE ? OR entidadFederativa LIKE ? OR diagnostico LIKE ? OR parentesco_con_cuidador LIKE ? OR tipoPrograma LIKE ? OR observaciones LIKE ? OR recomendaciones LIKE ?`;
+    const searchValues = [
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+    ];
+
+    mysqlConnection.query(searchQuery, searchValues, (err, rows, fields) => {
+        if (!err) {
+            res.json(rows);
+        } else {
+            console.log(err);
+            res.status(500).send(err);
+        }
+    });
 };
 
 pacientesCtrls.checkExpedienteInUse = async (req, res) => {
@@ -382,6 +452,29 @@ pacientesCtrls.getSuplencias = async (req, res) => {
     res.json(rows);
 };
 
+pacientesCtrls.filterSuplencias = async (req, res) => {
+    //método para filtrar los cuidadores
+    const query = req.query.query;
+    const searchQuery = `SELECT * FROM cuidadores WHERE dia_suplencia LIKE ? OR hora_inicial LIKE ? OR hora_final LIKE ? OR costoGuardia LIKE ? OR particular LIKE ? OR concurrencia_anual LIKE ?`;
+    const searchValues = [
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+    ];
+
+    mysqlConnection.query(searchQuery, searchValues, (err, rows, fields) => {
+        if (!err) {
+            res.json(rows);
+        } else {
+            console.log(err);
+            res.status(500).send(err);
+        }
+    });
+};
+
 pacientesCtrls.addSuplencias = async (req, res) => {
     try {
         const {
@@ -590,6 +683,31 @@ pacientesCtrls.getCuidadores = async (req, res) => {
     res.json(rows);
 };
 
+pacientesCtrls.filterCuidadores = async (req, res) => {
+    //método para filtrar los cuidadores
+    const query = req.query.query;
+    const searchQuery = `SELECT * FROM cuidadores WHERE nombreCuidador LIKE ? OR apPatCuidador LIKE ? OR apMatCuidador LIKE ? OR sexoCuidador LIKE ? OR edadCuidador LIKE ? OR telefonoCuidador LIKE ? OR ingreso_programa LIKE ? OR num_suplencias LIKE ?`;
+    const searchValues = [
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+        `%${query}%`,
+    ];
+
+    mysqlConnection.query(searchQuery, searchValues, (err, rows, fields) => {
+        if (!err) {
+            res.json(rows);
+        } else {
+            console.log(err);
+            res.status(500).send(err);
+        }
+    });
+};
+
 pacientesCtrls.searchCuidadorAutoComplete = async (req, res) => {
     const textoBusquedaCuidador = req.query.buscarAlcuidador;
     const [rows] = await pool
@@ -700,6 +818,5 @@ pacientesCtrls.getTotalCuidadores = async (req, res) => {
         });
     }
 };
-
 
 module.exports = pacientesCtrls;

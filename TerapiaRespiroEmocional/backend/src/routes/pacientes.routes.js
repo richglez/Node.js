@@ -5,9 +5,14 @@ const pacientesCtrls = require('../controllers/pacientes.controller');
 // new object
 const router = Router();
 
-// routes pacientes CRUD
+
+// base-datos
+router.get('/data-base/searchInDataBase', pacientesCtrls.searchInDataBase) // buscar en toda la base de datos
+
+// pacientes 
 router.get('/pacientes', pacientesCtrls.getPacientes);
-router.get('/pacientes/search', pacientesCtrls.searchPacienteAutoComplete);
+router.get('/pacientes/search', pacientesCtrls.searchFichasPacientes);
+router.get('/pacientes/filter', pacientesCtrls.filterPacientes);
 router.get('/pacientes/total-pacientes', pacientesCtrls.getTotalPacientes); 
 router.get('/pacientes/total-pacientes-menores', pacientesCtrls.getTotalPacientesMenores);
 router.get('/pacientes/total-pacientes-mayores', pacientesCtrls.getTotalPacientesMayores);
@@ -25,6 +30,7 @@ router.get('/pacientes/cuidador/:id', pacientesCtrls.getPacienteByCuidador);
 router.get('/cuidadores', pacientesCtrls.getCuidadores);
 router.get('/cuidadores/total-cuidadores', pacientesCtrls.getTotalCuidadores);
 router.get('/cuidadores/search', pacientesCtrls.searchCuidadorAutoComplete);
+router.get('/cuidadores/filter', pacientesCtrls.filterCuidadores);
 router.get('/cuidadores/:id', pacientesCtrls.getCuidadorById);
 router.post('/cuidadores', pacientesCtrls.addCuidador);
 router.put('/cuidadores/:id', pacientesCtrls.updateCuidador);
@@ -34,10 +40,14 @@ router.delete('/cuidadores/:id', pacientesCtrls.deleteCuidador);
 // suplencias
 router.get('/suplencias', pacientesCtrls.getSuplencias);
 router.get('/suplencias/buscar', pacientesCtrls.buscarSuplenciasPorCuidadorYPaciente);
+router.get('/suplencias/filter', pacientesCtrls.filterSuplencias);
 router.get('/suplencias/total-suplencias', pacientesCtrls.getTotalSuplencias);
 router.post('/suplencias', pacientesCtrls.addSuplencias);
 router.put('/suplencias/:id', pacientesCtrls.updateSuplencia);
 router.delete('/suplencias/:id', pacientesCtrls.deleteSuplencia);
+
+
+
 
 
 module.exports = router;

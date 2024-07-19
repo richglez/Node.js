@@ -8,21 +8,20 @@
         type="text"
         placeholder="Pacientes, cuidadores, estado, hombres, mujeres, etc."
         [(ngModel)]="searchText"
+        (ngModelChange)="onSearchChange()"
       />
     </div>
+
     <div class="form-group">
       <label for="category-select">Categoría:</label>
-      <select id="category-select" [(ngModel)]="selectedCategory">
+      <select
+        id="category-select"
+        [(ngModel)]="selectedCategory"
+        (change)="loadCategoryData()"
+      >
         <option value="pacientes">Pacientes</option>
         <option value="cuidadores">Cuidadores</option>
         <option value="suplencias">Suplencias</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="status-select">Estatus:</label>
-      <select id="status-select" [(ngModel)]="selectedStatus">
-        <option value="activo">Activo</option>
-        <option value="inactivo">Inactivo</option>
       </select>
     </div>
     <div class="botondiv">
@@ -66,7 +65,7 @@
           <td>{{ paciente.apellido_paterno }}</td>
           <td>{{ paciente.apellido_materno }}</td>
           <td>{{ paciente.nombre_paciente }}</td>
-          <td>{{ paciente.ingreso_programa | date:'dd/MM/yyyy' }}</td>
+          <td>{{ paciente.ingreso_programa | date : "dd/MM/yyyy" }}</td>
           <td>{{ paciente.domicilio }}</td>
           <td>{{ paciente.colonia }}</td>
           <td>{{ paciente.alcaldia_municipio }}</td>
@@ -123,8 +122,8 @@
           <td>{{ cuidador.sexoCuidador }}</td>
           <td>{{ cuidador.edadCuidador }}</td>
           <td>{{ cuidador.telefonoCuidador }}</td>
-          <td>{{ cuidador.ingreso_programa | date:'dd/MM/yyyy' }}</td>
-          <td>{{ cuidador.num_suplencias}}</td>
+          <td>{{ cuidador.ingreso_programa | date : "dd/MM/yyyy" }}</td>
+          <td>{{ cuidador.num_suplencias }}</td>
           <td>
             <button
               class="edit-button"

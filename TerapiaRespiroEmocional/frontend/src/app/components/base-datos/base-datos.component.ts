@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PacientesService } from '../../services/pacientes.service';
 import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
 import { SuplenciasServiceService } from '../../services/suplencias-service.service';
+import { Subject, of } from 'rxjs';
 import * as XLSX from 'xlsx';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-base-datos',
@@ -11,11 +13,14 @@ import * as XLSX from 'xlsx';
 })
 export class BaseDatosComponent implements OnInit {
   searchText: string = '';
+  searchTextChanged: Subject<string> = new Subject<string>();
   selectedCategory: string = 'pacientes';
-  selectedStatus: string = 'activo';
   pacientes: any[] = [];
   cuidadores: any[] = [];
   suplencias: any[] = [];
+  filteredPacientes: any[] = [];
+  filteredCuidadores: any[] = [];
+  filteredSuplencias: any[] = [];
 
   constructor(
     private pacientesService: PacientesService,
@@ -25,24 +30,57 @@ export class BaseDatosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategoryData();
+    this.searchTextChanged.pipe(
+      debounceTime(300), // Esperar 300ms para evitar solicitudes excesivas
+      distinctUntilChanged(), // Solo emitir si el texto ha cambiado
+      switchMap(searchText => this.filterData(searchText)) // Filtrar los datos basados en el texto de búsqueda
+    ).subscribe(filteredData => {
+      this.applyFilteredData(filteredData);
+    });
   }
 
   loadCategoryData(): void {
     if (this.selectedCategory === 'pacientes') {
       this.pacientesService.getNombreCuidadorDelPaciente().subscribe((data) => {
         this.pacientes = data;
-        console.log('Pacientes:', data);
+        this.filteredPacientes = data;
       });
     } else if (this.selectedCategory === 'cuidadores') {
       this.cuidadoresService.getCuidadores().subscribe((data) => {
         this.cuidadores = data;
+        this.filteredCuidadores = data;
       });
     } else if (this.selectedCategory === 'suplencias') {
       this.suplenciasService.getNombreCuidadoryPaciente().subscribe((data) => {
         this.suplencias = data;
-        console.log('Suplencias:', data);
+        this.filteredSuplencias = data;
       });
     }
+  }
+
+  filterData(searchText: string) {
+    if (this.selectedCategory === 'pacientes') {
+      return this.pacientesService.filterPacientes(searchText);
+    } else if (this.selectedCategory === 'cuidadores') {
+      return this.cuidadoresService.filterCuidadores(searchText);
+    } else if (this.selectedCategory === 'suplencias') {
+      return this.suplenciasService.filterSuplencias(searchText);
+    }
+    return of([]);
+  }
+
+  applyFilteredData(data: any): void {
+    if (this.selectedCategory === 'pacientes') {
+      this.filteredPacientes = data;
+    } else if (this.selectedCategory === 'cuidadores') {
+      this.filteredCuidadores = data;
+    } else if (this.selectedCategory === 'suplencias') {
+      this.filteredSuplencias = data;
+    }
+  }
+
+  onSearchChange(): void {
+    this.searchTextChanged.next(this.searchText);
   }
 
   search(): void {
@@ -118,3 +156,5 @@ export class BaseDatosComponent implements OnInit {
     });
   }
 }
+
+

@@ -29,6 +29,10 @@ export class CuidadoresServiceService {
     return this.http.get<Cuidador[]>(this.URL_API);
   }  
 
+  filterCuidadores(query: string): Observable<Cuidador[]> {
+    return this.http.get<Cuidador[]>(`${this.URL_API}/filter?query=${query}`);
+  }
+
   searchAllCuidadores(textoBusqueda: string): Observable<Cuidador[]> {
     return this.http.get<Cuidador[]>(
       `${this.URL_API}/search?buscarAlcuidador=${textoBusqueda}`
