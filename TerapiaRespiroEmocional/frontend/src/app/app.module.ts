@@ -33,6 +33,7 @@ import { PacientesService } from './services/pacientes.service'
 import { SuplenciasServiceService } from './services/suplencias-service.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +52,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     NewCuidadorComponent,
     SearchCuidadorComponent,
     Actulizar2DialogComponent,
-    ConfirmarEliminar2DialogComponent
+    ConfirmarEliminar2DialogComponent,
+    
+    
   ],
   imports: [
     BrowserModule,

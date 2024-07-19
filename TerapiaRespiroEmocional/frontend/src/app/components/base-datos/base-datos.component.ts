@@ -28,6 +28,7 @@ export class BaseDatosComponent implements OnInit {
     private suplenciasService: SuplenciasServiceService
   ) {}
 
+
   ngOnInit(): void {
     this.loadCategoryData();
     this.searchTextChanged.pipe(
@@ -59,24 +60,36 @@ export class BaseDatosComponent implements OnInit {
   }
 
   filterData(searchText: string) {
+    const lowerSearchText = searchText.toLowerCase();
     if (this.selectedCategory === 'pacientes') {
-      return this.pacientesService.filterPacientes(searchText);
+      this.filteredPacientes = this.pacientes.filter(paciente =>
+        paciente.nombre_paciente.toLowerCase().includes(lowerSearchText) ||
+        paciente.apellido_paterno.toLowerCase().includes(lowerSearchText) ||
+        paciente.apellido_materno.toLowerCase().includes(lowerSearchText) ||
+        paciente.diagnostico.toLowerCase().includes(lowerSearchText) ||
+        paciente.sexo_paciente.toLowerCase().includes(lowerSearchText)
+      );
     } else if (this.selectedCategory === 'cuidadores') {
-      return this.cuidadoresService.filterCuidadores(searchText);
+      this.filteredCuidadores = this.cuidadores.filter(cuidador =>
+        cuidador.nombreCuidador.toLowerCase().includes(lowerSearchText) ||
+        cuidador.apPatCuidador.toLowerCase().includes(lowerSearchText) ||
+        cuidador.apMatCuidador.toLowerCase().includes(lowerSearchText) ||
+        cuidador.telefonoCuidador.toLowerCase().includes(lowerSearchText)
+      );
     } else if (this.selectedCategory === 'suplencias') {
-      return this.suplenciasService.filterSuplencias(searchText);
+      this.filteredSuplencias = this.suplencias.filter(suplencia =>
+        suplencia.dia_suplencia.toLowerCase().includes(lowerSearchText) ||
+        suplencia.hora_inicial.toLowerCase().includes(lowerSearchText) ||
+        suplencia.hora_final.toLowerCase().includes(lowerSearchText) ||
+        suplencia.particular.toLowerCase().includes(lowerSearchText) ||
+        suplencia.concurrencia_anual.toLowerCase().includes(lowerSearchText)
+      );
     }
     return of([]);
   }
 
   applyFilteredData(data: any): void {
-    if (this.selectedCategory === 'pacientes') {
-      this.filteredPacientes = data;
-    } else if (this.selectedCategory === 'cuidadores') {
-      this.filteredCuidadores = data;
-    } else if (this.selectedCategory === 'suplencias') {
-      this.filteredSuplencias = data;
-    }
+    // No es necesario para este enfoque
   }
 
   onSearchChange(): void {
