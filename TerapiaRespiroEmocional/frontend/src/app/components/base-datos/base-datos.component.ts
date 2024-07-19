@@ -28,13 +28,12 @@ export class BaseDatosComponent implements OnInit {
     private suplenciasService: SuplenciasServiceService
   ) {}
 
-
   ngOnInit(): void {
     this.loadCategoryData();
     this.searchTextChanged.pipe(
-      debounceTime(300), // Esperar 300ms para evitar solicitudes excesivas
-      distinctUntilChanged(), // Solo emitir si el texto ha cambiado
-      switchMap(searchText => this.filterData(searchText)) // Filtrar los datos basados en el texto de búsqueda
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(searchText => this.filterData(searchText))
     ).subscribe(filteredData => {
       this.applyFilteredData(filteredData);
     });
@@ -43,26 +42,38 @@ export class BaseDatosComponent implements OnInit {
   loadCategoryData(): void {
     if (this.selectedCategory === 'pacientes') {
       this.pacientesService.getNombreCuidadorDelPaciente().subscribe((data) => {
+        console.log('Datos de pacientes:', data);
         this.pacientes = data;
         this.filteredPacientes = data;
+      }, error => {
+        console.error('Error al cargar pacientes:', error);
       });
     } else if (this.selectedCategory === 'cuidadores') {
       this.cuidadoresService.getCuidadores().subscribe((data) => {
+        console.log('Datos de cuidadores:', data);
         this.cuidadores = data;
         this.filteredCuidadores = data;
+      }, error => {
+        console.error('Error al cargar cuidadores:', error);
       });
     } else if (this.selectedCategory === 'suplencias') {
       this.suplenciasService.getNombreCuidadoryPaciente().subscribe((data) => {
+        console.log('Datos de suplencias:', data);
         this.suplencias = data;
         this.filteredSuplencias = data;
+      }, error => {
+        console.error('Error al cargar suplencias:', error);
       });
     }
   }
+  
 
   filterData(searchText: string) {
     const lowerSearchText = searchText.toLowerCase();
+    let filteredData: any[] = [];
+    
     if (this.selectedCategory === 'pacientes') {
-      this.filteredPacientes = this.pacientes.filter(paciente =>
+      filteredData = this.pacientes.filter(paciente =>
         paciente.nombre_paciente.toLowerCase().includes(lowerSearchText) ||
         paciente.apellido_paterno.toLowerCase().includes(lowerSearchText) ||
         paciente.apellido_materno.toLowerCase().includes(lowerSearchText) ||
@@ -70,14 +81,14 @@ export class BaseDatosComponent implements OnInit {
         paciente.sexo_paciente.toLowerCase().includes(lowerSearchText)
       );
     } else if (this.selectedCategory === 'cuidadores') {
-      this.filteredCuidadores = this.cuidadores.filter(cuidador =>
+      filteredData = this.cuidadores.filter(cuidador =>
         cuidador.nombreCuidador.toLowerCase().includes(lowerSearchText) ||
         cuidador.apPatCuidador.toLowerCase().includes(lowerSearchText) ||
         cuidador.apMatCuidador.toLowerCase().includes(lowerSearchText) ||
         cuidador.telefonoCuidador.toLowerCase().includes(lowerSearchText)
       );
     } else if (this.selectedCategory === 'suplencias') {
-      this.filteredSuplencias = this.suplencias.filter(suplencia =>
+      filteredData = this.suplencias.filter(suplencia =>
         suplencia.dia_suplencia.toLowerCase().includes(lowerSearchText) ||
         suplencia.hora_inicial.toLowerCase().includes(lowerSearchText) ||
         suplencia.hora_final.toLowerCase().includes(lowerSearchText) ||
@@ -85,12 +96,21 @@ export class BaseDatosComponent implements OnInit {
         suplencia.concurrencia_anual.toLowerCase().includes(lowerSearchText)
       );
     }
-    return of([]);
+  
+    return of(filteredData);
   }
+  
 
-  applyFilteredData(data: any): void {
-    // No es necesario para este enfoque
+  applyFilteredData(filteredData: any): void {
+    if (this.selectedCategory === 'pacientes') {
+      this.filteredPacientes = filteredData;
+    } else if (this.selectedCategory === 'cuidadores') {
+      this.filteredCuidadores = filteredData;
+    } else if (this.selectedCategory === 'suplencias') {
+      this.filteredSuplencias = filteredData;
+    }
   }
+  
 
   onSearchChange(): void {
     this.searchTextChanged.next(this.searchText);
@@ -98,7 +118,7 @@ export class BaseDatosComponent implements OnInit {
 
   search(): void {
     this.loadCategoryData();
-  }
+  }  
 
   /* Default name for excel file when download */
   fileName1 = 'BaseDatosPacientes.xlsx';
@@ -130,44 +150,6 @@ export class BaseDatosComponent implements OnInit {
     XLSX.writeFile(wb, fileName);
   }
 
-  editPaciente(id: number) {
-    console.log('Editar paciente con id:', id);
-    // Lógica para editar paciente
-  }
-
-  deletePaciente(id: number) {
-    this.pacientesService.deletePaciente(id).subscribe(() => {
-      this.pacientes = this.pacientes.filter(
-        (paciente) => paciente.id_paciente !== id
-      );
-    });
-  }
-
-  editCuidador(id: number) {
-    console.log('Editar cuidador con id:', id);
-    // Lógica para editar cuidador
-  }
-
-  deleteCuidador(id: number) {
-    this.cuidadoresService.deleteCuidador(id).subscribe(() => {
-      this.cuidadores = this.cuidadores.filter(
-        (cuidador) => cuidador.id_cuidador_paciente !== id
-      );
-    });
-  }
-
-  editSuplencia(id: number) {
-    console.log('Editar suplencia con id:', id);
-    // Lógica para editar suplencia
-  }
-
-  deleteSuplencia(id: number) {
-    this.suplenciasService.deleteSuplencia(id).subscribe(() => {
-      this.suplencias = this.suplencias.filter(
-        (suplencia) => suplencia.id_suplencia !== id
-      );
-    });
-  }
 }
 
 

@@ -53,6 +53,7 @@
           <th>Diagnostico</th>
           <th>Nacionalidad</th>
           <th>Cuidador Primario</th>
+          <th>Parentesco</th>
           <th>Tipo de programa</th>
           <th>Acciones</th>
         </tr>
@@ -74,10 +75,11 @@
           <td>{{ paciente.diagnostico }}</td>
           <td>{{ paciente.nacionalidad }}</td>
           <td>{{ paciente.nombreCompletoCuidador }}</td>
+          <td>{{ paciente.parentesco_con_cuidador }}</td>
           <td>{{ paciente.tipoPrograma }}</td>
           <td>
-            <button class="edit-button" (click)="editPaciente(paciente.id_paciente)">✏️ Editar</button>
-            <button class="delete-button" (click)="deletePaciente(paciente.id_paciente)">🗑️ Eliminar</button>
+            <button class="edit-button">✏️ Editar</button>
+            <button class="delete-button">🗑️ Eliminar</button>
           </td>
         </tr>
       </tbody>
@@ -91,31 +93,29 @@
       <thead>
         <tr>
           <th>#</th>
+          <th>Nombre</th>
           <th>Apellido Paterno</th>
           <th>Apellido Materno</th>
-          <th>Nombre</th>
           <th>Sexo</th>
           <th>Edad</th>
           <th>Telefono</th>
           <th>Registro</th>
-          <th>Numero de Suplencias</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let cuidador of filteredCuidadores; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ cuidador.apellido_paterno_cuidador }}</td>
-          <td>{{ cuidador.apellido_materno_cuidador }}</td>
-          <td>{{ cuidador.nombre_cuidador }}</td>
-          <td>{{ cuidador.sexo_cuidador }}</td>
-          <td>{{ cuidador.edad_cuidador }}</td>
-          <td>{{ cuidador.telefono_cuidador }}</td>
-          <td>{{ cuidador.fecha_registro | date : "dd/MM/yyyy" }}</td>
-          <td>{{ cuidador.numero_suplencias }}</td>
+          <td>{{ cuidador.nombreCuidador }}</td>
+          <td>{{ cuidador.apPatCuidador }}</td>
+          <td>{{ cuidador.apMatCuidador }}</td>
+          <td>{{ cuidador.sexoCuidador }}</td>
+          <td>{{ cuidador.edadCuidador }}</td>
+          <td>{{ cuidador.telefonoCuidador }}</td>
+          <td>{{ cuidador.ingreso_programa  | date : "dd/MM/yyyy"  }}</td>
           <td>
-            <button class="edit-button" (click)="editCuidador(cuidador.id_cuidador_paciente)">✏️ Editar</button>
-            <button class="delete-button" (click)="deleteCuidador(cuidador.id_cuidador_paciente)">🗑️ Eliminar</button>
+            <button class="edit-button">✏️ Editar</button>
+            <button class="delete-button">🗑️ Eliminar</button>
           </td>
         </tr>
       </tbody>
@@ -129,33 +129,36 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>Fecha Inicio</th>
-          <th>Fecha Fin</th>
-          <th>Hora Inicio</th>
-          <th>Hora Fin</th>
-          <th>Nombre del Cuidador</th>
-          <th>Nombre del Paciente</th>
-          <th>Diagnostico</th>
+          <th>Día</th>
+          <th>Hora Inicial</th>
+          <th>Hora Final</th>
+          <th>Costo por Guardia</th>
+          <th>Particular</th>
+          <th>Concurrencia</th>
+          <th>Cuidador</th>
+          <th>Pacientes</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let suplencia of filteredSuplencias; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ suplencia.fecha_inicio | date : "dd/MM/yyyy" }}</td>
-          <td>{{ suplencia.fecha_fin | date : "dd/MM/yyyy" }}</td>
-          <td>{{ suplencia.hora_inicio }}</td>
-          <td>{{ suplencia.hora_fin }}</td>
-          <td>{{ suplencia.nombreCompletoCuidador }}</td>
-          <td>{{ suplencia.nombreCompletoPaciente }}</td>
-          <td>{{ suplencia.diagnostico }}</td>
+          <td>{{ suplencia.dia_suplencia | date : "dd/MM/yyyy" }}</td>
+          <td>{{ suplencia.hora_inicial }}</td>
+          <td>{{ suplencia.hora_final }}</td>
+          <td>{{ suplencia.costoGuardia }}</td>
+          <td>{{ suplencia.particular }}</td>
+          <td>{{ suplencia.concurrencia_anual }}</td>
+          <td>{{ suplencia.nombreCompletoCuidador  }}</td>
+          <td>{{ suplencia.nombreCompletoPaciente  }}</td>
           <td>
-            <button class="edit-button" (click)="editSuplencia(suplencia.id_suplencia)">✏️ Editar</button>
-            <button class="delete-button" (click)="deleteSuplencia(suplencia.id_suplencia)">🗑️ Eliminar</button>
+            <button class="edit-button">✏️ Editar</button>
+            <button class="delete-button">🗑️ Eliminar</button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+
 
