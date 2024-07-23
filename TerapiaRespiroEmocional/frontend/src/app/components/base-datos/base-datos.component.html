@@ -30,11 +30,12 @@
         [(ngModel)]="selectedSexo"
         (change)="onSexoChange()"
       >
-        <option value="">Todos</option> <!-- Añade opción para mostrar todos los sexos -->
+        <option value="">Todos</option>
+        <!-- Añade opción para mostrar todos los sexos -->
         <option value="M">M</option>
         <option value="F">F</option>
       </select>
-    </div>    
+    </div>
     <div class="botondiv">
       <button id="btnSearch" (click)="search()">Buscar</button>
     </div>
@@ -91,7 +92,12 @@
           <td>{{ paciente.tipoPrograma }}</td>
           <td>
             <button class="edit-button">✏️ Editar</button>
-            <button class="delete-button">🗑️ Eliminar</button>
+            <button
+              class="delete-button"
+              (click)="deletePaciente(paciente.id_paciente)"
+            >
+              🗑️ Eliminar
+            </button>
           </td>
         </tr>
       </tbody>
@@ -124,10 +130,15 @@
           <td>{{ cuidador.sexoCuidador }}</td>
           <td>{{ cuidador.edadCuidador }}</td>
           <td>{{ cuidador.telefonoCuidador }}</td>
-          <td>{{ cuidador.ingreso_programa  | date : "dd/MM/yyyy"  }}</td>
+          <td>{{ cuidador.ingreso_programa | date : "dd/MM/yyyy" }}</td>
           <td>
             <button class="edit-button">✏️ Editar</button>
-            <button class="delete-button">🗑️ Eliminar</button>
+            <button
+              class="delete-button"
+              (click)="deleteCuidador(cuidador.id_cuidador_paciente)"
+            >
+              🗑️ Eliminar
+            </button>
           </td>
         </tr>
       </tbody>
@@ -161,16 +172,19 @@
           <td>{{ suplencia.costoGuardia }}</td>
           <td>{{ suplencia.particular }}</td>
           <td>{{ suplencia.concurrencia_anual }}</td>
-          <td>{{ suplencia.nombreCompletoCuidador  }}</td>
-          <td>{{ suplencia.nombreCompletoPaciente  }}</td>
+          <td>{{ suplencia.nombreCompletoCuidador }}</td>
+          <td>{{ suplencia.nombreCompletoPaciente }}</td>
           <td>
             <button class="edit-button">✏️ Editar</button>
-            <button class="delete-button">🗑️ Eliminar</button>
+            <button
+              class="delete-button"
+              (click)="deleteSuplencia(suplencia.id_suplencia)"
+            >
+              🗑️ Eliminar
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
-
-

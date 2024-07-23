@@ -48,6 +48,4 @@ router.delete('/suplencias/:id', pacientesCtrls.deleteSuplencia);
 
 
 
-
-
 module.exports = router;

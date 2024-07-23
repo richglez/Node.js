@@ -116,7 +116,7 @@ export class PacientesService {
           ); // Declarar el tipo de 'c'
           return {
             ...paciente,
-            nombreCompletoCuidador: cuidador
+            nombreCompletoCuidador: cuidador //NOMBRE DEL CUIDADOR DEL PACIENTE
               ? `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`
               : '',
           };

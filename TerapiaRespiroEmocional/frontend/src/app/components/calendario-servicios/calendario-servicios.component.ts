@@ -13,7 +13,7 @@ import { Paciente } from '../../models/pacientes';
 import { Suplencia } from '../../models/suplencias';
 import { DatePipe } from '@angular/common';
 import multiMonthPlugin from '@fullcalendar/multimonth';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar'; //notificaciones
 import {
   CalendarOptions,
   EventClickArg,
