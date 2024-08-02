@@ -24,6 +24,7 @@ export class BaseDatosComponent implements OnInit {
   filteredPacientes: any[] = [];
   filteredCuidadores: any[] = [];
   filteredSuplencias: any[] = [];
+  editField: { [key: number]: { [key: string]: boolean } } = {};
 
   constructor(
     private pacientesService: PacientesService,
@@ -43,6 +44,50 @@ export class BaseDatosComponent implements OnInit {
       .subscribe((filteredData) => {
         this.applyFilteredData(filteredData);
       });
+  }
+
+  /* Default name for excel file when download */
+  fileName1 = 'BaseDatosPacientes.xlsx';
+  fileName2 = 'BaseDatosCuidadores.xlsx';
+  fileName3 = 'BaseDatosSuplencias.xlsx';
+  exportExcel() {
+    let data;
+    let fileName;
+    switch (this.selectedCategory) {
+      case 'pacientes':
+        data = document.getElementById('BaseDatosPacientes');
+        fileName = this.fileName1;
+        break;
+      case 'cuidadores':
+        data = document.getElementById('BaseDatosCuidadores');
+        fileName = this.fileName2;
+        break;
+      case 'suplencias':
+        data = document.getElementById('BaseDatosSuplencias');
+        fileName = this.fileName3;
+        break;
+      default:
+        return;
+    }
+
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, fileName);
+  }
+
+  onSearchChange(): void {
+    //para recargar los datos cuando cambie la selección DE BUSQUEDA.
+    this.searchTextChanged.next(this.searchText);
+  }
+
+  onSexoChange(): void {
+    //para recargar los datos cuando cambie la selección de sexo.
+    this.loadCategoryData();
+  }
+
+  search(): void {
+    this.loadCategoryData();
   }
 
   loadCategoryData(): void {
@@ -200,19 +245,40 @@ export class BaseDatosComponent implements OnInit {
     }
   }
 
-  onSearchChange(): void {
-    //para recargar los datos cuando cambie la selección DE BUSQUEDA.
-    this.searchTextChanged.next(this.searchText);
+
+
+  //Pacientes
+  toggleEditPaciente(index: number, field: string): void {
+    if (!this.editField[index]) {
+      this.editField[index] = {};
+    }
+    this.editField[index][field] = !this.editField[index][field];
   }
 
-  onSexoChange(): void {
-    //para recargar los datos cuando cambie la selección de sexo.
-    this.loadCategoryData();
+  saveChangesPaciente(paciente: any, index: number): void {
+    this.pacientesService.updatePaciente(paciente).subscribe(
+      (response) => {
+        this.toggleEditPaciente(index, 'expediente');
+        this.toggleEditPaciente(index, 'apellido_paterno');
+        this.toggleEditPaciente(index, 'apellido_materno');
+        this.toggleEditPaciente(index, 'nombre');
+        this.snackBar.open('Datos actualizados correctamente', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+      },
+      (error) => {
+        console.error('Error al actualizar paciente:', error);
+        this.snackBar.open('Error al actualizar los datos', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+      }
+    );
   }
-
-  search(): void {
-    this.loadCategoryData();
-  }
+  
 
   deletePaciente(pacienteId: number): void {
     Swal.fire({
@@ -249,6 +315,7 @@ export class BaseDatosComponent implements OnInit {
     });
   }
 
+  //Cuidadores
   deleteCuidador(cuidadorId: number): void {
     Swal.fire({
       title: '¿Estás seguro de eliminar este cuidador?',
@@ -284,7 +351,7 @@ export class BaseDatosComponent implements OnInit {
     });
   }
 
-
+  // suplencias
   deleteSuplencia(suplenciaId: number): void {
     Swal.fire({
       title: '¿Estás seguro de eliminar esta suplencia?',
@@ -318,38 +385,5 @@ export class BaseDatosComponent implements OnInit {
         );
       }
     });
-  }
-
-
-  
-
-  /* Default name for excel file when download */
-  fileName1 = 'BaseDatosPacientes.xlsx';
-  fileName2 = 'BaseDatosCuidadores.xlsx';
-  fileName3 = 'BaseDatosSuplencias.xlsx';
-  exportExcel() {
-    let data;
-    let fileName;
-    switch (this.selectedCategory) {
-      case 'pacientes':
-        data = document.getElementById('BaseDatosPacientes');
-        fileName = this.fileName1;
-        break;
-      case 'cuidadores':
-        data = document.getElementById('BaseDatosCuidadores');
-        fileName = this.fileName2;
-        break;
-      case 'suplencias':
-        data = document.getElementById('BaseDatosSuplencias');
-        fileName = this.fileName3;
-        break;
-      default:
-        return;
-    }
-
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    XLSX.writeFile(wb, fileName);
   }
 }
