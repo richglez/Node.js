@@ -156,8 +156,6 @@
           <td>
             <span *ngIf="!editField[i]?.['cuidadorNombre']">{{ paciente.nombreCompletoCuidador || 'No asignado' }}</span>
             <input *ngIf="editField[i]?.['cuidadorNombre']" [(ngModel)]="paciente.nombreCompletoCuidador" />
-            <button class="edit-button" (click)="toggleEditPaciente(i, 'cuidadorNombre')">✏️</button>
-            <button *ngIf="editField[i]?.['cuidadorNombre']" class="save-button" (click)="saveChangesPaciente(paciente, i)">✅</button>
           </td>
           
           <td>
@@ -204,22 +202,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let cuidador of filteredCuidadores; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ cuidador.nombreCuidador }}</td>
-          <td>{{ cuidador.apPatCuidador }}</td>
-          <td>{{ cuidador.apMatCuidador }}</td>
-          <td>{{ cuidador.sexoCuidador }}</td>
-          <td>{{ cuidador.edadCuidador }}</td>
-          <td>{{ cuidador.telefonoCuidador }}</td>
-          <td>{{ cuidador.ingreso_programa | date : "dd/MM/yyyy" }}</td>
           <td>
-            <button class="edit-button">✏️ Editar</button>
-            <button
-              class="delete-button"
-              (click)="deleteCuidador(cuidador.id_cuidador_paciente)"
-            >
-              🗑️ Eliminar
-            </button>
+            <span *ngIf="!editField[i]?.['apPatCuidador']">{{ cuidador.apPatCuidador }}</span>
+            <input *ngIf="editField[i]?.['apPatCuidador']" [(ngModel)]="cuidador.apPatCuidador" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'apPatCuidador')">✏️</button>
+            <button *ngIf="editField[i]?.['apPatCuidador']" class="save-button" (click)="saveChangesCuidador(cuidador, i)">✅</button>
           </td>
         </tr>
       </tbody>

@@ -136,6 +136,30 @@ select {
   }
 }
 
+.save-button {
+  background-color: #4CAF50; /* Verde */
+  color: white; /* Texto blanco */
+  border: none; /* Sin borde */
+  padding: 10px 15px; /* Espaciado interno */
+  text-align: center; /* Centrado del texto */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-block; /* Mostrar en línea */
+  font-size: 16px; /* Tamaño de fuente */
+  margin: 4px 2px; /* Márgenes */
+  cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+  border-radius: 5px; /* Bordes redondeados */
+  transition: background-color 0.3s ease; /* Transición para el cambio de color */
+}
+
+.save-button:hover {
+  background-color: #45a049; /* Color más oscuro al pasar el cursor */
+}
+
+.save-button:focus {
+  outline: none; /* Sin contorno de enfoque */
+}
+
+
 /* Scrollbar personalizado */
 .suggestions-container::-webkit-scrollbar {
   width: 8px;
