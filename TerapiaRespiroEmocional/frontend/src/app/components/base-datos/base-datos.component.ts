@@ -74,6 +74,31 @@ export class BaseDatosComponent implements OnInit {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
+          panelClass: ['error-snackbar'],
+        });
+      }
+    );
+  }
+
+  
+  saveChangesCuidador(cuidador: any, index: number): void {
+    this.cuidadoresService.updateCuidador(cuidador).subscribe(
+      (response) => {
+        this.editField[index] = {};
+        this.snackBar.open('Datos actualizados correctamente', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          panelClass: ['main-snackbar'],
+        });
+      },
+      (error) => {
+        console.error('Error al actualizar cuidador:', error);
+        this.snackBar.open('Error al actualizar los datos', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar'],
         });
       }
     );
@@ -154,6 +179,28 @@ export class BaseDatosComponent implements OnInit {
   }
 
   // suplencias
+  saveChangesSuplencia(suplencia: any, index: number): void {
+    this.suplenciasService.updateSuplencia(suplencia).subscribe(
+      (response) => {
+        this.editField[index] = {};
+        this.snackBar.open('Datos actualizados correctamente', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          panelClass: ['main-snackbar'],
+        });
+      },
+      (error) => {
+        console.error('Error al actualizar suplencia:', error);
+        this.snackBar.open('Error al actualizar los datos', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar'],
+        });
+      }
+    );
+  }
   deleteSuplencia(suplenciaId: number): void {
     Swal.fire({
       title: '¿Estás seguro de eliminar esta suplencia?',

@@ -190,9 +190,9 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>Nombre</th>
           <th>Apellido Paterno</th>
           <th>Apellido Materno</th>
+          <th>Nombre</th>
           <th>Sexo</th>
           <th>Edad</th>
           <th>Telefono</th>
@@ -202,11 +202,51 @@
       </thead>
       <tbody>
         <tr *ngFor="let cuidador of filteredCuidadores; let i = index">
+          <td>{{ i + 1 }}</td>
           <td>
             <span *ngIf="!editField[i]?.['apPatCuidador']">{{ cuidador.apPatCuidador }}</span>
             <input *ngIf="editField[i]?.['apPatCuidador']" [(ngModel)]="cuidador.apPatCuidador" />
             <button class="edit-button" (click)="toggleEditPaciente(i, 'apPatCuidador')">✏️</button>
             <button *ngIf="editField[i]?.['apPatCuidador']" class="save-button" (click)="saveChangesCuidador(cuidador, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['apMatCuidador']">{{ cuidador.apMatCuidador }}</span>
+            <input *ngIf="editField[i]?.['apMatCuidador']" [(ngModel)]="cuidador.apMatCuidador" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'apMatCuidador')">✏️</button>
+            <button *ngIf="editField[i]?.['apMatCuidador']" class="save-button" (click)="saveChangesCuidador(cuidador, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['nombreCuidador']">{{ cuidador.nombreCuidador }}</span>
+            <input *ngIf="editField[i]?.['nombreCuidador']" [(ngModel)]="cuidador.nombreCuidador" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'nombreCuidador')">✏️</button>
+            <button *ngIf="editField[i]?.['nombreCuidador']" class="save-button" (click)="saveChangesCuidador(cuidador, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['sexoCuidador']">{{ cuidador.sexoCuidador }}</span>
+            <input *ngIf="editField[i]?.['sexoCuidador']" [(ngModel)]="cuidador.sexoCuidador" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'sexoCuidador')">✏️</button>
+            <button *ngIf="editField[i]?.['sexoCuidador']" class="save-button" (click)="saveChangesCuidador(cuidador, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['edadCuidador']">{{ cuidador.edadCuidador }}</span>
+            <input *ngIf="editField[i]?.['edadCuidador']" [(ngModel)]="cuidador.edadCuidador" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'edadCuidador')">✏️</button>
+            <button *ngIf="editField[i]?.['edadCuidador']" class="save-button" (click)="saveChangesCuidador(cuidador, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['telefonoCuidador']">{{ cuidador.telefonoCuidador }}</span>
+            <input *ngIf="editField[i]?.['telefonoCuidador']" [(ngModel)]="cuidador.telefonoCuidador" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'telefonoCuidador')">✏️</button>
+            <button *ngIf="editField[i]?.['telefonoCuidador']" class="save-button" (click)="saveChangesCuidador(cuidador, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['ingreso_programa']">{{ cuidador.ingreso_programa | date : "dd/MM/yyyy"  }}</span>
+            <input *ngIf="editField[i]?.['ingreso_programa']" [(ngModel)]="cuidador.ingreso_programa" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'ingreso_programa')">✏️</button>
+            <button *ngIf="editField[i]?.['ingreso_programa']" class="save-button" (click)="saveChangesCuidador(cuidador, i)">✅</button>
+          </td>
+          <td>
+            <button class="delete-button" (click)="deleteCuidador(cuidador.id_cuidador_paciente)">🗑️ Eliminar</button>
           </td>
         </tr>
       </tbody>
@@ -234,16 +274,48 @@
       <tbody>
         <tr *ngFor="let suplencia of filteredSuplencias; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ suplencia.dia_suplencia | date : "dd/MM/yyyy" }}</td>
-          <td>{{ suplencia.hora_inicial }}</td>
-          <td>{{ suplencia.hora_final }}</td>
-          <td>{{ suplencia.costoGuardia }}</td>
-          <td>{{ suplencia.particular }}</td>
-          <td>{{ suplencia.concurrencia_anual }}</td>
-          <td>{{ suplencia.nombreCompletoCuidador }}</td>
-          <td>{{ suplencia.nombreCompletoPaciente }}</td>
           <td>
-            <button class="edit-button">✏️ Editar</button>
+            <span *ngIf="!editField[i]?.['dia_suplencia']">{{ suplencia.dia_suplencia | date : "dd/MM/yyyy"}}</span>
+            <input *ngIf="editField[i]?.['dia_suplencia']" [(ngModel)]="suplencia.dia_suplencia" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'dia_suplencia')">✏️</button>
+            <button *ngIf="editField[i]?.['dia_suplencia']" class="save-button" (click)="saveChangesSuplencia(suplencia, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['hora_inicial']">{{ suplencia.hora_inicial | date : "dd/MM/yyyy"}}</span>
+            <input *ngIf="editField[i]?.['hora_inicial']" [(ngModel)]="suplencia.hora_inicial" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'hora_inicial')">✏️</button>
+            <button *ngIf="editField[i]?.['hora_inicial']" class="save-button" (click)="saveChangesSuplencia(suplencia, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['hora_final']">{{ suplencia.hora_final | date : "dd/MM/yyyy"}}</span>
+            <input *ngIf="editField[i]?.['hora_final']" [(ngModel)]="suplencia.hora_final" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'hora_final')">✏️</button>
+            <button *ngIf="editField[i]?.['hora_final']" class="save-button" (click)="saveChangesSuplencia(suplencia, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['costoGuardia']">{{ suplencia.costoGuardia | date : "dd/MM/yyyy"}}</span>
+            <input *ngIf="editField[i]?.['costoGuardia']" [(ngModel)]="suplencia.costoGuardia" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'costoGuardia')">✏️</button>
+            <button *ngIf="editField[i]?.['costoGuardia']" class="save-button" (click)="saveChangesSuplencia(suplencia, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['particular']">{{ suplencia.particular | date : "dd/MM/yyyy"}}</span>
+            <input *ngIf="editField[i]?.['particular']" [(ngModel)]="suplencia.particular" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'particular')">✏️</button>
+            <button *ngIf="editField[i]?.['particular']" class="save-button" (click)="saveChangesSuplencia(suplencia, i)">✅</button>
+          </td>
+          <td>
+            <span *ngIf="!editField[i]?.['concurrencia_anual']">{{ suplencia.concurrencia_anual | date : "dd/MM/yyyy"}}</span>
+            <input *ngIf="editField[i]?.['concurrencia_anual']" [(ngModel)]="suplencia.concurrencia_anual" />
+          </td>
+          
+          <td>
+            <span *ngIf="!editField[i]?.['particular']">{{ suplencia.particular | date : "dd/MM/yyyy"}}</span>
+            <input *ngIf="editField[i]?.['particular']" [(ngModel)]="suplencia.particular" />
+            <button class="edit-button" (click)="toggleEditPaciente(i, 'particular')">✏️</button>
+            <button *ngIf="editField[i]?.['particular']" class="save-button" (click)="saveChangesSuplencia(suplencia, i)">✅</button>
+          </td>
+          <td>
             <button
               class="delete-button"
               (click)="deleteSuplencia(suplencia.id_suplencia)"
