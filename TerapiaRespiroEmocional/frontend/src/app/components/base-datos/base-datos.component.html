@@ -310,12 +310,6 @@
           </td>
           
           <td>
-            <span *ngIf="!editField[i]?.['particular']">{{ suplencia.particular | date : "dd/MM/yyyy"}}</span>
-            <input *ngIf="editField[i]?.['particular']" [(ngModel)]="suplencia.particular" />
-            <button class="edit-button" (click)="toggleEditPaciente(i, 'particular')">✏️</button>
-            <button *ngIf="editField[i]?.['particular']" class="save-button" (click)="saveChangesSuplencia(suplencia, i)">✅</button>
-          </td>
-          <td>
             <button
               class="delete-button"
               (click)="deleteSuplencia(suplencia.id_suplencia)"

@@ -489,6 +489,34 @@ pacientesCtrls.filterSuplencias = async (req, res) => {
     ];
 };
 
+
+pacientesCtrls.getNombresDeCuidadorYPaciente = async (req, res) => {
+    try {
+        const query = `
+        SELECT 
+          s.id_suplencia,
+          s.dia_suplencia,
+          s.hora_inicial,
+          s.hora_final,
+          s.costoGuardia,
+          s.particular,
+          s.concurrencia_anual,
+          c.nombreCuidador,
+          c.apPatCuidador,
+          c.apMatCuidador,
+          p.nombre_paciente,
+          p.apellido_paterno,
+          p.apellido_materno
+        FROM suplencias s
+        JOIN cuidadores c ON s.id_cuidador_paciente = c.id_cuidador_paciente
+        JOIN pacientes p ON s.id_paciente = p.id_paciente;
+      `;
+    } catch (error) {
+        console.error("Error al buscar los nombres de cuidador y paciente:", error);
+        res.status(500).json({ error: "Error al buscar los nombres de cuidador y paciente" });
+    }
+}
+
 pacientesCtrls.addSuplencias = async (req, res) => {
     try {
         const {

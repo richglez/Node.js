@@ -70,31 +70,7 @@ export class SuplenciasServiceService {
   }
 
   getNombreCuidadoryPaciente(): Observable<any[]> {
-    return forkJoin({
-      suplencias: this.http.get<any[]>(this.URL_API),
-      pacientes: this.pacientesService.getPacientes(),
-      cuidadores: this.cuidadoresService.getCuidadores(),
-    }).pipe(
-      map(({ suplencias, pacientes, cuidadores }) => {
-        return suplencias.map((suplencia) => {
-          const paciente = pacientes.find(
-            (p) => p.id_paciente === suplencia.id_paciente
-          );
-          const cuidador = cuidadores.find(
-            (c) => c.id_cuidador_paciente === suplencia.id_cuidador_paciente
-          );
-          return {
-            ...suplencia,
-            nombreCompletoPaciente: paciente
-              ? `${paciente.nombre_paciente} ${paciente.apellido_paterno} ${paciente.apellido_materno}`
-              : '',
-            nombreCompletoCuidador: cuidador
-              ? `${cuidador.nombreCuidador} ${cuidador.apPatCuidador} ${cuidador.apMatCuidador}`
-              : ''
-          };
-        });
-      })
-    );
+    return this.http.get<any[]>(`${this.URL_API}/nombre-cuidador-paciente`);
   }
   
 }
