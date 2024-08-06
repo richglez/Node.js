@@ -456,9 +456,18 @@ pacientesCtrls.getTotalProgramasCECPAM = async (req, res) => {
 
 // ----------------SUPLENCIAS----------------
 pacientesCtrls.getSuplencias = async (req, res) => {
-    const [rows] = await pool.promise().query("SELECT * FROM suplencias");
+    const query = `
+        SELECT 
+            s.*, 
+            p.nombre_paciente, p.apellido_paterno AS paciente_apellido_paterno, p.apellido_materno AS paciente_apellido_materno,
+            c.nombreCuidador, c.apPatCuidador, c.apMatCuidador
+        FROM suplencias s
+        JOIN pacientes p ON s.id_paciente = p.id_paciente
+        JOIN cuidadores c ON s.id_cuidador_paciente = c.id_cuidador_paciente`;
+    const [rows] = await pool.promise().query(query);
     res.json(rows);
 };
+
 
 pacientesCtrls.filterSuplencias = async (req, res) => {
     const query = req.query.query;
@@ -488,34 +497,6 @@ pacientesCtrls.filterSuplencias = async (req, res) => {
         `%${query}%`,
     ];
 };
-
-
-pacientesCtrls.getNombresDeCuidadorYPaciente = async (req, res) => {
-    try {
-        const query = `
-        SELECT 
-          s.id_suplencia,
-          s.dia_suplencia,
-          s.hora_inicial,
-          s.hora_final,
-          s.costoGuardia,
-          s.particular,
-          s.concurrencia_anual,
-          c.nombreCuidador,
-          c.apPatCuidador,
-          c.apMatCuidador,
-          p.nombre_paciente,
-          p.apellido_paterno,
-          p.apellido_materno
-        FROM suplencias s
-        JOIN cuidadores c ON s.id_cuidador_paciente = c.id_cuidador_paciente
-        JOIN pacientes p ON s.id_paciente = p.id_paciente;
-      `;
-    } catch (error) {
-        console.error("Error al buscar los nombres de cuidador y paciente:", error);
-        res.status(500).json({ error: "Error al buscar los nombres de cuidador y paciente" });
-    }
-}
 
 pacientesCtrls.addSuplencias = async (req, res) => {
     try {
@@ -601,7 +582,10 @@ pacientesCtrls.deleteSuplencia = async (req, res) => {
         // Obtener el id del cuidador asociado a la suplencia
         const [suplencia] = await pool
             .promise()
-            .query("SELECT id_cuidador_paciente FROM suplencias WHERE id_suplencia = ?", [id_suplencia]);
+            .query(
+                "SELECT id_cuidador_paciente FROM suplencias WHERE id_suplencia = ?",
+                [id_suplencia]
+            );
 
         if (suplencia.length === 0) {
             return res.status(404).json({ error: "Suplencia no encontrada" });
@@ -612,12 +596,17 @@ pacientesCtrls.deleteSuplencia = async (req, res) => {
         // Eliminar la suplencia
         await pool
             .promise()
-            .query("DELETE FROM suplencias WHERE id_suplencia = ?", [id_suplencia]);
+            .query("DELETE FROM suplencias WHERE id_suplencia = ?", [
+                id_suplencia,
+            ]);
 
         // Restar 1 al número de suplencias del cuidador
         await pool
             .promise()
-            .query("UPDATE cuidadores SET num_suplencias = num_suplencias - 1 WHERE id_cuidador_paciente = ?", [idCuidador]);
+            .query(
+                "UPDATE cuidadores SET num_suplencias = num_suplencias - 1 WHERE id_cuidador_paciente = ?",
+                [idCuidador]
+            );
 
         res.status(200).json({ message: "Suplencia eliminada correctamente" });
     } catch (error) {
@@ -625,7 +614,6 @@ pacientesCtrls.deleteSuplencia = async (req, res) => {
         res.status(500).json({ error: "Error al eliminar la suplencia" });
     }
 };
-
 
 // buscar suplencias por cuidador y paciente
 pacientesCtrls.buscarSuplenciasPorCuidadorYPaciente = async (req, res) => {
@@ -724,10 +712,19 @@ pacientesCtrls.deleteCuidador = async (req, res) => {
 
     try {
         // Eliminar registros en la tabla pacientes que tienen referencia al cuidador
-        await pool.promise().query("UPDATE pacientes SET id_cuidador_paciente = NULL WHERE id_cuidador_paciente = ?", [id_cuidador]);
+        await pool
+            .promise()
+            .query(
+                "UPDATE pacientes SET id_cuidador_paciente = NULL WHERE id_cuidador_paciente = ?",
+                [id_cuidador]
+            );
 
         // Luego, eliminar el registro del cuidador
-        await pool.promise().query("DELETE FROM cuidadores WHERE id_cuidador_paciente = ?", [id_cuidador]);
+        await pool
+            .promise()
+            .query("DELETE FROM cuidadores WHERE id_cuidador_paciente = ?", [
+                id_cuidador,
+            ]);
 
         res.status(200).json({ message: "Cuidador eliminado correctamente" });
     } catch (error) {
@@ -735,7 +732,6 @@ pacientesCtrls.deleteCuidador = async (req, res) => {
         res.status(500).json({ error: "Error al eliminar el cuidador" });
     }
 };
-
 
 pacientesCtrls.getCuidadores = async (req, res) => {
     const [rows] = await pool.promise().query("SELECT * FROM cuidadores");

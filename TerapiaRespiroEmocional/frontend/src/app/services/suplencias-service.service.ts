@@ -33,6 +33,7 @@ export class SuplenciasServiceService {
   getSuplencias(): Observable<Suplencia[]> {
     return this.http.get<Suplencia[]>(this.URL_API);
   }
+  
 
   filterSuplencias(query: string): Observable<Suplencia[]> { //esta funcion es la que quiero para poder filtrar las tablas en mi componenete base-datos
     return this.http.get<Suplencia[]>(`${this.URL_API}/filter?query=${query}`);
@@ -70,7 +71,14 @@ export class SuplenciasServiceService {
   }
 
   getNombreCuidadoryPaciente(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.URL_API}/nombre-cuidador-paciente`);
+    return this.http.get<any[]>(this.URL_API).pipe(
+      map((suplencias) => {
+        return suplencias.map((suplencia) => ({
+          ...suplencia,
+          nombreCompletoPaciente: `${suplencia.nombre_paciente} ${suplencia.paciente_apellido_paterno} ${suplencia.paciente_apellido_materno}`,
+          nombreCompletoCuidador: `${suplencia.nombreCuidador} ${suplencia.apPatCuidador} ${suplencia.apMatCuidador}`,
+        }));
+      })
+    );
   }
-  
 }
