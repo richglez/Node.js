@@ -37,6 +37,20 @@
         <option value="F">F</option>
       </select>
     </div>
+
+    <div class="form-group">
+      <label for="edad-select">Edad:</label>
+      <select
+        id="edad-select"
+        [(ngModel)]="selectedEdad"
+        (change)="onEdadChange()"
+      >
+        <option value="">Todos</option>
+        <option value="nino">Niños</option>
+        <option value="adulto">Adultos</option>
+      </select>
+    </div>
+    
     <div class="botondiv">
       <button id="btnSearch" (click)="search()">Buscar</button>
     </div>

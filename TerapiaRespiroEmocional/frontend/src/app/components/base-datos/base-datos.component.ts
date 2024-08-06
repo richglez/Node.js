@@ -25,6 +25,7 @@ export class BaseDatosComponent implements OnInit {
   filteredCuidadores: any[] = [];
   filteredSuplencias: any[] = [];
   editField: { [key: number]: { [key: string]: boolean } } = {};
+  selectedEdad: string = ''; // Añadido para filtrar por edad
 
   constructor(
     private pacientesService: PacientesService,
@@ -67,29 +68,6 @@ export class BaseDatosComponent implements OnInit {
       },
       (error) => {
         console.error('Error al actualizar paciente:', error);
-        this.snackBar.open('Error al actualizar los datos', 'Cerrar', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar'],
-        });
-      }
-    );
-  }
-
-  saveChangesCuidador(cuidador: any, index: number): void {
-    this.cuidadoresService.updateCuidador(cuidador).subscribe(
-      (response) => {
-        this.editField[index] = {};
-        this.snackBar.open('Datos actualizados correctamente', 'Cerrar', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-          panelClass: ['main-snackbar'],
-        });
-      },
-      (error) => {
-        console.error('Error al actualizar cuidador:', error);
         this.snackBar.open('Error al actualizar los datos', 'Cerrar', {
           duration: 3000,
           horizontalPosition: 'center',
@@ -169,6 +147,29 @@ export class BaseDatosComponent implements OnInit {
         );
       }
     });
+  }
+
+  saveChangesCuidador(cuidador: any, index: number): void {
+    this.cuidadoresService.updateCuidador(cuidador).subscribe(
+      (response) => {
+        this.editField[index] = {};
+        this.snackBar.open('Datos actualizados correctamente', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          panelClass: ['main-snackbar'],
+        });
+      },
+      (error) => {
+        console.error('Error al actualizar cuidador:', error);
+        this.snackBar.open('Error al actualizar los datos', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar'],
+        });
+      }
+    );
   }
 
   // suplencias
@@ -270,6 +271,33 @@ export class BaseDatosComponent implements OnInit {
   onSexoChange(): void {
     //para recargar los datos cuando cambie la selección de sexo.
     this.loadCategoryData();
+  }
+
+  onEdadChange(): void {
+    // Refiltra los datos de pacientes y cuidadores cuando cambie la selección de edad.
+    this.filterByEdad();
+  }
+  
+
+  filterByEdad(): void {
+    if (this.selectedEdad === 'nino') {
+      this.filteredPacientes = this.pacientes.filter(
+        (paciente) => paciente.edad_paciente < 18
+      );
+      this.filteredCuidadores = this.cuidadores.filter(
+        (cuidador) => cuidador.edad_cuidador < 18
+      );
+    } else if (this.selectedEdad === 'adulto') {
+      this.filteredPacientes = this.pacientes.filter(
+        (paciente) => paciente.edad_paciente >= 18
+      );
+      this.filteredCuidadores = this.cuidadores.filter(
+        (cuidador) => cuidador.edad_cuidador >= 18
+      );
+    } else {
+      this.filteredPacientes = this.pacientes;
+      this.filteredCuidadores = this.cuidadores;
+    }
   }
 
   search(): void {
