@@ -11,6 +11,8 @@ import { MatDialog } from '@angular/material/dialog'; // Importa solo MatDialog
 import { Cuidador } from '../../models/cuidadores';
 import { ConfirmarEliminar2DialogComponent } from '../confirmar-eliminar2-dialog/confirmar-eliminar2-dialog.component';
 import { Actulizar2DialogComponent } from '../actulizar2-dialog/actulizar2-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar'; //notificaciones
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-search-cuidador',
@@ -27,7 +29,8 @@ export class SearchCuidadorComponent implements OnInit {
 
   constructor(
     public cuidadoresService: CuidadoresServiceService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar // Añadido para usar MatSnackBar
   ) {
     //instancia, poder tener todos los metodos
   }
@@ -106,6 +109,15 @@ export class SearchCuidadorComponent implements OnInit {
           this.cuidadoresService
             .deleteCuidador(this.selectedCuidador.id_cuidador_paciente)
             .subscribe(() => {
+              // Eliminación exitosa
+              this.snackBar.open(
+                'Se ha eliminado al paciente exitosamente',
+                'Cerrar',
+                {
+                  duration: 5000,
+                  panelClass: ['main-snackbar'],
+                }
+              );
               this.selectedCuidador = null;
               this.originalCuidador = null;
             });
@@ -122,6 +134,10 @@ export class SearchCuidadorComponent implements OnInit {
     const inputs = document.querySelectorAll('.container-data-cuidador input');
     inputs.forEach((input: Element) => {
       if (input instanceof HTMLInputElement) {
+        this.snackBar.open('El contenido ahora es editable', 'Cerrar', {
+          duration: 5000,
+          panelClass: ['important-snackbar'],
+        });
         input.readOnly = false;
       }
     });

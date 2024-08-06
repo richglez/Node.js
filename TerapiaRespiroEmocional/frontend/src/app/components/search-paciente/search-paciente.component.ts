@@ -12,6 +12,8 @@ import { MatDialog } from '@angular/material/dialog'; // Importa solo MatDialog
 import { ConfirmarEliminarDialogComponent } from '../confirmar-eliminar-dialog/confirmar-eliminar-dialog.component';
 import { ActualizarDialogComponent } from '../actualizar-dialog/actualizar-dialog.component';
 import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar'; //notificaciones
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-search-paciente',
@@ -30,7 +32,8 @@ export class SearchPacienteComponent implements OnInit {
   constructor(
     public pacientesService: PacientesService,
     private cuidadoresService: CuidadoresServiceService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar // Añadido para usar MatSnackBar
   ) {
     //instancia, poder tener todos los metodos
   }
@@ -107,6 +110,10 @@ export class SearchPacienteComponent implements OnInit {
             .deletePaciente(this.selectedPaciente.id_paciente)
             .subscribe(() => {
               // Eliminación exitosa
+              this.snackBar.open('Se ha eliminado al paciente exitosamente', 'Cerrar', {
+                duration: 5000,
+                panelClass: ['main-snackbar'],
+              });
               this.selectedPaciente = null; // Reiniciar selectedPaciente a null para restablecer los campos en el HTML
               this.originalPaciente = null;
             });
@@ -132,6 +139,12 @@ export class SearchPacienteComponent implements OnInit {
           .updatePaciente(this.selectedPaciente) // Enviar todos los campos del paciente
           .subscribe(
             (response) => {
+              this.snackBar.open('Datos del paciente actualizados exitosamente !!', 'Cerrar', {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom',
+                panelClass: ['main-snackbar'],
+              });
               console.log(response); // Manejar la respuesta del backend
               // Aquí puedes añadir lógica adicional después de la actualización
             },
@@ -147,6 +160,10 @@ export class SearchPacienteComponent implements OnInit {
     const inputs = document.querySelectorAll('.container-data-paciente input');
     inputs.forEach((input: Element) => {
       if (input instanceof HTMLInputElement) {
+        this.snackBar.open('El contenido ahora es editable', 'Cerrar', {
+          duration: 5000,
+          panelClass: ['important-snackbar'],
+        });
         input.readOnly = false;
       }
     });

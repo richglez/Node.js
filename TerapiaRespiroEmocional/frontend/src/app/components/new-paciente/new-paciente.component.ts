@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms'; // Importante para trabajar con formularios en Angular
 import { PacientesService } from '../../services/pacientes.service';
 import { CuidadoresServiceService } from '../../services/cuidadores-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar'; //notificaciones
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-paciente',
@@ -18,14 +20,18 @@ export class NewPacienteComponent implements OnInit {
   otraNacionalidad: string = '';
   otroTipoPrograma: string = '';
   selectedCuidadorId: number | undefined;
+  selectedCuidadorSecundarioId: number | undefined;
   expediente_paciente: string = '';
   expedienteExistenteError: boolean = false; // Agrega una propiedad para el mensaje de error
   expedientesRegistrados: string[] = []; // Array para almacenar expedientes ya registrados
   // nombreCompletoCuidador: string = '';
+  segundoCuidadorOption: string = 'N/A';
+  mostrarSegundoCuidador: boolean = false;
 
   constructor(
     public pacientesService: PacientesService,
-    public cuidadoresService: CuidadoresServiceService
+    public cuidadoresService: CuidadoresServiceService,
+    private snackBar: MatSnackBar // Añadido para usar MatSnackBar
   ) {} // Constructor
 
   ngOnInit() {
@@ -52,29 +58,31 @@ export class NewPacienteComponent implements OnInit {
   //     console.log(this.nombreCompletoCuidador);
   // }
 
+  onSegundoCuidadorChange(event: any) {
+    this.mostrarSegundoCuidador = event.target.value === 'Si Tiene';
+  }
+
   expedienteExists(expediente: string): boolean {
     // Verifica si el expediente ya existe en la lista de pacientes registrados
     return this.expedientesRegistrados.includes(expediente);
   }
 
   addPaciente(form: NgForm) {
-    // Verifica si el expediente ya existe
     if (this.expedienteExists(form.value.expediente_paciente)) {
       this.expedienteExistenteError = true;
+      this.snackBar.open('Error al agregar al paciente, expediente ya existente en la base de datos', 'Cerrar', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['error-snackbar'],
+      });
       return;
     }
 
-    // if (!form.valid) {
-    //   alert('Por favor, completa todos los campos antes de continuar.');
-    //   return;
-    // }
-
-    // if (!this.selectedCuidadorId) {
-    //   alert('Por favor, selecciona un cuidador antes de continuar.');
-    //   return;
-    // }
-
     form.value.id_cuidador_paciente = this.selectedCuidadorId;
+    if (this.mostrarSegundoCuidador) {
+      form.value.id_cuidador_secundario_paciente = this.selectedCuidadorSecundarioId;
+    }
 
     if (form.value.id_paciente) {
       this.pacientesService.updatePaciente(form.value).subscribe(
@@ -84,9 +92,23 @@ export class NewPacienteComponent implements OnInit {
     } else {
       this.pacientesService.addPaciente(form.value).subscribe(
         (res) => {
+          this.snackBar.open('Paciente agregado exitosamente !!', 'Cerrar', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            panelClass: ['main-snackbar'],
+          });
           form.reset();
         },
-        (err) => console.log(err)
+        (err) => {
+          this.snackBar.open('Error al agregar al paciente, por favor checar otra vez los datos', 'Cerrar', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['error-snackbar'],
+          });
+          console.log(err);
+        }
       );
     }
   }

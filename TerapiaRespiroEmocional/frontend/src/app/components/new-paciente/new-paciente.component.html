@@ -112,7 +112,7 @@
     </div>
 
     <div class="form-section">
-      <h2>Direccion</h2>
+      <h2>Dirección</h2>
 
       <label for="txtDomicilio">Domicilio:</label>
       <input
@@ -148,7 +148,7 @@
     </div>
 
     <div class="form-section">
-      <h2>Diagnostico Medico</h2>
+      <h2>Diagnostico Médico</h2>
       <label for="txtDiagnostico">Diagnostico:</label>
       <input
         type="text"
@@ -159,7 +159,11 @@
         required
       />
 
-      <label for="txtCuidador">Cuidador:</label>
+    </div>
+
+    <div class="form-section">
+      <h2>Cuidadores</h2>
+      <label for="txtCuidador">Cuidador Primario:</label>
       <select
         id="txtCuidador"
         name="cuidadorPrimario"
@@ -174,24 +178,38 @@
           {{ cuidador.apMatCuidador }}
         </option>
       </select>
-      <input
-        type="hidden"
-        name="id_cuidador_paciente"
-        [value]="selectedCuidadorId"
-      />
-    </div>
+      <input type="hidden" name="id_cuidador_paciente" [value]="selectedCuidadorId" />
 
-    <div class="form-section">
-      <label for="txtParentesco"
-        >Que Parentesco del cuidador tiene con este paciente?:
-      </label>
-      <input
-        type="text"
-        name="parentesco_con_cuidador"
-        id="txtParentesco"
-        placeholder="Parentesco con este paciente"
-        [(ngModel)]="pacientesService.selectedPaciente.parentesco_con_cuidador"
-      />
+      <label for="txtParentesco">Que Parentesco del cuidador tiene con este paciente?:</label>
+      <input type="text" name="parentesco_con_cuidador" id="txtParentesco" placeholder="Parentesco con este paciente" [(ngModel)]="pacientesService.selectedPaciente.parentesco_con_cuidador" />
+      <label for="txtSegundoCuidador">Segundo Cuidador:</label>
+      <select
+        name="segundoCuidador"
+        id="segundoCuidador"
+        [(ngModel)]="segundoCuidadorOption"
+        (change)="onSegundoCuidadorChange($event)"
+      >
+        <option value="Si Tiene">Si Tiene</option>
+        <option value="N/A">No Tiene</option>
+      </select>
+
+      <div *ngIf="mostrarSegundoCuidador">
+        <label for="txtCuidadorSecundario">Cuidador Secundario:</label>
+        <select
+          id="txtCuidadorSecundario"
+          name="cuidadorSecundario"
+          [(ngModel)]="selectedCuidadorSecundarioId"
+        >
+          <option
+            *ngFor="let cuidador of cuidadoresList"
+            [value]="cuidador.id_cuidador_paciente"
+          >
+            {{ cuidador.nombreCuidador }} {{ cuidador.apPatCuidador }}
+            {{ cuidador.apMatCuidador }}
+          </option>
+        </select>
+      </div>
+
     </div>
 
     <div class="form-section">
@@ -215,20 +233,16 @@
       >
         <option value="CECPAM">CECPAM</option>
         <option value="NMP">NMP</option>
+        <option value="FGRA">FGRA</option>
+        <option value="SLIM">SLIM</option>
+        <option value="Privados">Privados</option>
         <option value="" id="btnOtro">Otro</option>
       </select>
 
       <div *ngIf="tipoProgramaSelect.value === ''">
         <!--Cuando el value sea campo vacio quiere decir que es otro-->
         <label for="txtOtroTipoPrograma">Especificar:</label>
-        <input
-          type="text"
-          id="txtOtroTipoPrograma"
-          name="otroTipoPrograma"
-          placeholder="Especificar otro tipo de programa"
-          [(ngModel)]="otroTipoPrograma"
-          required
-        />
+        <input type="text" id="txtOtroTipoPrograma" name="otroTipoPrograma" placeholder="Especificar otro tipo de programa" [(ngModel)]="otroTipoPrograma" required />
       </div>
 
       <label for="txtExpediente">Expediente:</label>
