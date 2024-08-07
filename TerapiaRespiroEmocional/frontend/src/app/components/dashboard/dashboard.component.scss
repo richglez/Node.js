@@ -151,20 +151,21 @@ body {
     }
 
     i {
-      font-size: 30px; /* Reducido de 40px a 30px */
+      font-size: 32px; /* Reducido de 40px a 30px */
+      font-weight: 600;
       color: #007bff;
       margin-bottom: 8px; /* Reducido de 10px a 8px */
     }
 
     span {
-      font-size: 20px; /* Reducido de 24px a 20px */
+      font-size: 22px; /* Reducido de 24px a 20px */
       font-weight: 600;
       color: #1e3c66;
     }
 
     p {
       color: #6c757d;
-      font-size: 12px; /* Reducido de 14px a 12px */
+      font-size: 14px; /* Reducido de 14px a 12px */
     }
   }
 }
