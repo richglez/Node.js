@@ -663,6 +663,28 @@ pacientesCtrls.getTotalSuplencias = async (req, res) => {
     }
 };
 
+pacientesCtrls.getProximasSuplencias = async (req, res) => {
+    const query = `
+        SELECT 
+            s.*, 
+            p.nombre_paciente, p.apellido_paterno AS paciente_apellido_paterno, p.apellido_materno AS paciente_apellido_materno,
+            c.nombreCuidador, c.apPatCuidador, c.apMatCuidador
+        FROM suplencias s
+        JOIN pacientes p ON s.id_paciente = p.id_paciente
+        JOIN cuidadores c ON s.id_cuidador_paciente = c.id_cuidador_paciente
+        ORDER BY s.dia_suplencia ASC
+        LIMIT 11`;
+        
+    try {
+        const [rows] = await pool.promise().query(query);
+        res.json(rows);
+    } catch (error) {
+        console.error("Error al obtener las próximas suplencias:", error);
+        res.status(500).json({ error: "Error al obtener las próximas suplencias" });
+    }
+};
+
+
 // ----------------CUIDADORES----------------
 
 pacientesCtrls.addCuidador = async (req, res) => {

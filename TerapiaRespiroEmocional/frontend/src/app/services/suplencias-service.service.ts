@@ -81,4 +81,10 @@ export class SuplenciasServiceService {
       })
     );
   }
+
+  getProximasSuplencias(): Observable<Suplencia[]> {
+    return this.http.get<Suplencia[]>(`${this.URL_API}/proximas`);
+  }
+  
+  
 }

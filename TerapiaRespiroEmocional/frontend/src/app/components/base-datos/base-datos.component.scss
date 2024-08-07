@@ -61,34 +61,6 @@ label {
   margin-right: 1rem;
 }
 
-.suggestions-container {
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: absolute;
-  top: calc(100% + 10px);
-  width: 320px;
-  z-index: 1000;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.suggestion-item {
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #f0f0f0;
-  }
-}
-
-.no-results {
-  padding: 0.75rem 1rem;
-  color: #999999;
-}
-
 select {
   padding: 0.5rem;
   border: 1px solid #c7c7c7;
@@ -199,40 +171,17 @@ select {
   align-items: center;
 }
 
-/* Scrollbar personalizado */
-.suggestions-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.suggestions-container::-webkit-scrollbar-thumb {
-  background: #1c4692;
-  border-radius: 4px;
-}
-
-.suggestions-container::-webkit-scrollbar-thumb:hover {
-  background: #4d98ff;
-}
-
-.suggestions-container::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
 /* Estilos de la tabla */
 .table-container {
   overflow-x: auto;
+  overflow-y: auto;
   background-color: #f9f9ff;
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
   max-width: 1700px;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-  overflow-y: auto;
-  max-height: 900px;
+  max-height: 620px;
 }
 
 .styled-table {
@@ -255,7 +204,7 @@ select {
 
 .styled-table th,
 .styled-table td {
-  padding: 6px 15px;
+  padding: 6px 20px;
   border: 1px solid #dddddd;
   width: auto;
 }
@@ -276,25 +225,24 @@ select {
   background-color: #e7f4ff;
 }
 
-/* Scrollbar personalizado */
+/* Estilo del scrollbar para navegadores WebKit */
 .table-container::-webkit-scrollbar {
-  height: 8px;
-}
-
-.table-container::-webkit-scrollbar-thumb {
-  background: #1c4692;
-  border-radius: 4px;
-}
-
-.table-container::-webkit-scrollbar-thumb:hover {
-  background: #4d98ff;
+  width: 12px; /* Ancho del scrollbar vertical */
+  height: 12px; /* Ancho del scrollbar horizontal */
 }
 
 .table-container::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
+  background: #f0f0f0; /* Fondo del track */
 }
 
+.table-container::-webkit-scrollbar-thumb {
+  background: #187bff; /* Color del thumb */
+  border-radius: 11px; /* Bordes redondeados del thumb */
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #1559d2; /* Color del thumb al pasar el cursor */
+}
 
 .edit-input {
   padding: 0.5rem;
@@ -302,7 +250,9 @@ select {
   border-radius: 5px;
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
 
   &:focus {
     border-color: #4d98ff;
@@ -310,4 +260,3 @@ select {
     outline: none;
   }
 }
-

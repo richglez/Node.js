@@ -42,6 +42,7 @@ router.get('/suplencias', pacientesCtrls.getSuplencias);
 router.get('/suplencias/buscar', pacientesCtrls.buscarSuplenciasPorCuidadorYPaciente);
 router.get('/suplencias/filter', pacientesCtrls.filterSuplencias);
 router.get('/suplencias/total-suplencias', pacientesCtrls.getTotalSuplencias);
+router.get('/suplencias/proximas', pacientesCtrls.getProximasSuplencias); 
 router.post('/suplencias', pacientesCtrls.addSuplencias);
 router.put('/suplencias/:id', pacientesCtrls.updateSuplencia);
 router.delete('/suplencias/:id', pacientesCtrls.deleteSuplencia);
