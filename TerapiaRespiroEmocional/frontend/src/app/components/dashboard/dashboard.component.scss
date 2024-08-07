@@ -151,21 +151,21 @@ body {
     }
 
     i {
-      font-size: 32px; /* Reducido de 40px a 30px */
+      font-size: 35px; 
       font-weight: 600;
       color: #007bff;
-      margin-bottom: 8px; /* Reducido de 10px a 8px */
+      margin-bottom: 8px;
     }
 
     span {
-      font-size: 22px; /* Reducido de 24px a 20px */
+      font-size: 24px;
       font-weight: 600;
       color: #1e3c66;
     }
 
     p {
       color: #6c757d;
-      font-size: 14px; /* Reducido de 14px a 12px */
+      font-size: 17px; 
     }
   }
 }
@@ -254,11 +254,18 @@ body {
   }
 }
 
+/* Estilización de iconos en el contenedor de información */
 .info {
   h1 {
     font-size: 28px;
     color: #1e3c66;
     margin-bottom: 20px;
+  }
+
+  i {
+    font-size: 40px; /* Tamaño del icono */
+    color: #007bff; /* Color del icono */
+    margin-bottom: 10px; /* Espacio debajo del icono */
   }
 
   ul {
@@ -281,6 +288,7 @@ body {
     }
   }
 }
+
 
 
 .mini-calendar {
